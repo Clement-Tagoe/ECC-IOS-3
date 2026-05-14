@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Filament\Resources\Reports\ReportResource;
+use App\Models\User;
 use App\Observers\MessageObserver;
+use App\Observers\UserObserver;
 use Filament\Actions\Action;
 use Filament\Notifications\Events\DatabaseNotificationsSent;
 use Filament\Notifications\Notification;
@@ -30,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Message::observe(MessageObserver::class);
-        // User::observe(UserObserver::class);
+        User::observe(UserObserver::class);
         // Event::listen(UserWasMentionedEvent::class, SendUserMentionedNotification::class);
         Event::listen(function (UserWasMentionedEvent $event) {
 

@@ -4,7 +4,6 @@ namespace App\Observers;
 
 use App\Models\File;
 use App\Models\User;
-use Illuminate\Support\Facades\Storage;
 
 class UserObserver
 {
@@ -13,6 +12,11 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        Storage::makeDirectory('public/user/' . $user->id);
+        $file = new File();
+        $file->name = $user->email;
+        $file->is_folder = 1;
+        $file->created_by = $user->id;
+        $file->updated_by = $user->id;
+        $file->makeRoot()->save();
     }
 }

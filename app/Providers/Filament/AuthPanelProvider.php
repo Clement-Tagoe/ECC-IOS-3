@@ -54,7 +54,7 @@ class AuthPanelProvider extends PanelProvider
                 ->login(fn (AuthPageConfig $config) => $config
                     ->media(asset('images/ecc-view.jpeg'))
                     ->mediaPosition(MediaPosition::Left)
-                    ->blur(
+                    ->blur(2)
                 )
             ])
             ->registration()
