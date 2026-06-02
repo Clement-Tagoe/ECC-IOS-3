@@ -56,7 +56,7 @@ class MainStatsOverview extends StatsOverviewWidget
 
         return [
             Stat::make('Reports Received', $reportsReceived)
-                ->description('Reports received this month')
+                ->description('Reports received')
                 ->color('auxiliary')
                 ->icon('heroicon-o-document-arrow-down')
                 ->chart([4, 11, 5, 10, 6, 4, 8, 11]),

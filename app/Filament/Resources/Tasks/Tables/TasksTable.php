@@ -4,7 +4,7 @@ namespace App\Filament\Resources\Tasks\Tables;
 
 use App\Enums\TaskPriority;
 use App\Enums\TaskStatus;
-use App\Models\User;
+use App\Models\Task;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -123,7 +123,7 @@ class TasksTable
                 ViewAction::make(),
                 EditAction::make(),
                 CommentsAction::make()
-                    ->mentionables(User::all())
+                    ->mentionables(fn (Task $record) => $record->collaborators)
                     ->perPage(10),
                 DeleteAction::make(),
                 ForceDeleteAction::make(),

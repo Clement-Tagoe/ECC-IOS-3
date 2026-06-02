@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Filament\Resources\Reports\ReportResource;
+use App\Filament\Resources\Tasks\TaskResource;
+use App\Models\Report;
+use App\Models\Task;
 use App\Models\User;
 use App\Observers\MessageObserver;
 use App\Observers\UserObserver;
@@ -33,9 +36,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Message::observe(MessageObserver::class);
         User::observe(UserObserver::class);
-        // Event::listen(UserWasMentionedEvent::class, SendUserMentionedNotification::class);
-        Event::listen(function (UserWasMentionedEvent $event) {
 
+        Event::listen(function (UserWasMentionedEvent $event) {
+           
             assert($event->user instanceof \App\Models\User);
 
             $user = $event->user;
@@ -48,7 +51,17 @@ class AppServiceProvider extends ServiceProvider
                 ->actions([
                     Action::make('view')
                         ->label('View Comment')
-                        ->url(ReportResource::getUrl('view', ['record' => $comment->commentable]))
+                        ->url(function () use ($comment) {
+                                $record = $comment->commentable;
+
+                                if ($record instanceof Task) {
+                                    return TaskResource::getUrl('view', ['record' => $record]);
+                                } 
+                                
+                                if ($record instanceof Report) {
+                                    return ReportResource::getUrl('view', ['record' => $record]);
+                                }
+                            })
                         ->markAsRead()
                         ->close()
                 ])
@@ -58,26 +71,68 @@ class AppServiceProvider extends ServiceProvider
             });
         
         Event::listen(function (CommentWasCreatedEvent $event) {
-
             $comment = $event->comment;
 
             $receivers = $comment->commentable->receivers;
 
-            foreach ($receivers as $receiver) {
-                    Notification::make()
-                    ->title('A comment was made by ' . $comment->getAuthorName())
-                    ->body(strip_tags($comment->getBodyMarkdown()))
-                    ->icon('heroicon-o-chat-bubble-left-ellipsis')
-                    ->actions([
-                        Action::make('view')
-                            ->label('View Comment')
-                            ->url(ReportResource::getUrl('view', ['record' => $comment->commentable]))
-                            ->markAsRead()
-                            ->close()
-                    ])
-                    ->sendToDatabase($receiver);
+            $collaborators = $comment->commentable->collaborators;
 
-                    event(new DatabaseNotificationsSent($receiver));
+            if ($receivers && $receivers->isNotEmpty()) {
+                foreach ($receivers as $receiver) {
+                        Notification::make()
+                        ->title('A comment was made by ' . $comment->getAuthorName())
+                        ->body(strip_tags($comment->getBodyMarkdown()))
+                        ->icon('heroicon-o-chat-bubble-left-ellipsis')
+                        ->actions([
+                            Action::make('view')
+                                ->label('View Comment')
+                                ->url(function () use ($comment) {
+                                    $record = $comment->commentable;
+
+                                    if ($record instanceof Task) {
+                                        return TaskResource::getUrl('view', ['record' => $record]);
+                                    } 
+                                    
+                                    if ($record instanceof Report) {
+                                        return ReportResource::getUrl('view', ['record' => $record]);
+                                    }
+                                })
+                                ->markAsRead()
+                                ->close()
+                        ])
+                        ->sendToDatabase($receiver);
+
+                        event(new DatabaseNotificationsSent($receiver));
+                    }
+                }
+
+                if ($collaborators && $collaborators->isNotEmpty()) {
+                foreach ($collaborators as $collaborator) {
+                        Notification::make()
+                        ->title('A comment was made by ' . $comment->getAuthorName())
+                        ->body(strip_tags($comment->getBodyMarkdown()))
+                        ->icon('heroicon-o-chat-bubble-left-ellipsis')
+                        ->actions([
+                            Action::make('view')
+                                ->label('View Comment')
+                                ->url(function () use ($comment) {
+                                    $record = $comment->commentable;
+
+                                    if ($record instanceof Task) {
+                                        return TaskResource::getUrl('view', ['record' => $record]);
+                                    } 
+                                    
+                                    if ($record instanceof Report) {
+                                        return ReportResource::getUrl('view', ['record' => $record]);
+                                    }
+                                })
+                                ->markAsRead()
+                                ->close()
+                        ])
+                        ->sendToDatabase($collaborator);
+
+                        event(new DatabaseNotificationsSent($collaborator));
+                    }
                 }
             
             });

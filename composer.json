@@ -16,7 +16,6 @@
         "laravel/framework": "^12.0",
         "laravel/reverb": "^1.10",
         "laravel/tinker": "^2.10.1",
-        "mmes-design/filament-file-manager": "^1.6",
         "namu/wirechat": "^0.5.4",
         "wildside/userstamps": "^4.0"
     },

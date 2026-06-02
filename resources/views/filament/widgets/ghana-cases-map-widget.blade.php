@@ -19,7 +19,6 @@
             $natures     = $d['natures'];     // [ id => ['name','color'] ]
             $grandTotal  = $d['grandTotal'];
             $maxTotal    = $d['maxTotal'];
-            $rangeLabel  = $this->getDateRangeLabel();
         
             // SVG path data for Ghana's 16 regions
             $regionPaths = [
@@ -73,14 +72,13 @@
                         Valid Cases by Region — Ghana
                     </p>
                     <p style="font-size:12px;color:#64748b;margin:0">
-                        {{ $rangeLabel }} ·
                         <span style="color:#1d4ed8;font-weight:600">{{ number_format($grandTotal) }} case{{ $grandTotal !== 1 ? 's' : '' }}</span>
                         across all regions · grouped by case nature
                     </p>
                 </div>
         
                 {{-- Date range filter --}}
-                <div style="display:flex;gap:0;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;background:#fff">
+                {{-- <div style="display:flex;gap:0;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;background:#fff">
                     @foreach(['today' => 'Today', '7d' => '7 Days', '30d' => '30 Days', '90d' => '90 Days'] as $val => $label)
                     <button
                         wire:click="setDateRange('{{ $val }}')"
@@ -93,7 +91,7 @@
                         "
                     >{{ $label }}</button>
                     @endforeach
-                </div>
+                </div> --}}
             </div>
         
             {{-- ── Case nature legend pills ─────────────────────────────────────── --}}
@@ -216,7 +214,7 @@
                 <div style="width:272px;flex-shrink:0;border-left:1px solid rgba(0,0,0,.07);overflow-y:auto;max-height:560px;padding:.75rem .875rem">
         
                     <p style="font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:.07em;text-transform:uppercase;margin:0 0 .625rem">
-                        All Regions — {{ $rangeLabel }}
+                        All Regions
                     </p>
         
                     @foreach($regionPaths as $regionName => $__)
@@ -312,30 +310,5 @@
             </div>
         
         </div>
-        
-        {{-- <script>
-        function ghanaCasesMap() {
-            return {
-                hovered : null,
-                tt      : { visible: false, x: 0, y: 0, name: '', total: 0, byNature: [] },
-        
-                init() {},
-        
-                onEnter(event, data) {
-                    this.hovered = event.currentTarget.dataset.slug;
-                    this.tt = {
-                        visible  : true,
-                        x        : event.clientX + 16,
-                        y        : event.clientY - 12,
-                        name     : data.name,
-                        total    : data.total,
-                        byNature : data.byNature ?? [],
-                    };
-                },
-                onLeave()       { this.hovered = null; this.tt.visible = false; },
-                onMove(event)   { this.tt.x = event.clientX + 16; this.tt.y = event.clientY - 12; },
-            };
-        }
-        </script> --}}
     </x-filament::section>
 </x-filament-widgets::widget>

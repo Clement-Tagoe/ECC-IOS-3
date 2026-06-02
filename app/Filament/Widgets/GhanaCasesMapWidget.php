@@ -6,36 +6,21 @@ namespace App\Filament\Widgets;
 use App\Models\Region;
 use App\Models\ValidCase;
 use App\Models\ValidCaseNature;
+use Carbon\Carbon;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\Widget;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class GhanaCasesMapWidget extends Widget
 {
+    use InteractsWithPageFilters;
+    
     protected string $view = 'filament.widgets.ghana-cases-map-widget';
 
     protected ?string $heading = 'Cases by Region — Ghana Map';
 
     protected int | string | array $columnSpan = 'full';
- 
-    /** Date range filter: 'today' | '7d' | '30d' | '90d' */
-    public string $dateRange = 'today';
- 
-    public function setDateRange(string $range): void
-    {
-        $this->dateRange = $range;
-    }
- 
-    public function getDateRangeLabel(): string
-    {
-        return match ($this->dateRange) {
-            'today' => 'Today',
-            '7d'    => 'Last 7 days',
-            '30d'   => 'Last 30 days',
-            '90d'   => 'Last 90 days',
-            default => 'Today',
-        };
-    }
  
     // ─────────────────────────────────────────────────────────────────────
     // Data
@@ -43,18 +28,18 @@ class GhanaCasesMapWidget extends Widget
  
     public function getMapData(): array
     {
+        $startDate = isset($this->pageFilters['startDate'])
+            ? Carbon::parse($this->pageFilters['startDate'])->startOfDay()
+            : now()->startOfMonth()->startOfDay();
+
+        $endDate = isset($this->pageFilters['endDate'])
+            ? Carbon::parse($this->pageFilters['endDate'])->endOfDay()
+            : now()->endOfDay();
+            
         // Apply date range scope
-        $query = ValidCase::query()
+        $query = ValidCase::whereBetween('reporting_date', [$startDate, $endDate])
             ->select('region_id', 'valid_case_nature_id', DB::raw('count(*) as total'))
             ->groupBy('region_id', 'valid_case_nature_id');
- 
-        $query = match ($this->dateRange) {
-            'today' => $query->whereDate('reporting_date', today()),
-            '7d'    => $query->whereDate('reporting_date', '>=', now()->subDays(6)->startOfDay()),
-            '30d'   => $query->whereDate('reporting_date', '>=', now()->subDays(29)->startOfDay()),
-            '90d'   => $query->whereDate('reporting_date', '>=', now()->subDays(89)->startOfDay()),
-            default => $query->whereDate('reporting_date', today()),
-        };
  
         $caseRows    = $query->get();
         $regions     = Region::orderBy('name')->get()->keyBy('id');

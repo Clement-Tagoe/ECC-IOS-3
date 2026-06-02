@@ -10,6 +10,7 @@ use Filament\Resources\Pages\ListRecords;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class ListTasks extends ListRecords
 {
@@ -24,24 +25,76 @@ class ListTasks extends ListRecords
 
     public function getTabs(): array
     {
+        $userId = Auth::user()->id;
+
         return [
             'all' => Tab::make()
                 ->icon(Heroicon::OutlinedClipboardDocumentCheck),
             'in progress' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', TaskStatus::InProgress))
-                ->badge(Task::where('status', TaskStatus::InProgress)->count()),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', TaskStatus::InProgress)
+                                                                ->where(fn (Builder $q) => $q
+                                                                ->where('user_id', $userId)
+                                                                ->orWhereHas('collaborators', fn (Builder $q) => $q->where('users.id', $userId))
+                ))
+                ->badge(Task::query()
+                        ->where('status', TaskStatus::InProgress)
+                        ->where(fn (Builder $q) => $q
+                            ->where('user_id', $userId)
+                            ->orWhereHas('collaborators', fn (Builder $q) => $q->where('users.id', $userId))
+                        )
+                        ->count()),
             'completed' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', TaskStatus::Completed))
-                ->badge(Task::where('status', TaskStatus::Completed)->count()),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', TaskStatus::Completed)
+                                                                ->where(fn (Builder $q) => $q
+                                                                ->where('user_id', $userId)
+                                                                ->orWhereHas('collaborators', fn (Builder $q) => $q->where('users.id', $userId))
+                ))
+                ->badge(Task::query()
+                        ->where('status', TaskStatus::Completed)
+                        ->where(fn (Builder $q) => $q
+                            ->where('user_id', $userId)
+                            ->orWhereHas('collaborators', fn (Builder $q) => $q->where('users.id', $userId))
+                        )
+                        ->count()),
             'in review' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', TaskStatus::InReview))
-                ->badge(Task::where('status', TaskStatus::InReview)->count()),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', TaskStatus::InReview)
+                                                                ->where(fn (Builder $q) => $q
+                                                                ->where('user_id', $userId)
+                                                                ->orWhereHas('collaborators', fn (Builder $q) => $q->where('users.id', $userId))
+                ))
+                ->badge(Task::query()
+                        ->where('status', TaskStatus::InReview)
+                        ->where(fn (Builder $q) => $q
+                            ->where('user_id', $userId)
+                            ->orWhereHas('collaborators', fn (Builder $q) => $q->where('users.id', $userId))
+                        )
+                        ->count()),
             'reviewed' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', TaskStatus::Reviewed))
-                ->badge(Task::where('status', TaskStatus::Reviewed)->count()),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', TaskStatus::Reviewed)
+                                                                ->where(fn (Builder $q) => $q
+                                                                ->where('user_id', $userId)
+                                                                ->orWhereHas('collaborators', fn (Builder $q) => $q->where('users.id', $userId))
+                ))
+                ->badge(Task::query()
+                        ->where('status', TaskStatus::Reviewed)
+                        ->where(fn (Builder $q) => $q
+                            ->where('user_id', $userId)
+                            ->orWhereHas('collaborators', fn (Builder $q) => $q->where('users.id', $userId))
+                        )
+                        ->count()),
             'cancelled' => Tab::make()
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', TaskStatus::Cancelled))
-                ->badge(Task::where('status', TaskStatus::Cancelled)->count()),
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('status', TaskStatus::Cancelled)
+                                                                ->where(fn (Builder $q) => $q
+                                                                ->where('user_id', $userId)
+                                                                ->orWhereHas('collaborators', fn (Builder $q) => $q->where('users.id', $userId))
+                ))
+                ->badge(Task::query()
+                        ->where('status', TaskStatus::Cancelled)
+                        ->where(fn (Builder $q) => $q
+                            ->where('user_id', $userId)
+                            ->orWhereHas('collaborators', fn (Builder $q) => $q->where('users.id', $userId))
+                        )
+                        ->count()),
         ];
     }
 }

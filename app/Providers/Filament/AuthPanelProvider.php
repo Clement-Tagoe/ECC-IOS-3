@@ -22,7 +22,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use MmesDesign\FilamentFileManager\FileManagerPlugin;
+
 
 
 class AuthPanelProvider extends PanelProvider
@@ -49,7 +49,6 @@ class AuthPanelProvider extends PanelProvider
             ->databaseNotifications()
             ->broadcasting()
             ->plugins([
-                FileManagerPlugin::make(),
                 AuthDesignerPlugin::make()
                 ->login(fn (AuthPageConfig $config) => $config
                     ->media(asset('images/ecc-view.jpeg'))

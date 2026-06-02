@@ -5,53 +5,39 @@ namespace App\Filament\Widgets;
 use App\Models\MonitoringTask;
 use App\Models\Region;
 use App\Models\Topic;
+use Carbon\Carbon;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\Widget;
 use Illuminate\Support\Str;
 
 class GhanaTasksTopicsMapWidget extends Widget
 {
+    use InteractsWithPageFilters;
+    
     protected string $view = 'filament.widgets.ghana-tasks-topics-map-widget';
 
     protected ?string $heading = 'Topics by Region — Ghana Map';
 
     protected int | string | array $columnSpan = 'full';
-
-    /** Date range filter: 'today' | '7d' | '30d' | '90d' */
-    public string $dateRange = 'today';
- 
-    public function setDateRange(string $range): void
-    {
-        $this->dateRange = $range;
-    }
- 
-    public function getDateRangeLabel(): string
-    {
-        return match ($this->dateRange) {
-            'today' => 'Today',
-            '7d'    => 'Last 7 days',
-            '30d'   => 'Last 30 days',
-            '90d'   => 'Last 90 days',
-            default => 'Today',
-        };
-    }
- 
+    
     // ─────────────────────────────────────────────────────────────────────
     // Data
     // ─────────────────────────────────────────────────────────────────────
  
     public function getMapData(): array
     {
+        $startDate = isset($this->pageFilters['startDate'])
+            ? Carbon::parse($this->pageFilters['startDate'])->startOfDay()
+            : now()->startOfMonth()->startOfDay();
+
+        $endDate = isset($this->pageFilters['endDate'])
+            ? Carbon::parse($this->pageFilters['endDate'])->endOfDay()
+            : now()->endOfDay();
+            
         // Apply date scope
         $query = MonitoringTask::with('topics')
+            ->whereBetween('date', [$startDate, $endDate])
             ->select('id', 'region_id', 'date', 'shift');
- 
-        $query = match ($this->dateRange) {
-            'today' => $query->whereDate('date', today()),
-            '7d'    => $query->whereDate('date', '>=', now()->subDays(6)->startOfDay()),
-            '30d'   => $query->whereDate('date', '>=', now()->subDays(29)->startOfDay()),
-            '90d'   => $query->whereDate('date', '>=', now()->subDays(89)->startOfDay()),
-            default => $query->whereDate('date', today()),
-        };
  
         $tasks   = $query->get();
         $regions = Region::orderBy('name')->get()->keyBy('id');

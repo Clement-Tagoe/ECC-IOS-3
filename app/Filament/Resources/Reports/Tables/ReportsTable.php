@@ -4,7 +4,7 @@ namespace App\Filament\Resources\Reports\Tables;
 
 use App\Enums\ReportPriority;
 use App\Enums\ReportStatus;
-use App\Models\User;
+use App\Models\Report;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -127,7 +127,7 @@ class ReportsTable
                 ViewAction::make(),
                 EditAction::make(),
                 CommentsAction::make()
-                    ->mentionables(User::all())
+                    ->mentionables(fn (Report $record) => $record->receivers)
                     ->perPage(10),
                 DeleteAction::make(),
                 ForceDeleteAction::make(),
