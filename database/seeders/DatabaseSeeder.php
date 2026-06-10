@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
             VisitorSeeder::class,
             SuspectSeeder::class,
             VehicleSeeder::class,
+            MonitoringTaskSeeder::class,
         ]);
     }
 }

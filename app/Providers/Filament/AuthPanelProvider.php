@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use Caresome\FilamentAuthDesigner\AuthDesignerPlugin;
 use Caresome\FilamentAuthDesigner\Data\AuthPageConfig;
 use Caresome\FilamentAuthDesigner\Enums\MediaPosition;
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -20,8 +21,11 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
+use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
 
 
 
@@ -51,13 +55,26 @@ class AuthPanelProvider extends PanelProvider
             ->plugins([
                 AuthDesignerPlugin::make()
                 ->login(fn (AuthPageConfig $config) => $config
-                    ->media(asset('images/ecc-view.jpeg'))
+                    ->media(asset('images/ecc-view-1.png'))
                     ->mediaPosition(MediaPosition::Left)
-                    ->blur(2)
-                )
+                    ->blur(0)
+                ),
+                FilamentEditProfilePlugin::make()
+                    ->shouldShowDeleteAccountForm(false)
+                    ->shouldShowBrowserSessionsForm(false)
+                    ->setNavigationLabel('My Profile')
+                    ->setIcon('heroicon-o-user')
+                    ->shouldShowAvatarForm(),
+            ])
+            ->userMenuItems([
+                'profile' => Action::make('profile')
+                    ->label(fn() => Auth::user()->name)
+                    ->url(fn (): string => EditProfilePage::getUrl())
+                    ->icon('heroicon-m-user-circle')
+                    ->sort(-1),
             ])
             ->registration()
-            ->profile()
+            // ->profile()
             ->navigationGroups([
                 'General',
                 'Call-Taking',
