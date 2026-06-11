@@ -5,7 +5,6 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Filament\Models\Contracts\FilamentUser;
-use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -14,7 +13,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Storage;
 use Kirschbaum\Commentions\Contracts\Commenter;
 use Mattiverse\Userstamps\Traits\Userstamps;
 use Wirechat\Wirechat\Contracts\WirechatUser;
@@ -22,7 +20,7 @@ use Filament\Panel;
 use Wirechat\Wirechat\Panel as WirechatPanel;
 use Wirechat\Wirechat\Traits\InteractsWithWirechat;
 
-class User extends Authenticatable implements FilamentUser, WirechatUser, Commenter, HasAvatar
+class User extends Authenticatable implements FilamentUser, WirechatUser, Commenter
 {
   
     use HasFactory, Notifiable, InteractsWithWirechat, SoftDeletes, Userstamps;
@@ -39,7 +37,6 @@ class User extends Authenticatable implements FilamentUser, WirechatUser, Commen
         'contact',
         'role_id',
         'department_id',
-        'avatar_url',
     ];
 
     /**
@@ -111,12 +108,5 @@ class User extends Authenticatable implements FilamentUser, WirechatUser, Commen
     public function reports(): HasMany
     {
         return $this->hasMany(Report::class);
-    }
-
-    public function getFilamentAvatarUrl(): ?string
-    {
-        $avatarColumn = config('filament-edit-profile.avatar_column', 'avatar_url');
-  
-        return $this->$avatarColumn ? Storage::disk('public')->url($this->$avatarColumn)  : null;
     }
 }

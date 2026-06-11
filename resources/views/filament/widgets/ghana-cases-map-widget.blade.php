@@ -48,14 +48,32 @@
                 return ['name' => $name, 'slug' => Str::slug($name), 'total' => 0, 'byNature' => []];
             };
         
-            // Helper: compute blue choropleth fill from intensity 0–1
-            $fill = function (int $value, int $max): string {
-                if ($value === 0) return '#e2e8f0';
-                $t = min(1, $value / $max);
-                $r = (int) round(219 - $t * (219 - 29));
-                $g = (int) round(234 - $t * (234 - 78));
-                $b = (int) round(254 - $t * (254 - 216));
-                return "rgb({$r},{$g},{$b})";
+            $regionColors = [
+                'Greater Accra'  => '#3b82f6',
+                'Central'        => '#10b981',
+                'Western'        => '#f59e0b',
+                'Western North'  => '#f97316',
+                'Ashanti'        => '#8b5cf6',
+                'Eastern'        => '#06b6d4',
+                'Volta'          => '#ec4899',
+                'Oti'            => '#84cc16',
+                'Bono East'      => '#ef4444',
+                'Ahafo'          => '#14b8a6',
+                'Bono'           => '#a855f7',
+                'Northern'       => '#0ea5e9',
+                'Savannah'       => '#257959',
+                'North East'     => '#22c55e',
+                'Upper East'     => '#fb923c',
+                'Upper West'     => '#6366f1',
+            ];
+
+            $fill = function (string $regionName, int $value) use ($regionColors): string {
+                $base = $regionColors[$regionName] ?? '#94a3b8';
+                if ($value === 0) {
+                    // Return a very light/desaturated version when no cases
+                    return $base . '33'; // 20% opacity via hex alpha
+                }
+                return $base;
             };
         @endphp
  
@@ -72,7 +90,7 @@
                         Valid Cases by Region — Ghana
                     </p>
                     <p style="font-size:12px;color:#64748b;margin:0">
-                        <span style="color:#1d4ed8;font-weight:600">{{ number_format($grandTotal) }} case{{ $grandTotal !== 1 ? 's' : '' }}</span>
+                        <span style="color:#1d4ed8 ;font-weight:600">{{ number_format($grandTotal) }} case{{ $grandTotal !== 1 ? 's' : '' }}</span>
                         across all regions · grouped by case nature
                     </p>
                 </div>
@@ -135,8 +153,8 @@
                             $slug      = $rd['slug'];
                             $total     = $rd['total'];
                             $intensity = $maxTotal > 0 ? $total / $maxTotal : 0;
-                            $bgFill    = $fill($total, $maxTotal);
-                            $lightText = $intensity > 0.52;
+                            $bgFill = $fill($regionName, $total);
+                            $lightText = true;
         
                             // Tooltip payload
                             $ttPayload = json_encode([
@@ -166,7 +184,7 @@
         
                             {{-- Region label --}}
                             <text
-                                x="{{ $pd['lx'] }}" y="{{ $pd['ly'] - ($total > 0 ? 5 : 0) }}"
+                                x="{{ $pd['lx'] }}" y="{{ $pd['ly'] - ($total > 0 ? 11 : 0) }}"
                                 text-anchor="middle" dominant-baseline="middle"
                                 font-size="14" font-weight="600" pointer-events="none"
                                 fill="{{ $lightText ? '#fff' : '#1e293b' }}"
@@ -204,9 +222,7 @@
         
                     {{-- Intensity gradient bar --}}
                     <div style="display:flex;align-items:center;gap:8px;margin-top:.625rem;font-size:11px;color:#64748b">
-                        <span>0 cases</span>
-                        <div style="width:130px;height:9px;border-radius:5px;background:linear-gradient(to right,#dbeafe,#1d4ed8);border:1px solid #e2e8f0"></div>
-                        <span>{{ number_format($maxTotal) }} cases</span>
+                        <span style="font-style:italic">Faded fill = no cases in period &nbsp;·&nbsp; Solid fill = cases recorded</span>
                     </div>
                 </div>
         

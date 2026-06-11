@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\MonitoringTasks\Schemas;
 
 use App\Enums\MonitoringTaskStatus;
+use App\Enums\ShiftType;
 use App\Models\Location;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\RichEditor;
@@ -30,12 +31,13 @@ class MonitoringTaskForm
                         TimePicker::make('time')
                             ->helperText('Time event occured')
                             ->required(),
-                        Select::make('shift')
-                            ->options([
-                                'Day' => 'Day',
-                                'Night' => 'Night',
-                            ])
-                            ->required(),
+                        ToggleButtons::make('shift')
+                            ->options(ShiftType::class)
+                            ->inline()
+                            ->required()
+                            ->live()
+                            ->default(ShiftType::Day)
+                            ->columnSpan(2),
                         Select::make('topics')
                             ->label('Topics/Areas of Interest')
                             ->helperText('Select one or more')

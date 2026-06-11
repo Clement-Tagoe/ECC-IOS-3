@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\MonitoringTaskStatus;
+use App\Enums\ShiftType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -19,6 +20,7 @@ class MonitoringTask extends Model implements HasMedia
 
     protected $casts = [
         'status' => MonitoringTaskStatus::class,
+        'shift' => ShiftType::class,
     ];
 
     public function user():BelongsTo

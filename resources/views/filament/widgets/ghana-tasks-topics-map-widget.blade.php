@@ -47,14 +47,32 @@
                 return ['name' => $name, 'slug' => Str::slug($name), 'total' => 0, 'byTopic' => []];
             };
         
-            // Teal choropleth fill
-            $fill = function (int $value, int $max): string {
-                if ($value === 0) return '#e2e8f0';
-                $t = min(1, $value / $max);
-                $r = (int) round(204 - $t * (204 - 15));
-                $g = (int) round(251 - $t * (251 - 118));
-                $b = (int) round(241 - $t * (241 - 110));
-                return "rgb({$r},{$g},{$b})";
+            $regionColors = [
+                'Greater Accra'  => '#1e1b4b', // Deep Indigo
+                'Central'        => '#059669', // Emerald Green
+                'Western'        => '#d97706', // Amber / Dark Yellow
+                'Western North'  => '#b45309', // Ochre / Light Brown
+                'Ashanti'        => '#4c1d95', // Deep Purple
+                'Eastern'        => '#0284c7', // Sky Blue
+                'Volta'          => '#db2777', // Deep Pink
+                'Oti'            => '#65a30d', // Lime Green
+                'Bono East'      => '#dc2626', // Crimson Red
+                'Ahafo'          => '#0f766e', // Deep Teal
+                'Bono'           => '#7c3aed', // Violet
+                'Northern'       => '#2563eb', // Royal Blue
+                'Savannah'       => '#15803d', // Forest Green
+                'North East'     => '#10b981', // Mint Green
+                'Upper East'     => '#ea580c', // Orange-Red
+                'Upper West'     => '#4f46e5', // Blurple / Indigo-Blue
+            ];
+
+            $fill = function (string $regionName, int $value) use ($regionColors): string {
+                $base = $regionColors[$regionName] ?? '#94a3b8';
+                if ($value === 0) {
+                    // Return a very light/desaturated version when no cases
+                    return $base . '33'; // 20% opacity via hex alpha
+                }
+                return $base;
             };
         @endphp
         
@@ -134,8 +152,8 @@
                             $slug      = $rd['slug'];
                             $total     = $rd['total'];
                             $intensity = $maxTotal > 0 ? $total / $maxTotal : 0;
-                            $bgFill    = $fill($total, $maxTotal);
-                            $lightText = $intensity > 0.52;
+                            $bgFill = $fill($regionName, $total);
+                            $lightText = true;
         
                             $ttPayload = json_encode([
                                 'name'    => $regionName,
@@ -164,7 +182,7 @@
         
                             {{-- Region label --}}
                             <text
-                                x="{{ $pd['lx'] }}" y="{{ $pd['ly'] - ($total > 0 ? 5 : 0) }}"
+                                x="{{ $pd['lx'] }}" y="{{ $pd['ly'] - ($total > 0 ? 11 : 0) }}"
                                 text-anchor="middle" dominant-baseline="middle"
                                 font-size="14" font-weight="600" pointer-events="none"
                                 fill="{{ $lightText ? '#fff' : '#1e293b' }}"
@@ -200,11 +218,8 @@
                         </g>
                     </svg>
         
-                    {{-- Teal intensity gradient bar --}}
                     <div style="display:flex;align-items:center;gap:8px;margin-top:.625rem;font-size:11px;color:#64748b">
-                        <span>0 tasks</span>
-                        <div style="width:130px;height:9px;border-radius:5px;background:linear-gradient(to right,#ccfbf1,#0f766e);border:1px solid #e2e8f0"></div>
-                        <span>{{ number_format($maxTotal) }} tasks</span>
+                        <span style="font-style:italic">Faded fill = no cases in period &nbsp;·&nbsp; Solid fill = cases recorded</span>
                     </div>
                 </div>
         

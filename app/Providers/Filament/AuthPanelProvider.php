@@ -63,8 +63,7 @@ class AuthPanelProvider extends PanelProvider
                     ->shouldShowDeleteAccountForm(false)
                     ->shouldShowBrowserSessionsForm(false)
                     ->setNavigationLabel('My Profile')
-                    ->setIcon('heroicon-o-user')
-                    ->shouldShowAvatarForm(),
+                    ->setIcon('heroicon-o-user'),
             ])
             ->userMenuItems([
                 'profile' => Action::make('profile')

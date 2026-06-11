@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\MonitoringTask;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -13,133 +14,338 @@ class MonitoringTaskSeeder extends Seeder
      */
     public function run(): void
     {
-        $observations = [
-            'Heavy traffic congestion observed near the main junction during peak hours.',
-            'Illegal mining activities spotted close to the river bank.',
-            'Refuse piling up at the roadside, no signs of recent collection.',
-            'Suspected commercial sex workers loitering around the hotel area.',
-            'Group of youth suspected to be involved in substance abuse behind the market.',
-            'Large outdoor concert taking place, crowd management needed.',
-            'Market congestion causing road blockage on the main street.',
-            'ECC cameras at sector 4 appear offline and unresponsive.',
-            'Traffic lights at the central roundabout completely non-functional.',
-            'Road markings on the highway are severely faded and barely visible.',
-            'Several beggars stationed at traffic intersections harassing motorists.',
-            'Street hawkers blocking pedestrian walkways along the commercial area.',
-            'Unusual gathering of individuals near the abandoned warehouse.',
-            'Vehicles parked on double yellow lines blocking emergency access.',
-            'Flooding on low-lying road after heavy rainfall, traffic diverted.',
-            'Bumper-to-bumper traffic on the ring road stretching over 2km.',
-            'Open defecation observed along the railway corridor.',
-            'Unregistered vehicles operating as commercial transport near the terminal.',
-            'Broken street lights creating blind spots on the highway.',
-            'Loud disturbance reported near residential area, source unconfirmed.',
-            'Illegal structures being erected on a waterway buffer zone.',
-            'Potholes causing accidents on the feeder road to the estate.',
-            'Waste dumped indiscriminately near the school premises.',
-            'Market encroachment onto the main road reducing lanes to one.',
-            'Minors spotted engaging in hawking activities during school hours.',
-            'Waterlogging on the main road after overnight rain.',
-            'Road signs completely missing on the highway interchange.',
-            'Suspicious movement of individuals near the fuel depot at night.',
-            'Overcrowding at the lorry station causing safety concerns.',
-            'Blocked drainage channels observed contributing to flooding risk.',
-        ];
 
-        $recommendations = [
-            'Deploy traffic personnel to decongest the area immediately.',
-            'Report to environmental protection agency for investigation.',
-            'Notify sanitation authority for immediate cleanup exercise.',
-            'Increase police visibility and patrol in the area.',
-            'Engage community leaders and refer to youth intervention programs.',
-            'Coordinate with event organizers to ensure crowd control.',
-            'Work with market authorities to enforce trading boundaries.',
-            'Dispatch technical team to inspect and restore ECC equipment.',
-            'Notify road safety authority to repair traffic light system.',
-            'Recommend urgent road marking exercise by highway authority.',
-            'Engage social welfare department for rehabilitation of beggars.',
-            'Enforce street hawking regulations with support of city guards.',
-            'Increase surveillance and notify police for follow-up.',
-            'Tow illegally parked vehicles and increase enforcement patrols.',
-            'Alert drainage authority and erect road diversion signage.',
-            'Investigate root cause and consider alternate route advisories.',
-            'Report to WASH authorities and engage community leaders.',
-            'Notify transport authority to clamp down on unlicensed operators.',
-            'Report to electricity company for urgent street light repairs.',
-            'Increase night patrols and notify community watch groups.',
-            'Report to town planning authority for enforcement action.',
-            'Notify district roads department for pothole patching.',
-            'Issue citation to responsible party and arrange cleanup.',
-            'Engage market management to enforce trading zone compliance.',
-            'Refer to child protection services and notify school authorities.',
-            'Clear drainage around the road and monitor water levels.',
-            'Report to Ghana Highway Authority for signage replacement.',
-            'Increase security presence and notify police intelligence unit.',
-            'Engage GPRTU to manage lorry station capacity.',
-            'Report to drainage authority for immediate desilting exercise.',
-        ];
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(5),
+            'time' => '08:30:00',
+            'shift' => 'day',
+            'status' => 'reviewed',
+            'observation' => 'Heavy traffic building up around the main market square due to unapproved parking.',
+            'region_id' => 1,
+            'location_id' => 1, // Accra
+            'recommendation' => 'Deploy traffic wardens to clear the illegal parking spots immediately.',
+        ])->topics()->attach([14, 16]); // Unlawful Car Parking, Traffic
+        
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(4),
+            'time' => '14:15:00',
+            'shift' => 'afternoon',
+            'status' => 'in_review',
+            'observation' => 'Potholes along the main highway are causing severe slowdowns and structural vehicle damage.',
+            'region_id' => 1,
+            'location_id' => 2, // Tema
+            'recommendation' => 'Notify the urban roads department for immediate patching works.',
+        ])->topics()->attach([1]);
+        
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(3),
+            'time' => '21:00:00',
+            'shift' => 'night',
+            'status' => 'in_review',
+            'observation' => 'Suspicious night gatherings observed near the abandoned warehouse district.',
+            'region_id' => 2,
+            'location_id' => 3, // Kumasi
+            'recommendation' => 'Increase night patrols and improve street lighting in the sector.',
+        ])->topics()->attach([5, 13]);
 
-        $topicGroups = [
-            [3],           // Traffic
-            [2],           // Galamsey
-            [3],           // Sanitation
-            [4],           // Prostitution
-            [5],           // Drug Related
-            [6],           // Special Events
-            [7],           // Markets
-            [8],           // ECC Monitoring
-            [9],           // Non-Functioning Traffic Light
-            [10],          // Faded Road Sign
-            [11],          // Beggars
-            [12],          // Street Hawkers
-            [13],          // Unusual Behavior
-            [14],          // Unlawful Car Parking
-            [15],          // Flood
-            [16],          // Traffic
-            [3, 15],       // Sanitation + Flood
-            [14, 16],      // Unlawful Parking + Traffic
-            [9, 10],       // Traffic Light + Road Sign
-            [13, 5],       // Unusual Behavior + Drug
-            [2, 15],       // Galamsey + Flood
-            [1, 16],       // Bad Roads + Traffic
-            [3, 7],        // Sanitation + Markets
-            [7, 16],       // Markets + Traffic
-            [12, 7],       // Street Hawkers + Markets
-            [15, 1],       // Flood + Bad Roads
-            [10, 1],       // Faded Road Sign + Bad Roads
-            [13, 14],      // Unusual Behavior + Unlawful Parking
-            [16, 6],       // Traffic + Special Events
-            [3, 15, 1],    // Sanitation + Flood + Bad Roads
-        ];
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(2),
+            'time' => '09:45:00',
+            'shift' => 'day',
+            'status' => 'reviewed',
+            'observation' => 'Illegal small-scale mining activities noticed near the river banks.',
+            'region_id' => 2,
+            'location_id' => 4, // Obuasi
+            'recommendation' => 'Coordinate an enforcement task force raid with local authorities.',
+        ])->topics()->attach([2]);
 
-        $dates = [
-            '2026-06-01', '2026-06-02', '2026-06-03', '2026-06-04', '2026-06-05',
-            '2026-06-06', '2026-06-07', '2026-06-08', '2026-06-09', '2026-06-10',
-            '2026-06-11', '2026-06-12', '2026-06-13', '2026-06-14', '2026-06-15',
-            '2026-06-16', '2026-06-17', '2026-06-18', '2026-06-19', '2026-06-20',
-            '2026-06-21', '2026-06-22', '2026-06-23', '2026-06-24', '2026-06-25',
-            '2026-06-26', '2026-06-27', '2026-06-28', '2026-06-29', '2026-06-30',
-        ];
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(1),
+            'time' => '11:00:00',
+            'shift' => 'day',
+            'status' => 'in_review',
+            'observation' => 'Accumulation of plastic waste blocking major drainage channels.',
+            'region_id' => 3,
+            'location_id' => 5, // Takoradi
+            'recommendation' => 'Organize an urgent desilting and sanitation cleanup drive.',
+        ])->topics()->attach([3, 15]);
 
-        $shifts     = ['day', 'night'];
-        $statuses   = ['in_review', 'reviewed'];
-        $times      = ['06:00:00', '08:30:00', '10:00:00', '14:00:00', '20:00:00', '22:30:00', '00:00:00'];
-        $regionIds  = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
-        $locationIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+        MonitoringTask::create([
+            'date' => Carbon::now(),
+            'time' => '23:30:00',
+            'shift' => 'night',
+            'status' => 'in_review',
+            'observation' => 'High incidence of commercial sex work activities observed along the street.',
+            'region_id' => 3,
+            'location_id' => 6, // Tarkwa
+            'recommendation' => 'Engage social welfare services and step up community policing.',
+        ])->topics()->attach([4]);
 
-        for ($i = 0; $i < 30; $i++) {
-            $task = MonitoringTask::create([
-                'date'           => $dates[$i],
-                'time'           => $times[$i % count($times)],
-                'shift'          => $shifts[$i % 2],
-                'status'         => $statuses[$i % 2 === 0 ? ($i % 3 === 0 ? 0 : 1) : ($i % 3 === 0 ? 1 : 0)],
-                'observation'    => $observations[$i],
-                'region_id'      => $regionIds[$i % count($regionIds)],
-                'location_id'    => $locationIds[$i % count($locationIds)],
-                'recommendation' => $recommendations[$i],
-            ]);
 
-            $task->topics()->attach($topicGroups[$i]);
-        }
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(6),
+            'time' => '10:00:00',
+            'shift' => 'day',
+            'status' => 'reviewed',
+            'observation' => 'Political rally and parade held successfully at the ceremonial grounds.',
+            'region_id' => 4,
+            'location_id' => 7, // Cape Coast
+            'recommendation' => 'Maintain crowd control parameters until dispersal is fully finished.',
+        ])->topics()->attach([6]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(7),
+            'time' => '15:30:00',
+            'shift' => 'afternoon',
+            'status' => 'reviewed',
+            'observation' => 'Overcrowding and unauthorized structures blocking pedestrian walkways.',
+            'region_id' => 4,
+            'location_id' => 8, // Kasoa
+            'recommendation' => 'Conduct a structural audit and relocate illegal roadside vendors.',
+        ])->topics()->attach([7, 12]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(2),
+            'time' => '12:00:00',
+            'shift' => 'afternoon',
+            'status' => 'reviewed',
+            'observation' => 'Routine inspection conducted at the emergency command center operations deck.',
+            'region_id' => 5,
+            'location_id' => 9, // Koforidua
+            'recommendation' => 'Systems are functioning within normal parameters; no immediate actions.',
+        ])->topics()->attach([8]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(8),
+            'time' => '07:15:00',
+            'shift' => 'day',
+            'status' => 'in_review',
+            'observation' => 'Traffic lights at the intersection have been dark since yesterday evening.',
+            'region_id' => 5,
+            'location_id' => 10, // Nkawkaw
+            'recommendation' => 'Dispatch an electrical maintenance crew to resolve the power fault.',
+        ])->topics()->attach([9, 16]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(9),
+            'time' => '13:00:00',
+            'shift' => 'afternoon',
+            'status' => 'reviewed',
+            'observation' => 'Zebra crossings and key regulatory road signs have faded completely.',
+            'region_id' => 6,
+            'location_id' => 11, // Ho
+            'recommendation' => 'Schedule road marking repainting during the next off-peak maintenance window.',
+        ])->topics()->attach([10]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(10),
+            'time' => '16:45:00',
+            'shift' => 'afternoon',
+            'status' => 'in_review',
+            'observation' => 'Increase in aggressive child begging activities noted at major intersections.',
+            'region_id' => 6,
+            'location_id' => 12, // Keta
+            'recommendation' => 'Partner with Child Welfare departments to investigate and assist.',
+        ])->topics()->attach([11]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(2),
+            'time' => '11:20:00',
+            'shift' => 'day',
+            'status' => 'in_review',
+            'observation' => 'Hawkers operating actively within active traffic lanes risking lives.',
+            'region_id' => 7,
+            'location_id' => 13, // Tamale
+            'recommendation' => 'Enforce local bylaws barring trade on high-speed motorways.',
+        ])->topics()->attach([12]);
+
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(8),
+            'time' => '22:00:00',
+            'shift' => 'night',
+            'status' => 'reviewed',
+            'observation' => 'Unidentified individual loitering suspiciously behind municipal server rooms.',
+            'region_id' => 7,
+            'location_id' => 14, // Yendi
+            'recommendation' => 'Deploy immediate security patrol units to check identity credentials.',
+        ])->topics()->attach([13]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(3),
+            'time' => '14:00:00',
+            'shift' => 'afternoon',
+            'status' => 'reviewed',
+            'observation' => 'Vehicles parked haphazardly along narrow avenues restricting fire truck access.',
+            'region_id' => 8,
+            'location_id' => 15, // Bolgatanga
+            'recommendation' => 'Issue parking tickets and initiate towing procedures for offenders.',
+        ])->topics()->attach([14]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(4),
+            'time' => '17:00:00',
+            'shift' => 'afternoon',
+            'status' => 'in_review',
+            'observation' => 'Flash flooding triggered by sudden heavy downpours rendering streets impassable.',
+            'region_id' => 8,
+            'location_id' => 16, // Navrongo
+            'recommendation' => 'Divert inbound traffic to high-ground secondary detour routes.',
+        ])->topics()->attach([15, 16]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(5),
+            'time' => '08:00:00',
+            'shift' => 'day',
+            'status' => 'reviewed',
+            'observation' => 'Gridlock extending up to three kilometers caused by a broken-down haulage truck.',
+            'region_id' => 9,
+            'location_id' => 17, // Wa
+            'recommendation' => 'Request a heavy-duty recovery tow truck to clear the blockages.',
+        ])->topics()->attach([16]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(6),
+            'time' => '10:30:00',
+            'shift' => 'day',
+            'status' => 'in_review',
+            'observation' => 'Deep lateral cracks appearing along the freshly asphalted road corridors.',
+            'region_id' => 9,
+            'location_id' => 18, // Jirapa
+            'recommendation' => 'Hold the civil works contractor accountable under the warranty clause.',
+        ])->topics()->attach([1]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(1),
+            'time' => '12:45:00',
+            'shift' => 'afternoon',
+            'status' => 'in_review',
+            'observation' => 'Illegal open-pit mining operations escalating dangerously near structures.',
+            'region_id' => 10,
+            'location_id' => 19, // Sunyani
+            'recommendation' => 'Engage environmental protection agencies for immediate containment.',
+        ])->topics()->attach([2]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(10),
+            'time' => '06:00:00',
+            'shift' => 'day',
+            'status' => 'reviewed',
+            'observation' => 'Illegal dumping of industrial chemical refuse into municipal skips.',
+            'region_id' => 10,
+            'location_id' => 20, // Berekum
+            'recommendation' => 'Review CCTV footage to identify the vehicle licensing numbers.',
+        ])->topics()->attach([3]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(18),
+            'time' => '23:45:00',
+            'shift' => 'night',
+            'status' => 'reviewed',
+            'observation' => 'Brothel activities operating without standard commercial licenses.',
+            'region_id' => 11,
+            'location_id' => 21, // Techiman
+            'recommendation' => 'Seal premises in coordination with municipal licensing boards.',
+        ])->topics()->attach([4]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(8),
+            'time' => '20:15:00',
+            'shift' => 'night',
+            'status' => 'in_review',
+            'observation' => 'Open-air trade of illegal substances noticed under the overpass.',
+            'region_id' => 11,
+            'location_id' => 22, // Kintampo
+            'recommendation' => 'Set up a permanent police visibility kiosk under the overpass infrastructure.',
+        ])->topics()->attach([5]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(8),
+            'time' => '09:00:00',
+            'shift' => 'day',
+            'status' => 'reviewed',
+            'observation' => 'Preparations for the regional cultural festival causing minor pedestrian delays.',
+            'region_id' => 12,
+            'location_id' => 23, // Goaso
+            'recommendation' => 'Ensure proper signage for alternative pedestrian walkways.',
+        ])->topics()->attach([6]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(2),
+            'time' => '13:30:00',
+            'shift' => 'afternoon',
+            'status' => 'reviewed',
+            'observation' => 'Encroachment of market stalls onto the main carriage lanes.',
+            'region_id' => 12,
+            'location_id' => 24, // Kukuom
+            'recommendation' => 'Enforce strict demarcations for market boundaries.',
+        ])->topics()->attach([7, 12]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(2),
+            'time' => '10:00:00',
+            'shift' => 'day',
+            'status' => 'in_review',
+            'observation' => 'Performance evaluation of emergency response feeds and monitors.',
+            'region_id' => 13,
+            'location_id' => 25, // Damongo
+            'recommendation' => 'Upgrade camera firmwares to improve low light visibility.',
+        ])->topics()->attach([8]);
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(5),
+            'time' => '18:00:00',
+            'shift' => 'afternoon',
+            'status' => 'in_review',
+            'observation' => 'The main intersection traffic light controller box appears vandalized.',
+            'region_id' => 13,
+            'location_id' => 26, // Bole
+            'recommendation' => 'Replace the control unit components and install tamper locks.',
+        ])->topics()->attach([9]);
+
+
+        MonitoringTask::create([
+            'date' => Carbon::now()->subDays(6),
+            'time' => '07:45:00',
+            'shift' => 'day',
+            'status' => 'reviewed',
+            'observation' => 'Warning signs near schools have deteriorated due to severe weathering.',
+            'region_id' => 14,
+            'location_id' => 27, // Nalerigu
+            'recommendation' => 'Replace aged retroreflective sheets to guarantee nighttime visibility.',
+        ])->topics()->attach([10]);
+
+        MonitoringTask::create([
+           'date' => Carbon::now()->subDays(7),
+            'time' => '12:15:00',
+            'shift' => 'afternoon',
+            'status' => 'in_review',
+            'observation' => 'Syndicates transporting and placing beggars at strategic points.',
+            'region_id' => 14,
+            'location_id' => 28, // Walewale
+            'recommendation' => 'Initiate investigations into organized exploitation of minors.',
+        ])->topics()->attach([11, 13]);
+
+        MonitoringTask::create([
+           'date' => Carbon::now()->subDays(1),
+            'time' => '15:00:00',
+            'shift' => 'afternoon',
+            'status' => 'reviewed',
+            'observation' => 'Heavy downpours caused river banks to overflow, cutting off minor access roads.',
+            'region_id' => 15,
+            'location_id' => 29, // Dambai
+            'recommendation' => 'Deploy emergency drainage pumps and barricade the flooded sectors.',
+        ])->topics()->attach([15]);
+
+        MonitoringTask::create([
+           'date' => Carbon::now()->subDays(8),
+            'time' => '08:50:00',
+            'shift' => 'day',
+            'status' => 'reviewed',
+            'observation' => 'Severe morning rush hour gridlocks caused by ongoing bridge works.',
+            'region_id' => 15,
+            'location_id' => 30, // Jasikan
+            'recommendation' => 'Coordinate with contractors to run shifts overnight to speed up progress.',
+        ])->topics()->attach([16]);
     }
 }
