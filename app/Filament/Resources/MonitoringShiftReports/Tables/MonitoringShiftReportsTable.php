@@ -4,11 +4,13 @@ namespace App\Filament\Resources\MonitoringShiftReports\Tables;
 
 use App\Enums\ShiftStatus;
 use App\Enums\ShiftType;
+use App\Filament\Exports\MonitoringShiftReportExporter;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
@@ -124,6 +126,8 @@ class MonitoringShiftReportsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    ExportBulkAction::make()
+                        ->exporter(MonitoringShiftReportExporter::class),
                     DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),

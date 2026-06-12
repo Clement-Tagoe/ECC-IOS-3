@@ -3,10 +3,12 @@
 namespace App\Filament\Resources\MonitoringConsoles\Tables;
 
 use App\Enums\ConsoleStatus;
+use App\Filament\Exports\MonitoringConsoleExporter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
@@ -70,6 +72,8 @@ class MonitoringConsolesTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    ExportBulkAction::make()
+                        ->exporter(MonitoringConsoleExporter::class),
                     DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),

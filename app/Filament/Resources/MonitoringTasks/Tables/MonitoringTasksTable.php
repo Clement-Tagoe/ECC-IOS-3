@@ -3,11 +3,13 @@
 namespace App\Filament\Resources\MonitoringTasks\Tables;
 
 use App\Enums\MonitoringTaskStatus;
+use App\Filament\Exports\MonitoringTaskExporter;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\ViewAction;
@@ -113,6 +115,8 @@ class MonitoringTasksTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    ExportBulkAction::make()
+                        ->exporter(MonitoringTaskExporter::class),
                     DeleteBulkAction::make(),
                 ]),
             ]);
