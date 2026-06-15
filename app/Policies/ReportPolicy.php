@@ -1,66 +1,81 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
+use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\Report;
-use App\Models\User;
+use Filament\Facades\Filament;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ReportPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    protected function getGuard(): ?string
     {
-        return true;
+        return Filament::getCurrentPanel()?->getAuthGuard();
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Report $report): bool
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->id === $report->user_id || $report->receivers->contains($user->id);
-        // in_array($user->id, $report->notified_user_ids ?? []
+        return $authUser->can('ViewAny:Report', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function view(AuthUser $authUser, Report $report): bool
     {
-        return true;
+        return $authUser->can('View:Report', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Report $report): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->id === $report->user_id;
+        return $authUser->can('Create:Report', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Report $report): bool
+    public function update(AuthUser $authUser, Report $report): bool
     {
-        return $user->id === $report->user_id;
+        return $authUser->can('Update:Report', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Report $report): bool
+    public function delete(AuthUser $authUser, Report $report): bool
     {
-        return $user->id === $report->user_id;
+        return $authUser->can('Delete:Report', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Report $report): bool
+    public function restore(AuthUser $authUser, Report $report): bool
     {
-        return $user->id === $report->user_id;
+        return $authUser->can('Restore:Report', $this->getGuard());
     }
+
+    public function forceDelete(AuthUser $authUser, Report $report): bool
+    {
+        return $authUser->can('ForceDelete:Report', $this->getGuard());
+    }
+
+    public function deleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('DeleteAny:Report', $this->getGuard());
+    }
+
+    public function restoreAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('RestoreAny:Report', $this->getGuard());
+    }
+
+    public function forceDeleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('ForceDeleteAny:Report', $this->getGuard());
+    }
+
+    public function replicate(AuthUser $authUser, Report $report): bool
+    {
+        return $authUser->can('Replicate:Report', $this->getGuard());
+    }
+
+    public function reorder(AuthUser $authUser): bool
+    {
+        return $authUser->can('Reorder:Report', $this->getGuard());
+    }
+
 }

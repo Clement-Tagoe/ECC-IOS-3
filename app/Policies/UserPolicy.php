@@ -1,65 +1,80 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
-use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Foundation\Auth\User as AuthUser;
+use Filament\Facades\Filament;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    protected function getGuard(): ?string
     {
-        return $user->hasRole(['System-Admin', 'Director']);
+        return Filament::getCurrentPanel()?->getAuthGuard();
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, User $model): bool
+    public function viewAny(AuthUser $authUser): bool
     {
-       return $user->hasRole(['System-Admin', 'Director']);
+        return $authUser->can('ViewAny:User', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function view(AuthUser $authUser): bool
     {
-        return $user->hasRole(['System-Admin', 'Director']);
+        return $authUser->can('View:User', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, User $model): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->hasRole(['System-Admin', 'Director']);
+        return $authUser->can('Create:User', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, User $model): bool
+    public function update(AuthUser $authUser): bool
     {
-        return $user->hasRole(['System-Admin', 'Director']);
+        return $authUser->can('Update:User', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, User $model): bool
+    public function delete(AuthUser $authUser): bool
     {
-        return $user->hasRole(['System-Admin', 'Director']);
+        return $authUser->can('Delete:User', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, User $model): bool
+    public function restore(AuthUser $authUser): bool
     {
-        return $user->hasRole(['System-Admin', 'Director']);
+        return $authUser->can('Restore:User', $this->getGuard());
     }
+
+    public function forceDelete(AuthUser $authUser): bool
+    {
+        return $authUser->can('ForceDelete:User', $this->getGuard());
+    }
+
+    public function deleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('DeleteAny:User', $this->getGuard());
+    }
+
+    public function restoreAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('RestoreAny:User', $this->getGuard());
+    }
+
+    public function forceDeleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('ForceDeleteAny:User', $this->getGuard());
+    }
+
+    public function replicate(AuthUser $authUser): bool
+    {
+        return $authUser->can('Replicate:User', $this->getGuard());
+    }
+
+    public function reorder(AuthUser $authUser): bool
+    {
+        return $authUser->can('Reorder:User', $this->getGuard());
+    }
+
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "82a3ce8dc151a38f702b2eeb57ba6e7b",
+    "content-hash": "e4d1577c6cdad8b9930ba434391d11ce",
     "packages": [
         {
             "name": "althinect/filament-spatie-roles-permissions",
@@ -10484,6 +10484,87 @@
                 }
             ],
             "time": "2026-04-26T05:33:54+00:00"
+        },
+        {
+            "name": "waguilar33/filament-guardian",
+            "version": "v1.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Waguilar33/filament-guardian.git",
+                "reference": "a24b9a9b3e0cc844a9fd8731e233768f4eefcb0e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Waguilar33/filament-guardian/zipball/a24b9a9b3e0cc844a9fd8731e233768f4eefcb0e",
+                "reference": "a24b9a9b3e0cc844a9fd8731e233768f4eefcb0e",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^4.0 || ^5.0",
+                "php": "^8.2",
+                "spatie/laravel-package-tools": "^1.15.0",
+                "spatie/laravel-permission": "^6.0 || ^7.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "laravel/pint": "~1.29.0",
+                "nunomaduro/collision": "^8.0",
+                "orchestra/testbench": "^9.0|^10.0",
+                "pestphp/pest": "^3.0",
+                "pestphp/pest-plugin-arch": "^3.0",
+                "pestphp/pest-plugin-laravel": "^3.0",
+                "pestphp/pest-plugin-livewire": "^3.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^2.0",
+                "phpstan/phpstan-phpunit": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FilamentGuardian": "Waguilar\\FilamentGuardian\\Facades\\FilamentGuardian"
+                    },
+                    "providers": [
+                        "Waguilar\\FilamentGuardian\\FilamentGuardianServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Waguilar\\FilamentGuardian\\": "src/",
+                    "Waguilar\\FilamentGuardian\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "William Aguilar",
+                    "email": "waa2398@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Role and permission management for Filament",
+            "homepage": "https://github.com/Waguilar33/filament-guardian",
+            "keywords": [
+                "filament-guardian",
+                "filamentphp",
+                "laravel",
+                "waguilar33"
+            ],
+            "support": {
+                "issues": "https://github.com/Waguilar33/filament-guardian/issues",
+                "source": "https://github.com/Waguilar33/filament-guardian"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/waguilar",
+                    "type": "github"
+                }
+            ],
+            "time": "2026-05-23T05:21:45+00:00"
         },
         {
             "name": "wildside/userstamps",

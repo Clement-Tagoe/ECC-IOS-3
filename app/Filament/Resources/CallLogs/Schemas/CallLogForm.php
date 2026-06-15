@@ -10,7 +10,6 @@ use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Auth;
 
 class CallLogForm
 {
@@ -41,8 +40,7 @@ class CallLogForm
                             ->inline()
                             ->required()
                             ->live()
-                            ->default(CallLogStatus::InReview)
-                            ->disabled(fn () => !Auth::user()->hasRole(['System-Admin', 'Director', 'Unit-Head(Call-Taking)'])),
+                            ->default(CallLogStatus::InReview),
                     ])->columns(2)->columnSpan(1),
 
                 Section::make('Duty Details & Duration')

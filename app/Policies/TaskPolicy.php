@@ -1,65 +1,81 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
+use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\Task;
-use App\Models\User;
+use Filament\Facades\Filament;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TaskPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    protected function getGuard(): ?string
     {
-        return true;
+        return Filament::getCurrentPanel()?->getAuthGuard();
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Task $task): bool
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->id === $task->user_id || $task->collaborators->contains($user->id);
+        return $authUser->can('ViewAny:Task', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function view(AuthUser $authUser, Task $task): bool
     {
-        return true;
+        return $authUser->can('View:Task', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Task $task): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->id === $task->user_id || $task->collaborators->contains($user->id);
+        return $authUser->can('Create:Task', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Task $task): bool
+    public function update(AuthUser $authUser, Task $task): bool
     {
-        return $user->id === $task->user_id;
+        return $authUser->can('Update:Task', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Task $task): bool
+    public function delete(AuthUser $authUser, Task $task): bool
     {
-        return $user->id === $task->user_id;
+        return $authUser->can('Delete:Task', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Task $task): bool
+    public function restore(AuthUser $authUser, Task $task): bool
     {
-        return $user->id === $task->user_id;
+        return $authUser->can('Restore:Task', $this->getGuard());
     }
+
+    public function forceDelete(AuthUser $authUser, Task $task): bool
+    {
+        return $authUser->can('ForceDelete:Task', $this->getGuard());
+    }
+
+    public function deleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('DeleteAny:Task', $this->getGuard());
+    }
+
+    public function restoreAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('RestoreAny:Task', $this->getGuard());
+    }
+
+    public function forceDeleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('ForceDeleteAny:Task', $this->getGuard());
+    }
+
+    public function replicate(AuthUser $authUser, Task $task): bool
+    {
+        return $authUser->can('Replicate:Task', $this->getGuard());
+    }
+
+    public function reorder(AuthUser $authUser): bool
+    {
+        return $authUser->can('Reorder:Task', $this->getGuard());
+    }
+
 }

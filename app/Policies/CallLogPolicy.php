@@ -1,71 +1,81 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
-use App\Enums\CallLogStatus;
+use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\CallLog;
-use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Filament\Facades\Filament;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CallLogPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    use HandlesAuthorization;
+
+    protected function getGuard(): ?string
     {
-        return $user->hasRole(['System-Admin', 'Director', 'Supervisor(Call-Taking)', 'Unit-Head(Call-Taking)']);
+        return Filament::getCurrentPanel()?->getAuthGuard();
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, CallLog $callLog): bool
+    public function viewAny(AuthUser $authUser): bool
     {
-        return $user->hasRole(['System-Admin', 'Director', 'Supervisor(Call-Taking)', 'Unit-Head(Call-Taking)']);
+        return $authUser->can('ViewAny:CallLog', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
+    public function view(AuthUser $authUser, CallLog $callLog): bool
     {
-        return $user->hasRole(['System-Admin', 'Director', 'Supervisor(Call-Taking)', 'Unit-Head(Call-Taking)']);
+        return $authUser->can('View:CallLog', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, CallLog $callLog): bool
+    public function create(AuthUser $authUser): bool
     {
-        if ($user->hasRole('Supervisor(Call-Taking)')) {
-            return $callLog->status === CallLogStatus::InReview;
-        }
-
-        return $user->hasRole(['System-Admin', 'Director', 'Unit-Head(Call-Taking)']);
+        return $authUser->can('Create:CallLog', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, CallLog $callLog): bool
+    public function update(AuthUser $authUser, CallLog $callLog): bool
     {
-        return false;
+        return $authUser->can('Update:CallLog', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, CallLog $callLog): bool
+    public function delete(AuthUser $authUser, CallLog $callLog): bool
     {
-        return false;
+        return $authUser->can('Delete:CallLog', $this->getGuard());
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, CallLog $callLog): bool
+    public function restore(AuthUser $authUser, CallLog $callLog): bool
     {
-        return false;
+        return $authUser->can('Restore:CallLog', $this->getGuard());
     }
+
+    public function forceDelete(AuthUser $authUser, CallLog $callLog): bool
+    {
+        return $authUser->can('ForceDelete:CallLog', $this->getGuard());
+    }
+
+    public function deleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('DeleteAny:CallLog', $this->getGuard());
+    }
+
+    public function restoreAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('RestoreAny:CallLog', $this->getGuard());
+    }
+
+    public function forceDeleteAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('ForceDeleteAny:CallLog', $this->getGuard());
+    }
+
+    public function replicate(AuthUser $authUser, CallLog $callLog): bool
+    {
+        return $authUser->can('Replicate:CallLog', $this->getGuard());
+    }
+
+    public function reorder(AuthUser $authUser): bool
+    {
+        return $authUser->can('Reorder:CallLog', $this->getGuard());
+    }
+
 }

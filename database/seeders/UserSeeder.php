@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
             'password' =>bcrypt('12345678'),
             'contact' => '0244565458',
             'department_id' => 1,
-        ])->roles()->attach([1]); 
+        ]); 
 
         User::create([
             'name' => 'Joyce Benson',

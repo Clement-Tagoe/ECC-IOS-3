@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
+use Waguilar\FilamentGuardian\FilamentGuardianPlugin;
 
 
 
@@ -64,6 +65,11 @@ class AuthPanelProvider extends PanelProvider
                     ->shouldShowBrowserSessionsForm(false)
                     ->setNavigationLabel('My Profile')
                     ->setIcon('heroicon-o-user'),
+                FilamentGuardianPlugin::make()
+                    ->navigationLabel('Roles')
+                    ->navigationIcon('heroicon-o-shield-check')
+                    ->activeNavigationIcon('heroicon-s-shield-check')
+                    ->registerNavigation(true),
             ])
             ->userMenuItems([
                 'profile' => Action::make('profile')
