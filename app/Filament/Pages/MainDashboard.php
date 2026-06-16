@@ -9,6 +9,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Actions\FilterAction;
 use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
+use Illuminate\Support\Facades\Gate;
 
 class MainDashboard extends BaseDashboard
 {
@@ -17,6 +18,11 @@ class MainDashboard extends BaseDashboard
     protected static string $routePath = 'main-dashboard';
 
     protected static ?string $title = 'Main Dashboard';
+
+    public static function canAccess(): bool
+    {
+        return Gate::allows('View:MainDashboard');
+    }
 
     protected function getHeaderActions(): array
     {

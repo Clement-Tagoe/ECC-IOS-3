@@ -9,6 +9,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Actions\FilterAction;
 use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
+use Illuminate\Support\Facades\Gate;
 use UnitEnum;
 
 class MonitoringDashboard extends BaseDashboard
@@ -22,6 +23,12 @@ class MonitoringDashboard extends BaseDashboard
     protected static ?int $navigationSort = -2;
 
     protected static string | UnitEnum | null $navigationGroup = 'Monitoring';
+
+    
+    public static function canAccess(): bool
+    {
+        return Gate::allows('View:MonitoringDashboard');
+    }
 
     protected function getHeaderActions(): array
     {
