@@ -10,7 +10,7 @@ use Filament\Widgets\Concerns\InteractsWithPageFilters;
 class TopMonitoringTopicsChart extends ChartWidget
 {
     use InteractsWithPageFilters;
-    
+
     protected ?string $heading = 'Top Monitoring Topics Chart';
 
     protected ?string $description = 'Most frequently tagged topics across monitoring tasks';
@@ -33,40 +33,66 @@ class TopMonitoringTopicsChart extends ChartWidget
             ->limit(8)
             ->get();
 
-        $backgroundColors = [
-            'rgba(59, 130, 246, 0.8)',
-            'rgba(16, 185, 129, 0.8)',
-            'rgba(245, 158, 11, 0.8)',
-            'rgba(239, 68, 68, 0.8)',
-            'rgba(139, 92, 246, 0.8)',
-            'rgba(20, 184, 166, 0.8)',
-            'rgba(249, 115, 22, 0.8)',
-            'rgba(236, 72, 153, 0.8)',
+        $total = $data->sum('monitoring_tasks_count');
+
+        $labels     = [];
+        $values     = [];
+        $richLabels = [];
+
+        $palette = [
+            '#059669', '#dc2626', '#7c3aed',
+            '#d97706', '#0891b2', '#be185d', '#65a30d',
+            '#ea580c',
         ];
+
+        foreach ($data as $i => $topic) {
+            $name  = $topic->name;
+            $count = $topic->monitoring_tasks_count;
+            $pct   = $total > 0 ? round(($count / $total) * 100, 1) : 0;
+
+            $labels[]     = "{$name} ({$count} — {$pct}%)";
+            $values[]     = $count;
+            $richLabels[] = "{$name} — {$count} ({$pct}%)";
+        }
+
+        $colors = collect($labels)->map(fn ($_, $i) => $palette[$i % count($palette)])->toArray();
 
         return [
             'datasets' => [
                 [
-                    'data'            => $data->pluck('monitoring_tasks_count')->toArray(),
-                    'backgroundColor' => array_slice($backgroundColors, 0, $data->count()),
-                    'hoverOffset'     => 6,
+                    'label'           => 'Tasks',
+                    'data'            => $values,
+                    'backgroundColor' => $colors,
+                    'borderWidth'     => 2,
+                    'borderColor'     => '#ffffff',
+                    'hoverOffset'     => 8,
+                    'datalabels'      => [
+                        'display'   => true,
+                        'color'     => '#ffffff',
+                        'font'      => ['weight' => 'bold', 'size' => 12],
+                        'formatter' => "JS::(value, ctx) => value > 0 ? value : ''",
+                    ],
                 ],
             ],
-            'labels' => $data->pluck('name')->toArray(),
+            'labels'     => $labels,
+            'richLabels' => $richLabels,
+            'total'      => $total,
         ];
     }
- 
+
     protected function getType(): string
     {
         return 'doughnut';
     }
- 
+
     protected function getOptions(): array
     {
         return [
             'plugins' => [
-                'legend' => [
-                    'position' => 'right',
+                'datalabels' => [
+                    'display' => true,
+                    'color'   => '#ffffff',
+                    'font'    => ['weight' => 'bold', 'size' => 12],
                 ],
             ],
             'cutout' => '65%',

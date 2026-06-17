@@ -20,7 +20,7 @@ class GhanaCasesMapWidget extends Widget
 
     protected ?string $heading = 'Cases by Region — Ghana Map';
 
-    protected int | string | array $columnSpan = 'full';
+    protected int | string | array $columnSpan =  'full';
  
     // ─────────────────────────────────────────────────────────────────────
     // Data

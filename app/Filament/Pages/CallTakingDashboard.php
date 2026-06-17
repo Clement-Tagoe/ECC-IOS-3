@@ -35,7 +35,7 @@ class CallTakingDashboard extends BaseDashboard
                 ]),
         ];
     }
-    
+
     public function getWidgets(): array
     {
         return [

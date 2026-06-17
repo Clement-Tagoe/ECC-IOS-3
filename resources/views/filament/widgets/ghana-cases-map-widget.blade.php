@@ -49,23 +49,42 @@
             };
         
             $regionColors = [
-                'Greater Accra'  => '#3b82f6',
-                'Central'        => '#10b981',
-                'Western'        => '#f59e0b',
-                'Western North'  => '#f97316',
-                'Ashanti'        => '#8b5cf6',
-                'Eastern'        => '#06b6d4',
-                'Volta'          => '#ec4899',
-                'Oti'            => '#84cc16',
-                'Bono East'      => '#ef4444',
-                'Ahafo'          => '#14b8a6',
-                'Bono'           => '#a855f7',
-                'Northern'       => '#0ea5e9',
-                'Savannah'       => '#257959',
-                'North East'     => '#22c55e',
-                'Upper East'     => '#fb923c',
-                'Upper West'     => '#6366f1',
+                'Greater Accra'  => '#1e1b4b', // Deep Indigo
+                'Central'        => '#059669', // Emerald Green
+                'Western'        => '#d97706', // Amber / Dark Yellow
+                'Western North'  => '#b45309', // Ochre / Light Brown
+                'Ashanti'        => '#4c1d95', // Deep Purple
+                'Eastern'        => '#0284c7', // Sky Blue
+                'Volta'          => '#db2777', // Deep Pink
+                'Oti'            => '#65a30d', // Lime Green
+                'Bono East'      => '#dc2626', // Crimson Red
+                'Ahafo'          => '#0f766e', // Deep Teal
+                'Bono'           => '#7c3aed', // Violet
+                'Northern'       => '#2563eb', // Royal Blue
+                'Savannah'       => '#15803d', // Forest Green
+                'North East'     => '#10b981', // Mint Green
+                'Upper East'     => '#ea580c', // Orange-Red
+                'Upper West'     => '#4f46e5', // Blurple / Indigo-Blue
             ];
+
+            // $regionColors = [
+            //     'Greater Accra'  => '#3b82f6',
+            //     'Central'        => '#10b981',
+            //     'Western'        => '#f59e0b',
+            //     'Western North'  => '#f97316',
+            //     'Ashanti'        => '#8b5cf6',
+            //     'Eastern'        => '#06b6d4',
+            //     'Volta'          => '#ec4899',
+            //     'Oti'            => '#84cc16',
+            //     'Bono East'      => '#ef4444',
+            //     'Ahafo'          => '#14b8a6',
+            //     'Bono'           => '#a855f7',
+            //     'Northern'       => '#0ea5e9',
+            //     'Savannah'       => '#257959',
+            //     'North East'     => '#22c55e',
+            //     'Upper East'     => '#fb923c',
+            //     'Upper West'     => '#6366f1',
+            // ];
 
             $fill = function (string $regionName, int $value) use ($regionColors): string {
                 $base = $regionColors[$regionName] ?? '#94a3b8';

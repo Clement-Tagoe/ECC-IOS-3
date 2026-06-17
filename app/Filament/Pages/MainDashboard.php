@@ -2,9 +2,11 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\CallBreakdownChart;
 use App\Filament\Widgets\GhanaCasesMapWidget;
-use App\Filament\Widgets\GhanaTasksTopicsMapWidget;
 use App\Filament\Widgets\MainStatsOverview;
+use App\Filament\Widgets\MonitoringConsolesStatusWidget;
+use App\Filament\Widgets\TopMonitoringTopicsChart;
 use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Actions\FilterAction;
@@ -35,15 +37,17 @@ class MainDashboard extends BaseDashboard
         ];
     }
     
+   
+
     public function getWidgets(): array
     {
         return [
 
             MainStatsOverview::class,
             GhanaCasesMapWidget::class,
-            GhanaTasksTopicsMapWidget::class,
-            
-            
+            CallBreakdownChart::class,
+            TopMonitoringTopicsChart::class,
+            MonitoringConsolesStatusWidget::class,
         ];
     }
 }
