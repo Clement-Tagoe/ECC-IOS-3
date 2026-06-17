@@ -3,9 +3,13 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Widgets\CallBreakdownChart;
+use App\Filament\Widgets\CallConsolesStatusWidget;
+use App\Filament\Widgets\CallShiftReportsWidget;
+use App\Filament\Widgets\CameraStatusByRegionChart;
 use App\Filament\Widgets\GhanaCasesMapWidget;
 use App\Filament\Widgets\MainStatsOverview;
 use App\Filament\Widgets\MonitoringConsolesStatusWidget;
+use App\Filament\Widgets\MonitoringShiftReportsWidget;
 use App\Filament\Widgets\TopMonitoringTopicsChart;
 use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Dashboard as BaseDashboard;
@@ -47,7 +51,11 @@ class MainDashboard extends BaseDashboard
             GhanaCasesMapWidget::class,
             CallBreakdownChart::class,
             TopMonitoringTopicsChart::class,
+            CallConsolesStatusWidget::class,
             MonitoringConsolesStatusWidget::class,
+            CameraStatusByRegionChart::class,
+            MonitoringShiftReportsWidget::class,
+            CallShiftReportsWidget::class,
         ];
     }
 }

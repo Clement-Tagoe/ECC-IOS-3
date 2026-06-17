@@ -2,7 +2,7 @@
     <x-filament::section>
 
         {{-- Header: mimics ChartWidget heading/description --}}
-        <x-slot name="heading">Monitoring Consoles</x-slot>
+        <x-slot name="heading">Call Consoles</x-slot>
         <x-slot name="description">Live assignment & status overview</x-slot>
 
         {{-- Summary counts --}}

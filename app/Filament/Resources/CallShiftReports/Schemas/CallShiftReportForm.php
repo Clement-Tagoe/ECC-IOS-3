@@ -64,8 +64,7 @@ class CallShiftReportForm
                             ->inline()
                             ->required()
                             ->live()
-                            ->default(ShiftStatus::InReview)
-                            ->disabled(fn () => !Auth::user()->hasRole(['System-Admin', 'Director', 'Unit-Head(Call-Taking)'])),
+                            ->default(ShiftStatus::InReview),
                         RichEditor::make('notes')
                             ->columnSpanFull(),
                 ]),

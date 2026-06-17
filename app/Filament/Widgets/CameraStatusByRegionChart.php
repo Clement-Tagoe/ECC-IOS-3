@@ -11,7 +11,7 @@ class CameraStatusByRegionChart extends ChartWidget
 {
     use InteractsWithPageFilters;
     
-    protected ?string $heading = 'Camer Status By Region Chart';
+    protected ?string $heading = 'Camera Status By Region Chart';
 
     protected ?string $description = 'Online vs offline cameras per region';
 

@@ -122,19 +122,6 @@ class AuthPanelProvider extends PanelProvider
                                 onLeave()     { this.hovered = null; this.tt.visible = false; },
                                 onMove(event) { this.tt.x = event.clientX + 16; this.tt.y = event.clientY - 12; },
                             }));
-
-                            Alpine.data('ghanaTasksMap', () => ({
-                                hovered: null,
-                                tt: { visible: false, x: 0, y: 0, name: '', total: 0, byTopic: [] },
-                                init() {},
-                                onEnter(event, data) {
-                                    this.hovered = event.currentTarget.dataset.slug;
-                                    this.tt = { visible: true, x: event.clientX + 16, y: event.clientY - 12, name: data.name, total: data.total, byTopic: data.byTopic ?? [] };
-                                },
-                                onLeave()     { this.hovered = null; this.tt.visible = false; },
-                                onMove(event) { this.tt.x = event.clientX + 16; this.tt.y = event.clientY - 12; },
-                            }));
-
                         });
                     </script>
                 HTML,
