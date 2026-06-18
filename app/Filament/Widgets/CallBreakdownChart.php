@@ -14,8 +14,7 @@ class CallBreakdownChart extends ChartWidget
     protected ?string $heading = 'Call Breakdown';
  
     protected ?string $description = 'Incoming, valid, and prank calls per day';
- 
- 
+
     protected function getData(): array
     {
         $startDate = isset($this->pageFilters['startDate'])
@@ -45,7 +44,7 @@ class CallBreakdownChart extends ChartWidget
                 [
                     'label'           => 'Total Received',
                     'data'            => $total,
-                    'backgroundColor' => '#1d4ed8',
+                    'backgroundColor' => '#8b5cf6',
                     'borderRadius'    => 4,
                     'borderWidth'     => 0,
                 ],

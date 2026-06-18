@@ -20,6 +20,9 @@ return new class extends Migration
             $table->foreignId('agency_id')->constrained()->cascadeOnDelete();
             $table->foreignId('valid_case_nature_id')->constrained()->cascadeOnDelete();
             $table->foreignId('location_id')->constrained()->cascadeOnDelete();
+            $table->time('dispatched_time')->nullable();
+            $table->time('agency_arrival_time')->nullable();
+            $table->time('agency_response_time')->nullable();
             $table->string('status');
             $table->string('contact_name');
             $table->string('contact_number');

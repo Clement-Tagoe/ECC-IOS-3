@@ -57,9 +57,15 @@ class ValidCaseForm
                                     ->required()
                                     ->disabled()
                                     ->saved(),
+                            ])
+                            ->columns(2),
+                        Section::make()
+                            ->schema([
                                 Select::make('agency_id')
                                     ->relationship('agency', 'name')
                                     ->required(), 
+                                TimePicker::make('dispatched_time'),
+                                TimePicker::make('agency_arrival_time'),
                             ])
                             ->columns(2),
                         Section::make()
@@ -108,8 +114,7 @@ class ValidCaseForm
                                     ->inline()
                                     ->required()
                                     ->live()
-                                    ->default(ValidCaseStatus::InReview)
-                                    ->disabled(fn () => !Auth::user()->hasRole(['System-Admin', 'Director', 'Unit-Head(Call-Taking)'])),
+                                    ->default(ValidCaseStatus::InReview),
                             ]),
                     ])
                     ->columnSpan(['lg' => 1]),

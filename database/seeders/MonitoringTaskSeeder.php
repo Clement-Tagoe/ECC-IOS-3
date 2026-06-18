@@ -18,7 +18,7 @@ class MonitoringTaskSeeder extends Seeder
         MonitoringTask::create([
             'date' => Carbon::now()->subDays(5),
             'time' => '08:30:00',
-            'shift' => 'day',
+            'shift' => 'morning',
             'status' => 'reviewed',
             'observation' => 'Heavy traffic building up around the main market square due to unapproved parking.',
             'region_id' => 1,
@@ -51,7 +51,7 @@ class MonitoringTaskSeeder extends Seeder
         MonitoringTask::create([
             'date' => Carbon::now()->subDays(2),
             'time' => '09:45:00',
-            'shift' => 'day',
+            'shift' => 'morning',
             'status' => 'reviewed',
             'observation' => 'Illegal small-scale mining activities noticed near the river banks.',
             'region_id' => 2,
@@ -62,7 +62,7 @@ class MonitoringTaskSeeder extends Seeder
         MonitoringTask::create([
             'date' => Carbon::now()->subDays(1),
             'time' => '11:00:00',
-            'shift' => 'day',
+            'shift' => 'morning',
             'status' => 'in_review',
             'observation' => 'Accumulation of plastic waste blocking major drainage channels.',
             'region_id' => 3,
@@ -85,7 +85,7 @@ class MonitoringTaskSeeder extends Seeder
         MonitoringTask::create([
             'date' => Carbon::now()->subDays(6),
             'time' => '10:00:00',
-            'shift' => 'day',
+            'shift' => 'morning',
             'status' => 'reviewed',
             'observation' => 'Political rally and parade held successfully at the ceremonial grounds.',
             'region_id' => 4,
@@ -118,7 +118,7 @@ class MonitoringTaskSeeder extends Seeder
         MonitoringTask::create([
             'date' => Carbon::now()->subDays(8),
             'time' => '07:15:00',
-            'shift' => 'day',
+            'shift' => 'morning',
             'status' => 'in_review',
             'observation' => 'Traffic lights at the intersection have been dark since yesterday evening.',
             'region_id' => 5,
@@ -151,7 +151,7 @@ class MonitoringTaskSeeder extends Seeder
         MonitoringTask::create([
             'date' => Carbon::now()->subDays(2),
             'time' => '11:20:00',
-            'shift' => 'day',
+            'shift' => 'morning',
             'status' => 'in_review',
             'observation' => 'Hawkers operating actively within active traffic lanes risking lives.',
             'region_id' => 7,
@@ -196,7 +196,7 @@ class MonitoringTaskSeeder extends Seeder
         MonitoringTask::create([
             'date' => Carbon::now()->subDays(5),
             'time' => '08:00:00',
-            'shift' => 'day',
+            'shift' => 'morning',
             'status' => 'reviewed',
             'observation' => 'Gridlock extending up to three kilometers caused by a broken-down haulage truck.',
             'region_id' => 9,
@@ -207,7 +207,7 @@ class MonitoringTaskSeeder extends Seeder
         MonitoringTask::create([
             'date' => Carbon::now()->subDays(6),
             'time' => '10:30:00',
-            'shift' => 'day',
+            'shift' => 'morning',
             'status' => 'in_review',
             'observation' => 'Deep lateral cracks appearing along the freshly asphalted road corridors.',
             'region_id' => 9,
@@ -229,7 +229,7 @@ class MonitoringTaskSeeder extends Seeder
         MonitoringTask::create([
             'date' => Carbon::now()->subDays(10),
             'time' => '06:00:00',
-            'shift' => 'day',
+            'shift' => 'morning',
             'status' => 'reviewed',
             'observation' => 'Illegal dumping of industrial chemical refuse into municipal skips.',
             'region_id' => 10,
@@ -262,7 +262,7 @@ class MonitoringTaskSeeder extends Seeder
         MonitoringTask::create([
             'date' => Carbon::now()->subDays(8),
             'time' => '09:00:00',
-            'shift' => 'day',
+            'shift' => 'morning',
             'status' => 'reviewed',
             'observation' => 'Preparations for the regional cultural festival causing minor pedestrian delays.',
             'region_id' => 12,
@@ -284,7 +284,7 @@ class MonitoringTaskSeeder extends Seeder
         MonitoringTask::create([
             'date' => Carbon::now()->subDays(2),
             'time' => '10:00:00',
-            'shift' => 'day',
+            'shift' => 'morning',
             'status' => 'in_review',
             'observation' => 'Performance evaluation of emergency response feeds and monitors.',
             'region_id' => 13,
@@ -307,7 +307,7 @@ class MonitoringTaskSeeder extends Seeder
         MonitoringTask::create([
             'date' => Carbon::now()->subDays(6),
             'time' => '07:45:00',
-            'shift' => 'day',
+            'shift' => 'morning',
             'status' => 'reviewed',
             'observation' => 'Warning signs near schools have deteriorated due to severe weathering.',
             'region_id' => 14,
@@ -340,7 +340,7 @@ class MonitoringTaskSeeder extends Seeder
         MonitoringTask::create([
            'date' => Carbon::now()->subDays(8),
             'time' => '08:50:00',
-            'shift' => 'day',
+            'shift' => 'morning',
             'status' => 'reviewed',
             'observation' => 'Severe morning rush hour gridlocks caused by ongoing bridge works.',
             'region_id' => 15,

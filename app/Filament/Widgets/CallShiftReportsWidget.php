@@ -12,11 +12,11 @@ class CallShiftReportsWidget extends Widget
     
     protected function getViewData(): array
     {
-        $reports = CallShiftReport::where('date', Carbon::today())
+        $reports = CallShiftReport::where('date', today())
             ->get()
             ->keyBy('shift_type');
 
-        $shifts = ['am', 'pm'];
+        $shifts = ['morning', 'afternoon', 'night']; // updated
 
         $data = [];
 
@@ -30,11 +30,12 @@ class CallShiftReportsWidget extends Widget
 
                 $data[$shift] = [
                     'exists'                 => true,
-                    'status'                 => $report->status,
+                    'status'                 => $report->status instanceof \BackedEnum
+                                                    ? $report->status->value
+                                                    : $report->status,
                     'expected_attendance'    => $report->expected_attendance,
                     'present'                => $report->present,
                     'absent'                 => $report->absent,
-                    'absent_with_permission' => $report->absent_with_permission,
                     'attendance_pct'         => $attendance,
                 ];
             } else {

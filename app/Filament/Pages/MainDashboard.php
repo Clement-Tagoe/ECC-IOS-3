@@ -7,6 +7,8 @@ use App\Filament\Widgets\CallConsolesStatusWidget;
 use App\Filament\Widgets\CallShiftReportsWidget;
 use App\Filament\Widgets\CameraStatusByRegionChart;
 use App\Filament\Widgets\GhanaCasesMapWidget;
+use App\Filament\Widgets\LatestReports;
+use App\Filament\Widgets\LatestTasks;
 use App\Filament\Widgets\MainStatsOverview;
 use App\Filament\Widgets\MonitoringConsolesStatusWidget;
 use App\Filament\Widgets\MonitoringShiftReportsWidget;
@@ -49,13 +51,15 @@ class MainDashboard extends BaseDashboard
 
             MainStatsOverview::class,
             GhanaCasesMapWidget::class,
+            LatestReports::class,
+            LatestTasks::class,
             CallBreakdownChart::class,
             TopMonitoringTopicsChart::class,
             CallConsolesStatusWidget::class,
             MonitoringConsolesStatusWidget::class,
-            CameraStatusByRegionChart::class,
             MonitoringShiftReportsWidget::class,
             CallShiftReportsWidget::class,
+            CameraStatusByRegionChart::class,
         ];
     }
 }

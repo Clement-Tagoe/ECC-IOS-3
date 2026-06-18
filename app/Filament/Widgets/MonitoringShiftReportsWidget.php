@@ -15,7 +15,7 @@ class MonitoringShiftReportsWidget extends Widget
             ->get()
             ->keyBy('shift_type');
 
-        $shifts = ['am', 'pm'];
+        $shifts = ['morning', 'afternoon', 'night']; // updated
 
         $data = [];
 
@@ -28,13 +28,12 @@ class MonitoringShiftReportsWidget extends Widget
                     : 0;
 
                 $data[$shift] = [
-                    'exists'               => true,
-                    'status'               => $report->status,
-                    'expected_attendance'  => $report->expected_attendance,
-                    'present'              => $report->present,
-                    'absent'               => $report->absent,
-                    'absent_with_permission' => $report->absent_with_permission,
-                    'attendance_pct'       => $attendance,
+                    'exists'                 => true,
+                    'status'                 => $report->status,
+                    'expected_attendance'    => $report->expected_attendance,
+                    'present'                => $report->present,
+                    'absent'                 => $report->absent,
+                    'attendance_pct'         => $attendance,
                 ];
             } else {
                 $data[$shift] = ['exists' => false];

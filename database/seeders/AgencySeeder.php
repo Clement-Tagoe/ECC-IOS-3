@@ -40,5 +40,12 @@ class AgencySeeder extends Seeder
             'location' => 'Plot 3, Brigade, East Kanda',
             'website' => 'https://nadmo.gov.gh/'
             ]);
+        Agency::create([
+            'name' => 'NSB/GIFEC',
+            'contact' => '999',
+            'email' => 'mail.nsbnc.org',
+            'location' => 'Digital Address: GA-111-5377',
+            'website' => 'nsbnc.org'
+            ]);
     }
 }

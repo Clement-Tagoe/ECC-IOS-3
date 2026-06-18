@@ -1,87 +1,84 @@
 <x-filament-widgets::widget>
     <x-filament::section>
 
-        <x-slot name="heading">Shift Reports</x-slot>
+        <x-slot name="heading">Monitoring Shift Reports</x-slot>
         <x-slot name="description">{{ today()->format('l, F j Y') }}</x-slot>
 
         @php
             $shiftMeta = [
-                'am' => [
-                    'label' => 'AM Shift',
-                    'icon'  => 'heroicon-o-sun',
-                    'color' => 'text-amber-500',
-                    'bg'    => 'bg-amber-50 dark:bg-amber-900/20',
-                    'border'=> 'border-amber-200 dark:border-amber-800',
-                    'badge_bg' => 'bg-amber-100 dark:bg-amber-900/40',
-                    'badge_text' => 'text-amber-700 dark:text-amber-300',
+                'morning' => [
+                    'label'  => 'Morning Shift',
+                    'icon'   => 'heroicon-o-sun',
+                    'color'  => 'text-yellow-500',
+                    'bg'     => 'bg-yellow-50 dark:bg-yellow-900/20',
+                    'border' => 'border-yellow-200 dark:border-yellow-800',
                 ],
-                'pm' => [
-                    'label' => 'PM Shift',
-                    'icon'  => 'heroicon-o-moon',
-                    'color' => 'text-indigo-500',
-                    'bg'    => 'bg-indigo-50 dark:bg-indigo-900/20',
-                    'border'=> 'border-indigo-200 dark:border-indigo-800',
-                    'badge_bg' => 'bg-indigo-100 dark:bg-indigo-900/40',
-                    'badge_text' => 'text-indigo-700 dark:text-indigo-300',
+                'afternoon' => [
+                    'label'  => 'Afternoon Shift',
+                    'icon'   => 'heroicon-o-bolt',
+                    'color'  => 'text-rose-500',
+                    'bg'     => 'bg-rose-50 dark:bg-rose-900/20',
+                    'border' => 'border-rose-200 dark:border-rose-800',
+                ],
+                'night' => [
+                    'label'  => 'Night Shift',
+                    'icon'   => 'heroicon-o-moon',
+                    'color'  => 'text-violet-500',
+                    'bg'     => 'bg-violet-50 dark:bg-violet-900/20',
+                    'border' => 'border-violet-200 dark:border-violet-800',
                 ],
             ];
 
             $statusConfig = [
-                'active' => [
+                'in_review' => [
+                    'dot'  => 'bg-yellow-500',
+                    'text' => 'text-yellow-600 dark:text-yellow-400',
+                    'bg'   => 'bg-yellow-100 dark:bg-yellow-900/40',
+                    'label' => 'In Review',
+                    'icon'  => 'heroicon-o-eye',
+                ],
+                'reviewed' => [
                     'dot'  => 'bg-emerald-500',
                     'text' => 'text-emerald-600 dark:text-emerald-400',
                     'bg'   => 'bg-emerald-100 dark:bg-emerald-900/40',
-                ],
-                'draft' => [
-                    'dot'  => 'bg-zinc-400',
-                    'text' => 'text-zinc-500 dark:text-zinc-400',
-                    'bg'   => 'bg-zinc-100 dark:bg-zinc-800',
-                ],
-                'closed' => [
-                    'dot'  => 'bg-red-400',
-                    'text' => 'text-red-600 dark:text-red-400',
-                    'bg'   => 'bg-red-100 dark:bg-red-900/40',
+                    'label' => 'Reviewed',
+                    'icon'  => 'heroicon-o-check-circle',
                 ],
             ];
 
             $metrics = [
                 [
-                    'key'   => 'expected_attendance',
-                    'label' => 'Expected',
-                    'icon'  => 'heroicon-o-users',
+                    'key'         => 'expected_attendance',
+                    'label'       => 'Expected',
+                    'icon'        => 'heroicon-o-users',
                 ],
                 [
-                    'key'   => 'present',
-                    'label' => 'Present',
-                    'icon'  => 'heroicon-o-check-circle',
+                    'key'         => 'present',
+                    'label'       => 'Present',
+                    'icon'        => 'heroicon-o-check-circle',
                     'value_color' => 'text-emerald-600 dark:text-emerald-400',
                 ],
                 [
-                    'key'   => 'absent',
-                    'label' => 'Absent',
-                    'icon'  => 'heroicon-o-x-circle',
+                    'key'         => 'absent',
+                    'label'       => 'Absent',
+                    'icon'        => 'heroicon-o-x-circle',
                     'value_color' => 'text-red-600 dark:text-red-400',
-                ],
-                [
-                    'key'   => 'absent_with_permission',
-                    'label' => 'With Permission',
-                    'icon'  => 'heroicon-o-clock',
-                    'value_color' => 'text-yellow-600 dark:text-yellow-400',
                 ],
             ];
         @endphp
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 h-72">
             @foreach ($shifts as $key => $shift)
                 @php
                     $meta   = $shiftMeta[$key];
                     $exists = $shift['exists'];
                 @endphp
 
-                <div class="rounded-xl border {{ $meta['border'] }} {{ $meta['bg'] }} p-4 flex flex-col gap-4">
+                {{-- Card: fixed height, scrollable content --}}
+                <div class="rounded-xl border {{ $meta['border'] }} {{ $meta['bg'] }} p-2 flex flex-col gap-3 h-full overflow-y-auto">
 
                     {{-- Shift header --}}
-                    <div class="flex items-center justify-between">
+                    <div class="flex flex-col items-center gap-2 flex-shrink-0">
                         <div class="flex items-center gap-2">
                             <div class="rounded-lg bg-white dark:bg-gray-800 p-2 shadow-sm">
                                 <x-dynamic-component :component="$meta['icon']" class="h-5 w-5 {{ $meta['color'] }}" />
@@ -91,21 +88,24 @@
                             </span>
                         </div>
 
-                        {{-- Status badge --}}
                         @if ($exists)
                             @php
-                                $sc = $statusConfig[$shift['status']] ?? $statusConfig['draft'];
+                                $statusValue = $shift['status'] instanceof \BackedEnum
+                                    ? $shift['status']->value
+                                    : $shift['status'];
+
+                                $sc = $statusConfig[$statusValue] ?? $statusConfig['in_review'];
                             @endphp
-                            <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold {{ $sc['bg'] }} {{ $sc['text'] }}">
-                                <span class="h-1.5 w-1.5 rounded-full {{ $sc['dot'] }}"></span>
-                                {{ ucfirst($shift['status']) }}
+                            <span class="inline-flex items-center gap-1.5 rounded-full px-4 py-1 text-xs font-semibold {{ $sc['bg'] }} {{ $sc['text'] }}">
+                                <x-dynamic-component :component="$sc['icon']" class="h-3.5 w-3.5" />
+                                {{ $sc['label'] }}
                             </span>
                         @endif
                     </div>
 
                     {{-- No report placeholder --}}
                     @if (! $exists)
-                        <div class="flex flex-col items-center justify-center py-8 text-gray-400 dark:text-gray-600">
+                        <div class="flex flex-1 flex-col items-center justify-center text-gray-400 dark:text-gray-600">
                             <x-heroicon-o-document-text class="h-8 w-8 mb-2 opacity-40" />
                             <p class="text-sm font-medium">No report yet</p>
                             <p class="text-xs mt-0.5">Not submitted for today</p>
@@ -113,21 +113,18 @@
 
                     @else
                         {{-- Metrics --}}
-                        <div class="flex flex-col gap-2">
+                        <div class="flex flex-col gap-2 flex-shrink-0">
                             @foreach ($metrics as $metric)
-                                @php
-                                    $valueColor = $metric['value_color'] ?? 'text-gray-900 dark:text-white';
-                                @endphp
-                                <div class="flex items-center justify-between rounded-lg bg-white dark:bg-gray-800 px-3 py-2 shadow-sm">
-                                    <div class="flex items-center gap-2">
-                                        <x-dynamic-component
-                                            :component="$metric['icon']"
-                                            class="h-4 w-4 text-gray-400 flex-shrink-0"
-                                        />
+                                @php $valueColor = $metric['value_color'] ?? 'text-gray-900 dark:text-white'; @endphp
+                                <div class="flex items-center justify-between rounded-lg bg-white dark:bg-gray-800 px-1 py-2 shadow-sm">
+                                    <div class="flex items-center">
                                         <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
                                             {{ $metric['label'] }}
                                         </span>
                                     </div>
+                                    <span>
+                                        {{'-'}}
+                                    </span>
                                     <span class="text-sm font-bold {{ $valueColor }}">
                                         {{ $shift[$metric['key']] }}
                                     </span>
@@ -136,7 +133,7 @@
                         </div>
 
                         {{-- Attendance bar --}}
-                        <div class="mt-auto pt-1">
+                        <div class="mt-auto flex-shrink-0 pt-1">
                             @php
                                 $pct       = $shift['attendance_pct'];
                                 $barColor  = match(true) {

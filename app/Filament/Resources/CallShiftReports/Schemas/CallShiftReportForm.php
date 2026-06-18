@@ -39,7 +39,7 @@ class CallShiftReportForm
                             ->inline()
                             ->required()
                             ->live()
-                            ->default(ShiftType::Day)
+                            ->default(ShiftType::Morning)
                             ->columnSpan(2),
                         TextInput::make('expected_attendance')
                             ->required()

@@ -28,29 +28,38 @@ class AgencyCaseLoadChart extends ChartWidget
 
         $data = ValidCase::whereBetween('reporting_date', [$startDate, $endDate])
             ->select('agency_id', DB::raw('count(*) as total'))
-            ->with('Agency')
+            ->with('agency')
             ->groupBy('agency_id')
             ->orderByDesc('total')
             ->limit(10)
             ->get();
 
-        $labels = $data->map(fn ($row) => $row->agency?->name ?? "Agency {$row->agency_id}")->toArray();
-        $values = $data->pluck('total')->toArray();
-
-        $palette = [
-            '#1d4ed8', // blue
-            '#059669', // green
-            '#dc2626', // red
-            '#d97706', // amber
-            '#7c3aed', // purple
-            '#0891b2', // cyan
-            '#be185d', // pink
-            '#65a30d', // lime
-            '#ea580c', // orange
-            '#0f766e', // teal
+        $agencyColors = [
+            'Ghana National Fire Service'       => '#dc2626', // red
+            'Ghana Ambulance Service'           => '#d8c34a', // yellow
+            'Ghana Police Service'              => '#1d4ed8', // blue
+            'NADMO'                             => '#d66c33', // orange
+            'NSB/GIFEC'                         => '#059669', // green
         ];
 
-        $colors = collect($labels)->map(fn ($_, $i) => $palette[$i % count($palette)])->toArray();
+        $fallbackPalette = [
+            '#7c3aed', '#0891b2', '#be185d',
+            '#65a30d', '#0f766e',
+        ];
+
+        $fallbackIndex = 0;
+
+        $labels = [];
+        $values = [];
+        $colors = [];
+
+        foreach ($data as $row) {
+            $name = $row->agency?->name ?? "Agency {$row->agency_id}";
+
+            $labels[] = $name;
+            $values[] = $row->total;
+            $colors[] = $agencyColors[$name] ?? $fallbackPalette[$fallbackIndex++ % count($fallbackPalette)];
+        }
 
         return [
             'datasets' => [

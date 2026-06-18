@@ -34,18 +34,33 @@ class CasesByRegionChart extends ChartWidget
 
         $regions = Region::orderBy('name')->get();
 
+        $palette = [
+            'rgba(59, 130, 246, 0.85)',
+            'rgba(16, 185, 129, 0.85)',
+            'rgba(245, 158, 11, 0.85)',
+            'rgba(239, 68, 68, 0.85)',
+            'rgba(139, 92, 246, 0.85)',
+            'rgba(20, 184, 166, 0.85)',
+            'rgba(249, 115, 22, 0.85)',
+            'rgba(236, 72, 153, 0.85)',
+            'rgba(6, 182, 212, 0.85)',
+            'rgba(132, 204, 22, 0.85)',
+            'rgba(168, 85, 247, 0.85)',
+            'rgba(251, 191, 36, 0.85)',
+        ];
+
         $labels = [];
         $values = [];
 
-        foreach ($regions as $region) {
+        foreach ($regions as $i => $region) {
             $labels[] = $region->name;
             $values[] = $caseCounts->get($region->id, 0);
         }
 
-        $colors = collect($values)->map(
-            fn ($v) => $v > 0
-                ? 'rgba(29, 78, 216, 0.85)'
-                : 'rgba(156, 163, 175, 0.4)'
+        $colors = collect($regions)->map(
+            fn ($_, $i) => $caseCounts->get($regions[$i]->id, 0) > 0
+                ? $palette[$i % count($palette)]
+                : 'rgba(156, 163, 175, 0.3)'
         )->toArray();
 
         return [

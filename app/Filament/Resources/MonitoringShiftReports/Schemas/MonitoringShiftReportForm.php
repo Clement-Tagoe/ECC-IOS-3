@@ -29,7 +29,7 @@ class MonitoringShiftReportForm
                             ->inline()
                             ->required()
                             ->live()
-                            ->default(ShiftType::Day)
+                            ->default(ShiftType::Morning)
                             ->columnSpan(2),
                         TextInput::make('expected_attendance')
                             ->required()
@@ -54,8 +54,7 @@ class MonitoringShiftReportForm
                             ->inline()
                             ->required()
                             ->live()
-                            ->default(ShiftStatus::InReview)
-                            ->disabled(fn () => !Auth::user()->hasRole(['System-Admin', 'Director', 'Unit-Head(Call-Taking)'])),
+                            ->default(ShiftStatus::InReview),
                         RichEditor::make('notes')
                             ->columnSpanFull(),
                 ]) 

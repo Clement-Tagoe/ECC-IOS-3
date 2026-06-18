@@ -33,5 +33,6 @@ class ValidCaseNatureSeeder extends Seeder
         ValidCaseNature::create(['name' => 'Collapsed building']);
         ValidCaseNature::create(['name' => 'Earth Tremor']);
         ValidCaseNature::create(['name' => 'Pipe Leakage']);
+        ValidCaseNature::create(['name' => 'Terrorism']);
     }
 }
