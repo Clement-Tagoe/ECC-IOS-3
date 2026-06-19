@@ -11,9 +11,6 @@ class CallConsolesStatusWidget extends Widget
 
     protected static ?int $sort = 1;
 
-    // Match ChartWidget's default column span
-    protected int | string | array $columnSpan = 1;
-
     protected function getViewData(): array
     {
         $consoles = CallConsole::with('assignee')->get();

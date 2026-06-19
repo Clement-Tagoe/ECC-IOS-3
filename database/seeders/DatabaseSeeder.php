@@ -37,6 +37,9 @@ class DatabaseSeeder extends Seeder
             SuspectSeeder::class,
             VehicleSeeder::class,
             MonitoringTaskSeeder::class,
+            CallShiftReportSeeder::class,
+            MonitoringShiftSeeder::class,
+            EmergencyContactSeeder::class,
         ]);
     }
 }

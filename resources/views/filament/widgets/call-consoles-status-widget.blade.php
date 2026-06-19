@@ -53,7 +53,7 @@
             @endphp
 
             @foreach ($summaryItems as $item)
-                <div class="flex items-center gap-1.5 rounded-lg {{ $item['bg'] }} px-3 py-1.5">
+                <div class="flex items-center justify-evenly gap-1 rounded-lg {{ $item['bg'] }} px-3 py-1">
                     @if ($item['dot'])
                         <span class="h-2 w-2 rounded-full {{ $item['dot'] }}"></span>
                     @endif
@@ -70,7 +70,7 @@
                 <p class="text-sm">No consoles found</p>
             </div>
         @else
-            <div class="flex flex-wrap gap-2">
+            <div class="flex justify-evenly items-center flex-wrap gap-3">
                 @foreach ($consoles as $console)
                     @php
                         // Priority: status (faulty/maintenance) overrides assignment color

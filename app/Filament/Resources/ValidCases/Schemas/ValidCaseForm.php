@@ -62,8 +62,7 @@ class ValidCaseForm
                         Section::make()
                             ->schema([
                                 Select::make('agency_id')
-                                    ->relationship('agency', 'name')
-                                    ->required(), 
+                                    ->relationship('agency', 'name'), 
                                 TimePicker::make('dispatched_time'),
                                 TimePicker::make('agency_arrival_time'),
                             ])

@@ -3,6 +3,9 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Widgets\CameraStatusByRegionChart;
+use App\Filament\Widgets\LatestMonitoringTasks;
+use App\Filament\Widgets\MonitoringConsolesStatusWidget;
+use App\Filament\Widgets\MonitoringShiftReportsWidget;
 use App\Filament\Widgets\MonitoringStatsOverview;
 use App\Filament\Widgets\TopMonitoringTopicsChart;
 use Filament\Forms\Components\DatePicker;
@@ -18,13 +21,14 @@ class MonitoringDashboard extends BaseDashboard
     
     protected static string $routePath = 'monitoring';
 
-    protected static ?string $title = 'Monitoring Dashboard';
+    protected static ?string $title = 'Monitoring Unit Dashboard';
 
     protected static ?int $navigationSort = -2;
 
     protected static string | UnitEnum | null $navigationGroup = 'Monitoring';
 
-    
+    protected static ?string $navigationLabel = 'Monitoring Dashboard';
+
     public static function canAccess(): bool
     {
         return Gate::allows('View:MonitoringDashboard');
@@ -45,6 +49,9 @@ class MonitoringDashboard extends BaseDashboard
     {
         return [
             MonitoringStatsOverview::class,
+            MonitoringConsolesStatusWidget::class,
+            MonitoringShiftReportsWidget::class,
+            LatestMonitoringTasks::class,
             CameraStatusByRegionChart::class,
             TopMonitoringTopicsChart::class,
         ];

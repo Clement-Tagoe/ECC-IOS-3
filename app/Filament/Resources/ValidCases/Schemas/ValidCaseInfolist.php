@@ -24,8 +24,6 @@ class ValidCaseInfolist
                             ->time(),
                         TextEntry::make('reporting_date')
                             ->date(),
-                        TextEntry::make('agency.name')
-                            ->label('Responding Agency'),
                         TextEntry::make('location.name')
                             ->label('Location'),
                         TextEntry::make('region.name')
@@ -37,6 +35,18 @@ class ValidCaseInfolist
                         TextEntry::make('status')
                             ->badge(),
                     ]),
+
+                Section::make('Responding Agency Details')
+                    ->schema([
+                        TextEntry::make('agency.name')
+                            ->label('Responding Agency'),
+                        TextEntry::make('dispatched_time'),
+                        TextEntry::make('agency_arrival_time'),
+                        TextEntry::make('agency_response_time'),
+
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull(),
 
                 Section::make('Description & Feedback')
                     ->schema([

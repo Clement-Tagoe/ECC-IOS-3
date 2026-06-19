@@ -39,9 +39,9 @@ class ValidCase extends Model
         return $this->belongsTo(Location::class, 'location_id');
     }
 
-    public function setArrivalTimeAttribute($value)
+    public function setAgencyArrivalTimeAttribute($value)
     {
-        $this->attributes['agency_response_time'] = $value;
+        $this->attributes['agency_arrival_time'] = $value;
 
         // Calculate agency response time when both dispactched time and agency arrival time are present
         if ($this->dispatched_time && $value) {

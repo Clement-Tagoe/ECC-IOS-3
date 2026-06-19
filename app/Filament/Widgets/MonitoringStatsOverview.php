@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\CameraAudit;
 use App\Models\MonitoringShiftReport;
+use App\Models\MonitoringTask;
 use Carbon\Carbon;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;
 use Filament\Widgets\StatsOverviewWidget;
@@ -23,6 +24,7 @@ class MonitoringStatsOverview extends StatsOverviewWidget
             ? Carbon::parse($this->pageFilters['endDate'])->endOfDay()
             : now()->endOfDay();
 
+        $totalMonitoringTasks = MonitoringTask::whereBetween('date', [$startDate, $endDate])->count();
         $todayReports = MonitoringShiftReport::whereBetween('date', [$startDate, $endDate])->get();
         
         $totalExpected  = $todayReports->sum('expected_attendance');
@@ -38,10 +40,15 @@ class MonitoringStatsOverview extends StatsOverviewWidget
       
 
         return [
-            Stat::make('Expected Attendance', number_format($totalExpected))
-                ->description('Across all shifts today')
-                ->descriptionIcon('heroicon-m-users')
-                ->color('gray'),
+            Stat::make('Total Monitoring Tasks', $totalMonitoringTasks)
+                ->description('Monitoring Tasks')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
+                ->icon('heroicon-o-list-bullet')
+                ->chart([6, 10, 5, 15, 3, 10, 7, 17]),
+            // Stat::make('Expected Attendance', number_format($totalExpected))
+            //     ->description('Across all shifts today')
+            //     ->descriptionIcon('heroicon-m-users')
+            //     ->color('gray'),
             Stat::make('Staff Present', number_format($totalPresent))
                 ->description("{$attendanceRate}% attendance rate")
                 ->descriptionIcon('heroicon-m-check-badge')

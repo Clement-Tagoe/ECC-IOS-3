@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->string('shift_type');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->string('status');
             $table->integer('expected_attendance');
             $table->integer('present');

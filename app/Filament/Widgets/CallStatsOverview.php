@@ -46,18 +46,18 @@ class CallStatsOverview extends StatsOverviewWidget
             : 0;
 
 
-        $todayReports = CallShiftReport::whereBetween('date', [$startDate, $endDate])->get();
+        // $todayReports = CallShiftReport::whereBetween('date', [$startDate, $endDate])->get();
  
-        $totalExpected  = $todayReports->sum('expected_attendance');
-        $totalPresent   = $todayReports->sum('present');
-        $totalAbsent    = $todayReports->sum('absent');
+        // $totalExpected  = $todayReports->sum('expected_attendance');
+        // $totalPresent   = $todayReports->sum('present');
+        // $totalAbsent    = $todayReports->sum('absent');
 
-        $attendanceRate = $totalExpected > 0
-            ? round(($totalPresent / $totalExpected) * 100, 1)
-            : 0;
+        // $attendanceRate = $totalExpected > 0
+        //     ? round(($totalPresent / $totalExpected) * 100, 1)
+        //     : 0;
 
         return [
-           Stat::make('Total Valid Cases', $totalValidCases)
+            Stat::make('Total Valid Cases', $totalValidCases)
                 ->description('Valid Cases')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->icon('heroicon-o-briefcase')
@@ -82,20 +82,20 @@ class CallStatsOverview extends StatsOverviewWidget
                 ->color('primary')
                 ->chart([14, 10, 3, 7, 6, 9, 4, 10]),
             // Stat::make('Unanswered Calls', $stats->unanswered ?? 0),
-            Stat::make('Expected Attendance', number_format($totalExpected))
-                ->description('Across all shifts today')
-                ->descriptionIcon('heroicon-m-users')
-                ->color('gray'),
-            Stat::make('Staff Present', number_format($totalPresent))
-                ->description("{$attendanceRate}% attendance rate")
-                ->descriptionIcon('heroicon-m-check-badge')
-                ->color($attendanceRate >= 85 ? 'success' : ($attendanceRate >= 70 ? 'warning' : 'danger'))
-                ->chart([2, 6, 3, 5, 7, 3, 2, 8]),
+            // Stat::make('Expected Attendance', number_format($totalExpected))
+            //     ->description('Across all shifts today')
+            //     ->descriptionIcon('heroicon-m-users')
+            //     ->color('gray'),
+            // Stat::make('Staff Present', number_format($totalPresent))
+            //     ->description("{$attendanceRate}% attendance rate")
+            //     ->descriptionIcon('heroicon-m-check-badge')
+            //     ->color($attendanceRate >= 85 ? 'success' : ($attendanceRate >= 70 ? 'warning' : 'danger'))
+            //     ->chart([2, 6, 3, 5, 7, 3, 2, 8]),
  
-            Stat::make('Staff Absent', number_format($totalAbsent))
-                ->description(round(100 - $attendanceRate, 1) . '% absence rate today')
-                ->descriptionIcon('heroicon-m-x-mark')
-                ->color($totalAbsent > 5 ? 'danger' : 'warning'),
+            // Stat::make('Staff Absent', number_format($totalAbsent))
+            //     ->description(round(100 - $attendanceRate, 1) . '% absence rate today')
+            //     ->descriptionIcon('heroicon-m-x-mark')
+            //     ->color($totalAbsent > 5 ? 'danger' : 'warning'),
             
         ];
     }
@@ -103,8 +103,8 @@ class CallStatsOverview extends StatsOverviewWidget
     public function getColumns(): int | array
     {
         return [
-            'md' => 3,
-            'xl' => 4,
+            'md' => 4,
+            'xl' => 5,
         ];
     }
 }
