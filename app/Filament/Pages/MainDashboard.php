@@ -66,8 +66,8 @@ class MainDashboard extends BaseDashboard
             LatestTasks::class,
             CallConsolesStatusWidget::class,
             MonitoringConsolesStatusWidget::class,
-            MonitoringShiftReportsWidget::class,
             CallShiftReportsWidget::class,
+            MonitoringShiftReportsWidget::class,
             CameraStatusByRegionChart::class,
         ];
     }
