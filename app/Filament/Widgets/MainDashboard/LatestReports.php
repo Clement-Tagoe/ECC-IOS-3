@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\MainDashboard;
 
 
 use App\Enums\ReportPriority;
@@ -33,6 +33,8 @@ use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 class LatestReports extends TableWidget
 {
+    protected int | string | array $columnSpan =  6;
+
     public function table(Table $table): Table
     {
         return $table

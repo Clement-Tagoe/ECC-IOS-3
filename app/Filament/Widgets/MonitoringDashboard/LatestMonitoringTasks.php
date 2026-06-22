@@ -1,21 +1,16 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\MonitoringDashboard;
 
 use App\Filament\Resources\MonitoringTasks\MonitoringTaskResource;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ForceDeleteAction;
-use Filament\Actions\RestoreAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 
 class LatestMonitoringTasks extends TableWidget
 {
-    protected int | string | array $columnSpan = 'full';
+    protected int | string | array $columnSpan = 6;
 
     public function table(Table $table): Table
     {

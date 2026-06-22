@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\CallTakingDashboard;
 
 use App\Models\ValidCase;
 use Carbon\Carbon;
@@ -15,6 +15,8 @@ class CasesByNatureChart extends ChartWidget
     protected ?string $heading = 'Cases By Nature Chart';
 
     protected ?string $description = 'Incident type breakdown';
+
+    protected int | string | array $columnSpan =  4;
 
     protected function getData(): array
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\MainDashboard;
 
 use App\Filament\Resources\Tasks\TaskResource;
 use App\Models\Task;
@@ -24,6 +24,8 @@ use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 class LatestTasks extends TableWidget
 {   
+    protected int | string | array $columnSpan =  6;
+    
     public function table(Table $table): Table
     {
         return $table

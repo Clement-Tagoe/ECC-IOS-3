@@ -146,14 +146,14 @@
             </div>
         
             {{-- ── Body ─────────────────────────────────────────────────────────── --}}
-            <div style="display:flex;min-height:800px">
+            <div style="display:flex;min-height:650px">
         
                 {{-- SVG map ─────────────────────────────────────────────────────── --}}
-                <div style="flex:1;min-width:0;padding:1.25rem 1rem 1rem 1.5rem;display:flex;flex-direction:column">
+                <div style="flex:1;min-width:0;padding:1rem 1rem 1rem 1rem;display:flex;flex-direction:column">
                     <svg
                         viewBox="0 0 1000 1000"
                         xmlns="http://www.w3.org/2000/svg"
-                        style="width:100%;max-height:780px;display:block"
+                        style="width:100%;max-height:650px;display:block"
                         role="img"
                         aria-label="Choropleth map of Ghana showing valid cases by region"
                     >
@@ -246,7 +246,7 @@
                 </div>
         
                 {{-- ── Right sidebar ────────────────────────────────────────────── --}}
-                <div style="width:272px;flex-shrink:0;border-left:1px solid rgba(0,0,0,.07);overflow-y:auto;max-height:760px;padding:.75rem .875rem">
+                <div style="width:272px;flex-shrink:0;border-left:1px solid rgba(0,0,0,.07);overflow-y:auto;max-height:650px;padding:.75rem .875rem">
         
                     <p style="font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:.07em;text-transform:uppercase;margin:0 0 .625rem">
                         All Regions

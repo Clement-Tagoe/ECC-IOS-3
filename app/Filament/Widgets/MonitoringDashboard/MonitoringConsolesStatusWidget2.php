@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\MonitoringDashboard;
 
 use App\Models\MonitoringConsole;
 use Filament\Widgets\Widget;
 
-class MonitoringConsolesStatusWidget extends Widget
+class MonitoringConsolesStatusWidget2 extends Widget
 {
-    protected string $view = 'filament.widgets.monitoring-consoles-status-widget';
+    protected string $view = 'filament.widgets.monitoring-consoles-status-widget2';
 
     protected static ?int $sort = 1;
 
-    // Match ChartWidget's default column span
-    protected int | string | array $columnSpan = 1;
+    protected int | string | array $columnSpan =  6;
 
     protected function getViewData(): array
     {

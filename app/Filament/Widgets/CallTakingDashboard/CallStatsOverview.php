@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\CallTakingDashboard;
 
 use App\Models\CallLog;
-use App\Models\CallShiftReport;
 use App\Models\ValidCase;
 use Carbon\Carbon;
 use Filament\Widgets\Concerns\InteractsWithPageFilters;

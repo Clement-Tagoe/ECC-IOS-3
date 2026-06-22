@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\MonitoringDashboard;
 
 use App\Models\CameraAudit;
 use App\Models\MonitoringShiftReport;

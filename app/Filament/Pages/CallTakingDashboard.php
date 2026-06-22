@@ -2,19 +2,20 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Widgets\AgencyCaseLoadChart;
-use App\Filament\Widgets\CallBreakdownChart;
-use App\Filament\Widgets\CallConsolesStatusWidget;
-use App\Filament\Widgets\CallShiftReportsWidget;
-use App\Filament\Widgets\CallStatsOverview;
-use App\Filament\Widgets\CasesByNatureChart;
-use App\Filament\Widgets\CasesByRegionChart;
-use App\Filament\Widgets\EmergencyContacts;
-use App\Filament\Widgets\LatestValidCases;
+use App\Filament\Widgets\CallTakingDashboard\AgencyCaseLoadChart;
+use App\Filament\Widgets\CallTakingDashboard\CallBreakdownChart2;
+use App\Filament\Widgets\CallTakingDashboard\CallConsoleStatusWidget2;
+use App\Filament\Widgets\CallTakingDashboard\CallShiftReportsWidget2;
+use App\Filament\Widgets\CallTakingDashboard\CallStatsOverview;
+use App\Filament\Widgets\CallTakingDashboard\CasesByNatureChart;
+use App\Filament\Widgets\CallTakingDashboard\CasesByRegionChart;
+use App\Filament\Widgets\CallTakingDashboard\EmergencyContacts;
+use App\Filament\Widgets\CallTakingDashboard\LatestValidCases;
 use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Actions\FilterAction;
 use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
+use Filament\Support\Enums\Width;
 use UnitEnum;
 
 class CallTakingDashboard extends BaseDashboard
@@ -31,6 +32,16 @@ class CallTakingDashboard extends BaseDashboard
 
     protected static string | UnitEnum | null $navigationGroup = 'Call-Taking';
 
+    public function getMaxContentWidth(): Width
+    {
+        return Width::Full;
+    }
+
+    public function getColumns(): int | array
+    {
+        return 12; // Change from the default 12 if you need a different grid size
+    }
+
     protected function getHeaderActions(): array
     {
         return [
@@ -46,14 +57,14 @@ class CallTakingDashboard extends BaseDashboard
     {
         return [
             CallStatsOverview::class,
-            CallConsolesStatusWidget::class,
-            CallShiftReportsWidget::class,
+            CallConsoleStatusWidget2::class,
             LatestValidCases::class,
-            EmergencyContacts::class,
-            CallBreakdownChart::class,
-            CasesByRegionChart::class,
+            CallShiftReportsWidget2::class,
             CasesByNatureChart::class,
             AgencyCaseLoadChart::class,
+            CasesByRegionChart::class,
+            CallBreakdownChart2::class,
+            EmergencyContacts::class,
         ];
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\CallTakingDashboard;
 
 use App\Models\Region;
 use App\Models\ValidCase;
@@ -16,6 +16,8 @@ class CasesByRegionChart extends ChartWidget
     protected ?string $heading = 'Cases By Region Chart';
  
     protected ?string $description = 'Valid cases per region';
+
+    protected int | string | array $columnSpan =  4;
 
     protected function getData(): array
     {

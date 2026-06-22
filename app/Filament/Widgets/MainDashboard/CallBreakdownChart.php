@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\MainDashboard;
 
 use App\Models\CallLog;
 use Carbon\Carbon;
@@ -14,6 +14,8 @@ class CallBreakdownChart extends ChartWidget
     protected ?string $heading = 'Call Breakdown';
  
     protected ?string $description = 'Incoming, valid, and prank calls per day';
+
+    protected int | string | array $columnSpan =  4;
 
     protected function getData(): array
     {

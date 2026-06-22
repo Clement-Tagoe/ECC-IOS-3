@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\MainDashboard;
 
-use App\Models\MonitoringShiftReport;
+use App\Models\CallShiftReport;
+use Carbon\Carbon;
 use Filament\Widgets\Widget;
 
-class MonitoringShiftReportsWidget extends Widget
+class CallShiftReportsWidget extends Widget
 {
-    protected string $view = 'filament.widgets.monitoring-shift-reports-widget';
+    protected string $view = 'filament.widgets.call-shift-reports-widget';
 
+    protected int | string | array $columnSpan =  4;
+    
     protected function getViewData(): array
     {
-        $reports = MonitoringShiftReport::whereDate('date', today())
+        $reports = CallShiftReport::where('date', today())
             ->get()
             ->keyBy('shift_type');
 
@@ -29,7 +32,9 @@ class MonitoringShiftReportsWidget extends Widget
 
                 $data[$shift] = [
                     'exists'                 => true,
-                    'status'                 => $report->status,
+                    'status'                 => $report->status instanceof \BackedEnum
+                                                    ? $report->status->value
+                                                    : $report->status,
                     'expected_attendance'    => $report->expected_attendance,
                     'present'                => $report->present,
                     'absent'                 => $report->absent,

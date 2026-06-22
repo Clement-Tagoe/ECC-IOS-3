@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\CallTakingDashboard;
 
 use App\Filament\Resources\EmergencyContacts\EmergencyContactResource;
 use Filament\Actions\BulkActionGroup;
@@ -11,6 +11,8 @@ use Filament\Widgets\TableWidget;
 
 class EmergencyContacts extends TableWidget
 {
+    protected int | string | array $columnSpan =  4;
+    
     public function table(Table $table): Table
     {
         return $table

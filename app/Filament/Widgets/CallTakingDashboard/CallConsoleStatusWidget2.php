@@ -1,15 +1,17 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\CallTakingDashboard;
 
 use App\Models\CallConsole;
 use Filament\Widgets\Widget;
 
-class CallConsolesStatusWidget extends Widget
+class CallConsoleStatusWidget2 extends Widget
 {
-    protected string $view = 'filament.widgets.call-consoles-status-widget';
+    protected string $view = 'filament.widgets.call-console-status-widget2';
 
     protected static ?int $sort = 1;
+
+    protected int | string | array $columnSpan =  6;
 
     protected function getViewData(): array
     {

@@ -2,21 +2,22 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Widgets\CallBreakdownChart;
-use App\Filament\Widgets\CallConsolesStatusWidget;
-use App\Filament\Widgets\CallShiftReportsWidget;
-use App\Filament\Widgets\CameraStatusByRegionChart;
-use App\Filament\Widgets\GhanaCasesMapWidget;
-use App\Filament\Widgets\LatestReports;
-use App\Filament\Widgets\LatestTasks;
-use App\Filament\Widgets\MainStatsOverview;
-use App\Filament\Widgets\MonitoringConsolesStatusWidget;
-use App\Filament\Widgets\MonitoringShiftReportsWidget;
-use App\Filament\Widgets\TopMonitoringTopicsChart;
+
+use App\Filament\Widgets\MainDashboard\CallConsolesStatusWidget;
+use App\Filament\Widgets\MainDashboard\CallShiftReportsWidget;
+use App\Filament\Widgets\MainDashboard\CameraStatusByRegionChart;
+use App\Filament\Widgets\MainDashboard\ChartStackWrapper;
+use App\Filament\Widgets\MainDashboard\GhanaCasesMapWidget;
+use App\Filament\Widgets\MainDashboard\LatestReports;
+use App\Filament\Widgets\MainDashboard\LatestTasks;
+use App\Filament\Widgets\MainDashboard\MainStatsOverview;
+use App\Filament\Widgets\MainDashboard\MonitoringConsolesStatusWidget;
+use App\Filament\Widgets\MainDashboard\MonitoringShiftReportsWidget;
 use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Actions\FilterAction;
 use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
+use Filament\Support\Enums\Width;
 use Illuminate\Support\Facades\Gate;
 
 class MainDashboard extends BaseDashboard
@@ -30,6 +31,16 @@ class MainDashboard extends BaseDashboard
     public static function canAccess(): bool
     {
         return Gate::allows('View:MainDashboard');
+    }
+
+    public function getColumns(): int | array
+    {
+        return 12; // Change from the default 12 if you need a different grid size
+    }
+
+    public function getMaxContentWidth(): Width
+    {
+        return Width::Full;
     }
 
     protected function getHeaderActions(): array
@@ -48,13 +59,11 @@ class MainDashboard extends BaseDashboard
     public function getWidgets(): array
     {
         return [
-
             MainStatsOverview::class,
             GhanaCasesMapWidget::class,
+            ChartStackWrapper::class,
             LatestReports::class,
             LatestTasks::class,
-            CallBreakdownChart::class,
-            TopMonitoringTopicsChart::class,
             CallConsolesStatusWidget::class,
             MonitoringConsolesStatusWidget::class,
             MonitoringShiftReportsWidget::class,

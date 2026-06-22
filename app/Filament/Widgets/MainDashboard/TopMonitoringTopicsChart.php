@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\MainDashboard;
 
 use App\Models\Topic;
 use Carbon\Carbon;
@@ -14,6 +14,8 @@ class TopMonitoringTopicsChart extends ChartWidget
     protected ?string $heading = 'Top Monitoring Topics Chart';
 
     protected ?string $description = 'Most frequently tagged topics across monitoring tasks';
+
+    protected int | string | array $columnSpan =  4;
 
     protected function getData(): array
     {

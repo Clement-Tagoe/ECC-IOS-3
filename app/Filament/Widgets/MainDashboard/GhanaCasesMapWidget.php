@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\MainDashboard;
 
 
 use App\Models\Region;
@@ -20,7 +20,7 @@ class GhanaCasesMapWidget extends Widget
 
     protected ?string $heading = 'Cases by Region — Ghana Map';
 
-    protected int | string | array $columnSpan =  'full';
+    protected int | string | array $columnSpan =  8;
  
     // ─────────────────────────────────────────────────────────────────────
     // Data

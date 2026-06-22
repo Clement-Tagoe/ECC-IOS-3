@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\MainDashboard;
 
 use App\Models\Region;
 use Carbon\Carbon;
@@ -14,6 +14,8 @@ class CameraStatusByRegionChart extends ChartWidget
     protected ?string $heading = 'Camera Status By Region Chart';
 
     protected ?string $description = 'Online vs offline cameras per region';
+
+    protected int | string | array $columnSpan =  4;
 
     protected function getData(): array
     {

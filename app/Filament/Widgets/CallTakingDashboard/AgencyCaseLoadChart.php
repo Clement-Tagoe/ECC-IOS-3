@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Widgets;
+namespace App\Filament\Widgets\CallTakingDashboard;
 
 use App\Models\ValidCase;
 use Carbon\Carbon;
@@ -15,6 +15,8 @@ class AgencyCaseLoadChart extends ChartWidget
     protected ?string $heading = 'Agency Case Load Chart';
 
     protected ?string $description = 'Agency case load';
+
+    protected int | string | array $columnSpan =  4;
  
     protected function getData(): array
     {
