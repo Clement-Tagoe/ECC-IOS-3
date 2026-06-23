@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('logistics_management_id')->nullable()->constrained('logistics_management')->cascadeOnDelete();
             $table->string('department')->nullable();
-            $table->string('quantity')->nullable();
+            $table->unsignedInteger('quantity')->nullable();
             $table->date('date')->nullable();
             $table->timestamps();
             $table->softDeletes();

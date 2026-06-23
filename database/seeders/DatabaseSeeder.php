@@ -40,6 +40,9 @@ class DatabaseSeeder extends Seeder
             CallShiftReportSeeder::class,
             MonitoringShiftSeeder::class,
             EmergencyContactSeeder::class,
+            LogisticsManagementSeeder::class,
+            LogisticsDistributionSeeder::class,
+            ProcurementSeeder::class,
         ]);
     }
 }

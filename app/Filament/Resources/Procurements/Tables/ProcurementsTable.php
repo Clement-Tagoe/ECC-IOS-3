@@ -32,8 +32,8 @@ class ProcurementsTable
                     ->sortable(),
                 TextColumn::make('item')
                     ->searchable(),
-                TextColumn::make('quantity')
-                    ->searchable(),
+                TextColumn::make('quantity'),
+                TextColumn::make('unit'),
                 TextColumn::make('priority')
                     ->badge()
                     ->searchable(),

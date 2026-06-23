@@ -2,12 +2,14 @@
 
 namespace App\Filament\Resources\LogisticsManagement\Schemas;
 
+use App\Enums\LogisticsUnit;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Repeater\TableColumn;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Filament\Forms\Components\Repeater\TableColumn;
 
 
 class LogisticsManagementForm
@@ -23,7 +25,15 @@ class LogisticsManagementForm
                         TextInput::make('item')
                             ->required(),
                         TextInput::make('quantity')
+                            ->numeric()
+                            ->integer()
+                            ->minValue(1)
                             ->required(),
+                        Select::make('unit')
+                            ->options(LogisticsUnit::class)
+                            ->searchable()
+                            ->required()
+                            ->placeholder('Select unit'),
                         DatePicker::make('date')
                             ->required(),
                     ]),

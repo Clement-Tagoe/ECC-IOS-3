@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Procurements\Schemas;
 
 use App\Enums\ProcurementPriority;
+use App\Enums\ProcurementUnit;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -26,7 +27,15 @@ class ProcurementForm
                             TextInput::make('item')
                                 ->required(),
                             TextInput::make('quantity')
+                                ->numeric()
+                                ->integer()
+                                ->minValue(1)
                                 ->required(),
+                            Select::make('unit')
+                                ->options(ProcurementUnit::class)
+                                ->searchable()
+                                ->required()
+                                ->placeholder('Select unit'),
                             Select::make('priority')
                                 ->options(ProcurementPriority::class)
                                 ->default('medium')

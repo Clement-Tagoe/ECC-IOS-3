@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('logistics_management', function (Blueprint $table) {
             $table->id();
             $table->string('item');
-            $table->string('quantity');
+            $table->unsignedInteger('quantity');
+            $table->string('unit')->nullable();
             $table->date('date');
             $table->timestamps();
             $table->softDeletes();

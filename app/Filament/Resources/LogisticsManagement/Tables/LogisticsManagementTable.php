@@ -30,8 +30,26 @@ class LogisticsManagementTable
             ->columns([
                 TextColumn::make('item')
                     ->searchable(),
-                TextColumn::make('quantity')
-                    ->searchable(),
+               TextColumn::make('quantity_with_unit')
+                    ->label('Stocked')
+                    ->sortable('quantity'),
+                TextColumn::make('remaining_stock_with_unit')
+                    ->label('Remaining')
+                    ->sortable(false)
+                    ->color(fn ($record) => match(true) {
+                        $record->stock_percentage <= 20  => 'danger',
+                        $record->stock_percentage <= 50  => 'warning',
+                        default                          => 'success',
+                    }),
+                TextColumn::make('stock_percentage')
+                    ->label('Stock Level')
+                    ->suffix('%')
+                    ->badge()
+                    ->color(fn ($state) => match(true) {
+                        $state <= 20 => 'danger',
+                        $state <= 50 => 'warning',
+                        default      => 'success',
+                }),
                 TextColumn::make('date')
                     ->date()
                     ->sortable(),

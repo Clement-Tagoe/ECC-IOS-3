@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->string('item');
-            $table->string('quantity');
+            $table->unsignedInteger('quantity');
+            $table->string('unit')->nullable();
             $table->string('priority')->default('medium');
             $table->text('purpose')->nullable();
             $table->text('feedback')->nullable();
