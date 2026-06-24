@@ -27,6 +27,7 @@ class DistributionByDepartmentChart extends ChartWidget
         $endDate = isset($this->pageFilters['endDate']) 
                         ? Carbon::parse($this->pageFilters['endDate'])->endOfDay() 
                         : now()->endOfDay();
+                        
         $data = LogisticsDistribution::whereBetween('date', [$startDate, $endDate])
             ->select('department', DB::raw('sum(quantity) as total'))
             ->groupBy('department')

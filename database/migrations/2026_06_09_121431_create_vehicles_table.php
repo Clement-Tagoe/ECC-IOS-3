@@ -20,10 +20,12 @@ return new class extends Migration
             $table->year('year');
             $table->string('category')->nullable();
             $table->string('status')->nullable();
+            $table->unsignedInteger('mileage')->nullable();
             $table->string('availability')->nullable();
             $table->string('assigned_driver')->nullable();
             $table->string('location')->nullable();
             $table->date('last_service_date')->nullable();
+            $table->date('next_service_date')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Visitor;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +15,7 @@ class VisitorSeeder extends Seeder
     public function run(): void
     {
         Visitor::create([
-            'date'          => '2024-11-04',
+            'date'          => Carbon::today(),
             'name'          => 'Kwame Boateng',
             'contact'       => '0244123456',
             'nationality'   => 'Ghanaian',
@@ -30,7 +31,7 @@ class VisitorSeeder extends Seeder
         ]);
 
         Visitor::create([
-            'date'          => '2024-11-04',
+            'date'          => Carbon::today(),
             'name'          => 'Abena Mensah',
             'contact'       => '0507891234',
             'nationality'   => 'Ghanaian',
@@ -46,7 +47,7 @@ class VisitorSeeder extends Seeder
         ]);
 
         Visitor::create([
-            'date'          => '2024-11-05',
+            'date'          => Carbon::today(),
             'name'          => 'James Osei Bonsu',
             'contact'       => '0261456789',
             'nationality'   => 'Ghanaian',
@@ -62,7 +63,7 @@ class VisitorSeeder extends Seeder
         ]);
 
         Visitor::create([
-            'date'          => '2024-11-05',
+            'date'          => Carbon::today(),
             'name'          => 'Fatima Al-Hassan',
             'contact'       => '0203678901',
             'nationality'   => 'Nigerian',
@@ -78,7 +79,7 @@ class VisitorSeeder extends Seeder
         ]);
 
         Visitor::create([
-            'date'          => '2024-11-06',
+            'date'          => Carbon::today(),
             'name'          => 'Emmanuel Tetteh',
             'contact'       => '0244987654',
             'nationality'   => 'Ghanaian',
@@ -95,7 +96,7 @@ class VisitorSeeder extends Seeder
 
 
         Visitor::create([
-            'date'          => '2024-11-06',
+            'date'          => Carbon::now()->subDays(1),
             'name'          => 'Yaw Darko',
             'contact'       => '0551234987',
             'nationality'   => 'Ghanaian',
@@ -111,7 +112,7 @@ class VisitorSeeder extends Seeder
         ]);
 
         Visitor::create([
-            'date'          => '2024-11-07',
+            'date'          => Carbon::now()->subDays(1),
             'name'          => 'Priscilla Nkrumah',
             'contact'       => '0278456123',
             'nationality'   => 'Ghanaian',

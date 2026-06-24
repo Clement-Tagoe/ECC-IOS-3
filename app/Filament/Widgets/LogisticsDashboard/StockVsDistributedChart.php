@@ -28,24 +28,25 @@ class StockVsDistributedChart extends ChartWidget
                         : now()->endOfDay();
 
         $items = LogisticsManagement::with(['logisticsDistribution' => function ($query) use ($startDate, $endDate) {
-            $query->whereBetween('date', [$startDate, $endDate]);
-        }])->get();
+                $query->whereBetween('date', [$startDate, $endDate]);
+            }])
+            ->get()
+            ->map(function ($item) {
+                $item->total_distributed = $item->logisticsDistribution->sum('quantity');
+                $item->total_remaining   = max(0, $item->quantity - $item->total_distributed);
+                return $item;
+            })
+            ->sortBy('total_remaining') // most depleted items first
+            ->take(8);
 
-        $labels      = [];
-        $stocked     = [];
-        $distributed = [];
-        $remaining   = [];
+        $labels = $stocked = $distributed = $remaining = [];
 
         foreach ($items as $item) {
             $unit          = $item->unit?->value ?? '';
             $labels[]      = $item->item . ($unit ? " ({$unit})" : '');
-            $totalStocked  = $item->quantity;
-            $totalDist     = $item->logisticsDistribution->sum('quantity');
-            $totalRemaining = max(0, $totalStocked - $totalDist);
-
-            $stocked[]     = $totalStocked;
-            $distributed[] = $totalDist;
-            $remaining[]   = $totalRemaining;
+            $stocked[]     = $item->quantity;
+            $distributed[] = $item->total_distributed;
+            $remaining[]   = $item->total_remaining;
         }
 
         return [
