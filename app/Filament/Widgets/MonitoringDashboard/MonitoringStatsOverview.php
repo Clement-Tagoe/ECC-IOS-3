@@ -27,16 +27,17 @@ class MonitoringStatsOverview extends StatsOverviewWidget
         $totalMonitoringTasks = MonitoringTask::whereBetween('date', [$startDate, $endDate])->count();
         $todayReports = MonitoringShiftReport::whereBetween('date', [$startDate, $endDate])->get();
         
-        $totalExpected  = $todayReports->sum('expected_attendance');
-        $totalPresent   = $todayReports->sum('present');
-        $totalAbsent    = $todayReports->sum('absent');
+        $totalCameras  = CameraAudit::count();
+        $onlineCameras = CameraAudit::where('status', 'online')->count();
+        $offlineCameras = CameraAudit::where('status', 'offline')->count();
 
-        $attendanceRate = $totalExpected > 0
-            ? round(($totalPresent / $totalExpected) * 100, 1)
+        $onlineRate  = $totalCameras > 0
+            ? round(($onlineCameras / $totalCameras) * 100, 1)
             : 0;
-        
-    
-        $cameraAudits = CameraAudit::whereBetween('updated_at', [$startDate, $endDate])->count();
+
+        $offlineRate = $totalCameras > 0
+            ? round(($offlineCameras / $totalCameras) * 100, 1)
+            : 0;
       
 
         return [
@@ -44,27 +45,28 @@ class MonitoringStatsOverview extends StatsOverviewWidget
                 ->description('Monitoring Tasks')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->icon('heroicon-o-list-bullet')
-                ->chart([6, 10, 5, 15, 3, 10, 7, 17]),
+                ->chart([1.5, 1.5, 1.5, 1.5, 1.5]),
             // Stat::make('Expected Attendance', number_format($totalExpected))
             //     ->description('Across all shifts today')
             //     ->descriptionIcon('heroicon-m-users')
             //     ->color('gray'),
-            Stat::make('Staff Present', number_format($totalPresent))
-                ->description("{$attendanceRate}% attendance rate")
-                ->descriptionIcon('heroicon-m-check-badge')
-                ->color($attendanceRate >= 85 ? 'success' : ($attendanceRate >= 70 ? 'warning' : 'danger'))
-                ->chart([5, 2, 6, 3, 7, 4, 3, 5]),
- 
-            Stat::make('Staff Absent', number_format($totalAbsent))
-                ->description(round(100 - $attendanceRate, 1) . '% absence rate today')
-                ->descriptionIcon('heroicon-m-x-mark')
-                ->color($totalAbsent > 5 ? 'danger' : 'warning'),
+            Stat::make('Total Cameras', $totalCameras)
+                ->description('All registered cameras')
+                ->descriptionIcon('heroicon-o-video-camera')
+                ->color('primary')
+                ->chart([1.5, 1.5, 1.5, 1.5, 1.5]),
 
-            Stat::make('Audited Cameras', number_format($cameraAudits))
-                ->description('Total number of cameras audited today')
-                ->descriptionIcon('heroicon-o-camera')
-                ->color('info')
-                ->chart([6, 10, 5, 15, 3, 10, 7, 17]),
+            Stat::make('Online Cameras', $onlineCameras)
+                ->description("{$onlineRate}% of total fleet")
+                ->descriptionIcon('heroicon-o-signal')
+                ->color('success')
+                ->chart([1.5, 1.5, 1.5, 1.5, 1.5]),
+
+            Stat::make('Offline cameras', $offlineCameras)
+                ->description("{$offlineRate}% of total fleet")
+                ->descriptionIcon('heroicon-o-signal-slash')
+                ->color($offlineCameras > 0 ? 'danger' : 'success')
+                ->chart([1.5, 1.5, 1.5, 1.5, 1.5]),
         ];
     }
 }

@@ -43,6 +43,7 @@ class DatabaseSeeder extends Seeder
             LogisticsManagementSeeder::class,
             LogisticsDistributionSeeder::class,
             ProcurementSeeder::class,
+            ContactListSeeder::class,
         ]);
     }
 }

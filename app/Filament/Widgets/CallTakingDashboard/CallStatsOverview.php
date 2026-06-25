@@ -24,6 +24,10 @@ class CallStatsOverview extends StatsOverviewWidget
                         : now()->endOfDay();
 
         $totalValidCases = ValidCase::whereBetween('reporting_date', [$startDate, $endDate])->count();
+
+        $totalDispatchedCases = ValidCase::whereBetween('reporting_date', [$startDate, $endDate])
+                                    ->whereNotNull('agency_id')
+                                    ->count();
         
         // Sum each column for records matching today's date
         $stats = CallLog::whereBetween('date', [$startDate, $endDate])
@@ -56,25 +60,34 @@ class CallStatsOverview extends StatsOverviewWidget
         //     : 0;
 
         return [
-            Stat::make('Total Valid Cases', $totalValidCases)
-                ->description('Valid Cases')
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->icon('heroicon-o-briefcase')
-                ->chart([6, 10, 5, 15, 3, 10, 7, 17]),
             Stat::make('Incoming Calls', $stats->incoming ?? 0)
                 ->icon('heroicon-o-phone-arrow-down-left')
                 ->color('auxiliary')
                 ->chart([18, 15, 5, 10, 6, 8, 4, 9]),
+            
             Stat::make('Total Received', $stats->received ?? 0)
                 ->description('Received Calls')
                 ->descriptionIcon('heroicon-m-arrow-trending-up')
                 ->color('success')
                 ->chart([10, 8, 5, 12, 6, 8, 4, 2]),
-            Stat::make('Valid Calls', $stats->valid ?? 0)
-                ->description('Call validity')
+
+            Stat::make('Total Valid Cases', $totalValidCases)
+                ->description('Valid Cases')
+                ->descriptionIcon('heroicon-m-arrow-trending-up')
+                ->icon('heroicon-o-briefcase')
+                ->chart([6, 10, 5, 15, 3, 10, 7, 17]),
+
+            Stat::make('Total Dispatched Cases', $totalDispatchedCases)
+                ->description('Cases Dispatched')
                 ->icon('heroicon-o-check-circle')
                 ->color('nonary')
                 ->chart([9, 10, 8, 10, 6, 9, 4, 7]),
+            
+            // Stat::make('Valid Calls', $stats->valid ?? 0)
+            //     ->description('Call validity')
+            //     ->icon('heroicon-o-check-circle')
+            //     ->color('nonary')
+            //     ->chart([9, 10, 8, 10, 6, 9, 4, 7]),
             Stat::make('Prank Calls', $stats->prank ?? 0)
                 ->description("{$prankRate}% of all received calls")
                 ->icon('heroicon-o-phone-x-mark')

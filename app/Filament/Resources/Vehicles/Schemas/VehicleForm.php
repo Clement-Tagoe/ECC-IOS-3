@@ -59,6 +59,17 @@ class VehicleForm
                         TextInput::make('location')
                             ->default(null),
                         DatePicker::make('last_service_date'),
+                        TextInput::make('mileage')
+                            ->label('Mileage (km)')
+                            ->numeric()
+                            ->minValue(0)
+                            ->suffix('km')
+                            ->placeholder('e.g. 12500'),
+
+                        DatePicker::make('next_service_date')
+                            ->label('Next Service Date')
+                            ->minDate(now())
+                            ->displayFormat('M d, Y'),
                         Textarea::make('notes')
                             ->default(null)
                             ->columnSpanFull(),

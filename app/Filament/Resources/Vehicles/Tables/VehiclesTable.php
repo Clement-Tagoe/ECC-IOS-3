@@ -47,8 +47,6 @@ class VehiclesTable
                     ->searchable(),
                 TextColumn::make('assigned_driver')
                     ->searchable(),
-                TextColumn::make('location')
-                    ->searchable(),
                 TextColumn::make('last_service_date')
                     ->date()
                     ->sortable(),

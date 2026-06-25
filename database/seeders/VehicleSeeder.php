@@ -25,6 +25,8 @@ class VehicleSeeder extends Seeder
             'assigned_driver' => 'Kwame Mensah',
             'location' => 'Accra Central Depot',
             'last_service_date' => '2025-03-15',
+            'mileage' => 54000,
+            'next_service_date' => '2026-06-30',
             'notes' => 'Scheduled for tire rotation next month.',
         ]);
 
@@ -40,6 +42,8 @@ class VehicleSeeder extends Seeder
             'assigned_driver' => 'Abena Owusu',
             'location' => 'Kumasi Branch',
             'last_service_date' => '2025-01-20',
+            'mileage' => 35000,
+            'next_service_date' => '2026-08-30',
             'notes' => 'Used for regional supply runs.',
         ]);
 
@@ -55,6 +59,8 @@ class VehicleSeeder extends Seeder
             'assigned_driver' => null,
             'location' => 'Tamale Service Centre',
             'last_service_date' => '2025-05-02',
+            'mileage' => 29050,
+            'next_service_date' => '2026-07-15',
             'notes' => 'Engine overhaul in progress. Expected back in 2 weeks.',
         ]);
 
@@ -70,6 +76,8 @@ class VehicleSeeder extends Seeder
             'assigned_driver' => 'Kofi Asante',
             'location' => 'Takoradi Depot',
             'last_service_date' => '2025-04-10',
+            'mileage' => 43900,
+            'next_service_date' => '2026-09-03',
         ]);
 
         Vehicle::create([
@@ -84,6 +92,8 @@ class VehicleSeeder extends Seeder
             'assigned_driver' => null,
             'location' => 'Accra Central Depot',
             'last_service_date' => '2024-11-30',
+            'mileage' => 36000,
+            'next_service_date' => '2026-07-14',
             'notes' => 'Decommissioned pending disposal approval.',
         ]);
     }
