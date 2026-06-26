@@ -15,87 +15,87 @@ class CallStaffSeeder extends Seeder
     {
         CallStaff::create([
             'name' => 'Martha Stewart',
-            'group' => 'Delta',
+            'call_staff_group_id' => 1,
         ]);
 
         CallStaff::create([
             'name' => 'James Mensah',
-            'group' => 'Bravo',
+            'call_staff_group_id' => 1,
         ]);
 
         CallStaff::create([
             'name' => 'Mercy Tawiah',
-            'group' => 'Tango',
+            'call_staff_group_id' => 1,
         ]);
 
         CallStaff::create([
             'name' => 'Joyce Johnson',
-            'group' => 'Bravo',
+            'call_staff_group_id' => 2,
         ]);
 
         CallStaff::create([
             'name' => 'Richard Tay',
-            'group' => 'Tango',
+            'call_staff_group_id' => 2,
         ]);
 
         CallStaff::create([
             'name' => 'Rodney Grey',
-            'group' => 'Delta',
+            'call_staff_group_id' => 2,
         ]);
 
         CallStaff::create([
             'name' => 'Ben Addo',
-            'group' => 'Bravo',
+            'call_staff_group_id' => 3,
         ]);
 
         CallStaff::create([
             'name' => 'Grace Opoku',
-            'group' => 'Tango',
+            'call_staff_group_id' => 3,
         ]);
 
         CallStaff::create([
             'name' => 'Daniel Green',
-            'group' => 'Tango',
+            'call_staff_group_id' => 3,
         ]);
 
         CallStaff::create([
             'name' => 'Alice Ahinkrah',
-            'group' => 'Bravo',
+            'call_staff_group_id' => 4,
         ]);
 
         CallStaff::create([
             'name' => 'Reece James',
-            'group' => 'Delta',
+            'call_staff_group_id' => 4,
         ]);
 
         CallStaff::create([
             'name' => 'Carl Bagbin',
-            'group' => 'Bravo'
+            'call_staff_group_id' => 4,
         ]);
 
         CallStaff::create([
             'name' => 'Patience Benson',
-            'group' => 'Tango',
+            'call_staff_group_id' => 4,
         ]);
 
         CallStaff::create([
             'name' => 'Kate Henshaw',
-            'group' => 'Tango',
+            'call_staff_group_id' => 1,
         ]);
 
         CallStaff::create([
             'name' => 'Mohammed Muniru',
-            'group' => 'Bravo',
+            'call_staff_group_id' => 1,
         ]);
 
         CallStaff::create([
             'name' => 'Steven Gyamfi',
-            'group' => 'Bravo',
+            'call_staff_group_id' => 2,
         ]);
 
         CallStaff::create([
             'name' => 'Rejoice Essuman',
-            'group' => 'Delta',
+            'call_staff_group_id' => 3,
         ]);
     }
 }

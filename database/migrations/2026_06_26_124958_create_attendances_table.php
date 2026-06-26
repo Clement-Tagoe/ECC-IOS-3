@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('monitoring_staffs', function (Blueprint $table) {
+        Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('monitoring_staff_group_id')->nullable();
+            $table->foreignId('call_staff_id')->constrained('call_staffs')->cascadeOnDelete();
+            $table->date('date');
+            $table->enum('status', ['present', 'absent']);
             $table->timestamps();
             $table->softDeletes();
             $table->userstamps();
             $table->userstampSoftDeletes();
+            $table->unique(['call_staff_id', 'date']);
         });
     }
 
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('monitoring_staff');
+        Schema::dropIfExists('attendances');
     }
 };

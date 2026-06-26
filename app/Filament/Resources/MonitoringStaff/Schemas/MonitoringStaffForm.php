@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\MonitoringStaff\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -13,8 +14,8 @@ class MonitoringStaffForm
             ->components([
                 TextInput::make('name')
                     ->required(),
-                TextInput::make('group')
-                    ->required(),
+                Select::make('monitoring_staff_group_id')
+                    ->relationship('group', 'name')
             ]);
     }
 }

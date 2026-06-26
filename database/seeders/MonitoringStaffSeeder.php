@@ -15,87 +15,87 @@ class MonitoringStaffSeeder extends Seeder
     {
         MonitoringStaff::create([
             'name' => 'Catherine Mensah',
-            'group' => 'Delta',
+            'monitoring_staff_group_id' => 1,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Fiifi Adoboli',
-            'group' => 'Bravo',
+            'monitoring_staff_group_id' => 1,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Theo Mendes',
-            'group' => 'Tango',
+            'monitoring_staff_group_id' => 1,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Jennifer Lomotey',
-            'group' => 'Bravo',
+            'monitoring_staff_group_id' => 1,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Ricky Kabutey',
-            'group' => 'Tango',
+            'monitoring_staff_group_id' => 2,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Eva Loco',
-            'group' => 'Delta',
+            'monitoring_staff_group_id' => 2,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Michael Johnson',
-            'group' => 'Bravo',
+            'monitoring_staff_group_id' => 2,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Anita Twum',
-            'group' => 'Tango',
+            'monitoring_staff_group_id' => 2,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Ricardo Tayson',
-            'group' => 'Tango',
+            'monitoring_staff_group_id' => 3,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Lydia Hennessey',
-            'group' => 'Bravo',
+            'monitoring_staff_group_id' => 3,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Roy Chambers',
-            'group' => 'Delta',
+            'monitoring_staff_group_id' => 3,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Lisa Koranteng',
-            'group' => 'Bravo'
+            'monitoring_staff_group_id' => 3,
         ]);
 
         MonitoringStaff::create([
             'name' => 'John Adjei',
-            'group' => 'Tango',
+            'monitoring_staff_group_id' => 4,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Monica Tetteh',
-            'group' => 'Tango',
+            'monitoring_staff_group_id' => 4,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Hisham Olando',
-            'group' => 'Bravo',
+            'monitoring_staff_group_id' => 4,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Rudolf Benson',
-            'group' => 'Bravo',
+            'monitoring_staff_group_id' => 4,
         ]);
 
         MonitoringStaff::create([
             'name' => 'Rose Grey',
-            'group' => 'Delta',
+            'monitoring_staff_group_id' => 4,
         ]);
     }
 }

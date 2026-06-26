@@ -21,10 +21,9 @@ class MonitoringStaffInfolist
                         Grid::make(2)
                             ->schema([
                                 Group::make([
-                                    TextEntry::make('name')
-                                        ->numeric(),
-                                    TextEntry::make('group')
-                                        ->numeric(),
+                                    TextEntry::make('name'),
+                                    TextEntry::make('group.name')
+                                        ->label('Group'),
                                     TextEntry::make('creator.name')
                                         ->label('Created by'), 
                                 ]),

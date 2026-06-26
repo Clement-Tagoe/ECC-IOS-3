@@ -23,8 +23,8 @@ class CallStaffInfolist
                                 Group::make([
                                     TextEntry::make('name')
                                         ->numeric(),
-                                    TextEntry::make('group')
-                                        ->numeric(),
+                                    TextEntry::make('group.name')
+                                        ->label('Group'),
                                     TextEntry::make('creator.name')
                                         ->label('Created by'), 
                                 ]),

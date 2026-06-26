@@ -14,6 +14,7 @@ use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
@@ -25,7 +26,7 @@ class MonitoringStaffTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('group')
+                TextColumn::make('group.name')
                     ->searchable(),
                 TextColumn::make('creator.name')
                     ->label('Created by')
@@ -52,6 +53,8 @@ class MonitoringStaffTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
+                SelectFilter::make('group')
+                        ->relationship('group', 'name'),
                 TrashedFilter::make(),
             ])
             ->recordActions([

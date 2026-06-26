@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\CallStaff\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -13,8 +14,8 @@ class CallStaffForm
             ->components([
                 TextInput::make('name')
                     ->required(),
-                TextInput::make('group')
-                    ->required(),
+                Select::make('call_staff_group_id')
+                            ->relationship('group', 'name')
             ]);
     }
 }

@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('monitoring_staffs', function (Blueprint $table) {
+        Schema::create('call_staff_groups', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('monitoring_staff_group_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->userstamps();
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('monitoring_staff');
+        Schema::dropIfExists('call_staff_groups');
     }
 };
