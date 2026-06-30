@@ -26,6 +26,16 @@ class CallStaff extends Model
         return $this->hasMany(Attendance::class);
     }
 
+    public function callStaffAttendances(): HasMany
+    {
+        return $this->hasMany(CallStaffAttendance::class);
+    }
+
+    public function attendanceForDate(string $date): ?Attendance
+    {
+        return $this->attendances->firstWhere('date', $date);
+    }
+
     // Convenience methods for summaries
     public function presentCountForMonth(int $month, int $year): int
     {

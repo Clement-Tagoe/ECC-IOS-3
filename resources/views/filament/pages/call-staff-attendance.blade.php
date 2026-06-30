@@ -1,0 +1,373 @@
+<x-filament-panels::page>
+
+    {{-- ─── Stats Bar ─────────────────────────────────────────────────────── --}}
+    {{-- <div class="grid grid-cols-2 gap-3 sm:grid-cols-5 mb-5">
+        @php
+            $statCards = [
+                ['label' => 'Marked',   'value' => $this->stats['total'],      'color' => 'bg-gray-100 dark:bg-gray-800',    'text' => 'text-gray-700 dark:text-gray-200'],
+                ['label' => 'Present',  'value' => $this->stats['present'],    'color' => 'bg-green-50 dark:bg-green-950',   'text' => 'text-green-700 dark:text-green-300'],
+                ['label' => 'Absent',   'value' => $this->stats['absent'],     'color' => 'bg-red-50 dark:bg-red-950',       'text' => 'text-red-700 dark:text-red-300'],
+                ['label' => 'Permission','value' => $this->stats['permission'],'color' => 'bg-amber-50 dark:bg-amber-950',   'text' => 'text-amber-700 dark:text-amber-300'],
+                ['label' => 'Sick',     'value' => $this->stats['sick'],       'color' => 'bg-blue-50 dark:bg-blue-950',     'text' => 'text-blue-700 dark:text-blue-300'],
+            ];
+        @endphp
+
+        @foreach ($statCards as $card)
+            <div class="rounded-xl {{ $card['color'] }} px-4 py-3 flex flex-col items-center shadow-sm border border-gray-200 dark:border-gray-700">
+                <span class="text-2xl font-bold {{ $card['text'] }}">{{ $card['value'] }}</span>
+                <span class="text-xs font-medium text-gray-500 dark:text-gray-400 mt-0.5">{{ $card['label'] }}</span>
+            </div>
+        @endforeach
+    </div> --}}
+
+    {{-- ─── Filter Toolbar ─────────────────────────────────────────────────── --}}
+    <div class="flex flex-wrap items-center gap-3 mb-4">
+
+        {{-- Month picker --}}
+        <div class="flex items-center gap-2">
+        <x-filament::icon icon="heroicon-m-calendar" class="w-4 h-4 text-gray-400"/>
+
+        <button type="button"
+                wire:click="previousMonth"
+                title="Previous month"
+                class="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 transition-colors">
+            <x-filament::icon icon="heroicon-m-chevron-left" class="w-4 h-4"/>
+        </button>
+
+        <input type="month"
+            wire:model.live="selectedMonth"
+            class="text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 px-2"/>
+
+        <button type="button"
+                wire:click="nextMonth"
+                title="Next month"
+                class="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 transition-colors">
+            <x-filament::icon icon="heroicon-m-chevron-right" class="w-4 h-4"/>
+        </button>
+
+        <button type="button"
+                wire:click="goToCurrentMonth"
+                title="Jump to current month"
+                class="text-xs font-medium text-primary-600 dark:text-primary-400 hover:underline ml-0.5">
+            Today
+        </button>
+    </div>
+
+        {{-- Group filter --}}
+        <div class="flex items-center gap-2">
+            <x-filament::icon icon="heroicon-m-user-group" class="w-4 h-4 text-gray-400"/>
+            <select wire:model.live="selectedGroup"
+                    class="text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 pl-2 pr-8">
+                <option value="">All Groups</option>
+                @foreach ($this->groups as $group)
+                    <option value="{{ $group->id }}">{{ $group->name }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        {{-- Search --}}
+        <div class="flex items-center gap-2 ml-auto">
+            <x-filament::icon icon="heroicon-m-magnifying-glass" class="w-10 h-4 text-gray-400"/>
+            <input wire:model.live.debounce.300ms="search"
+                   type="text"
+                   placeholder="Search staff…"
+                   class="text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 pl-3 pr-4 w-44"/>
+        </div>
+
+        {{-- Legend --}}
+        <div class="hidden lg:flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 border-l border-gray-200 dark:border-gray-700 pl-3 ml-1">
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span> Present</span>
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span> Absent</span>
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span> Permission</span>
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-blue-400 inline-block"></span> Sick</span>
+        </div>
+    </div>
+
+    {{-- ─── Attendance Grid ─────────────────────────────────────────────────── --}}
+    @php
+        $days = $this->daysInMonth;
+        $today = \Carbon\Carbon::today()->toDateString();
+    @endphp
+
+    <div class="rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-900 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+
+                {{-- Header row: Name col + one col per day --}}
+                <thead>
+                    <tr class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+
+                        {{-- Sticky name column --}}
+                        <th class="sticky left-0 z-20 bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 px-3 py-2 text-left min-w-[200px]">
+                            <span class="flex items-center gap-1 text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider hover:text-primary-600 transition-colors">
+                                Staff Name
+                            </span>
+                        </th>
+
+                        {{-- Day columns --}}
+                        @foreach ($days as $day)
+                            @php
+                                $dateStr  = $day->toDateString();
+                                $isToday  = $dateStr === $today;
+                                $isWeekend = $day->isWeekend();
+                            @endphp
+                            <th class="px-0.5 py-2 text-center min-w-[36px] max-w-[42px]
+                                       {{ $isToday ? 'bg-primary-50 dark:bg-primary-950' : '' }}
+                                       {{ $isWeekend && !$isToday ? 'bg-gray-100 dark:bg-gray-750' : '' }}">
+                                <div class="flex flex-col items-center leading-tight">
+                                    <span class="text-[10px] font-medium {{ $isToday ? 'text-primary-600 dark:text-primary-400' : 'text-gray-400 dark:text-gray-500' }}">
+                                        {{ $day->format('D')[0] }}
+                                    </span>
+                                    <span class="text-xs font-bold {{ $isToday ? 'text-primary-700 dark:text-primary-300' : ($isWeekend ? 'text-gray-400' : 'text-gray-600 dark:text-gray-300') }}">
+                                        {{ $day->format('j') }}
+                                    </span>
+                                </div>
+                            </th>
+                        @endforeach
+
+                        {{-- Summary col --}}
+                        <th class="sticky right-0 z-20 bg-gray-50 dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 px-2 py-2 text-center min-w-[60px]">
+                            <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Summary</span>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                    @forelse ($this->groupedStaff as $groupId => $staffMembers)
+                        
+                        @php $group = $staffMembers->first()->group; @endphp
+
+                        {{-- Group header row --}}
+                        <tr class="bg-gray-50 dark:bg-gray-800/60">
+                            <td colspan="{{ count($days) + 2 }}"
+                                class="sticky left-0 px-3 py-1.5">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                                          style="background-color: {{ $group->color ?? '#6366f1' }}"></span>
+                                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                                        {{ $group->name }}
+                                    </span>
+                                    <span class="text-xs text-gray-400 dark:text-gray-500">
+                                        ({{ $staffMembers->count() }} staff)
+                                    </span>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {{-- Staff rows --}}
+                        @foreach ($staffMembers as $staff)
+                            
+                            @php
+                                $attendanceMap = $staff->callStaffAttendances->keyBy(
+                                    fn($a) => $a->date instanceof \Carbon\Carbon
+                                        ? $a->date->toDateString()
+                                        : \Carbon\Carbon::parse($a->date)->toDateString()
+                                );
+                                $presentCount  = $staff->callStaffAttendances->where('status', 'present')->count();
+                                $absentCount   = $staff->callStaffAttendances->where('status', 'absent')->count();
+                                $permCount     = $staff->callStaffAttendances->where('status', 'absent_with_permission')->count();
+                                $sickCount     = $staff->callStaffAttendances->where('status', 'sick')->count();
+                            @endphp
+
+                            <tr class="hover:bg-gray-50/80 dark:hover:bg-gray-800/40 group/row transition-colors">
+
+                                {{-- Sticky name cell --}}
+                                <td class="sticky left-0 z-10 bg-white dark:bg-gray-900 group-hover/row:bg-gray-50/80 dark:group-hover/row:bg-gray-800/40
+                                           border-r border-gray-200 dark:border-gray-700 px-3 py-2 transition-colors">
+                                    <div class="flex flex-col">
+                                        <span class="font-medium text-gray-800 dark:text-gray-200 text-sm truncate max-w-[170px]">
+                                            {{ $staff->name }}
+                                        </span>
+                                        {{-- @if ($staff->position)
+                                            <span class="text-xs text-gray-400 dark:text-gray-500 truncate max-w-[170px]">
+                                                {{ $staff->position }}
+                                            </span>
+                                        @endif --}}
+                                    </div>
+                                </td>
+
+                                {{-- Attendance cells --}}
+                                @foreach ($days as $day)
+                                    @php
+                                        $dateStr   = $day->toDateString();
+                                        $isToday   = $dateStr === $today;
+                                        $isWeekend = $day->isWeekend();
+                                        $attendance = $attendanceMap[$dateStr] ?? null;
+                                        $status     = $attendance?->status;
+
+                                        $cellBg = match($status) {
+                                            'present'                => 'bg-green-100 dark:bg-green-900/40 hover:bg-green-200 dark:hover:bg-green-800/60',
+                                            'absent'                 => 'bg-red-100 dark:bg-red-900/40 hover:bg-red-200 dark:hover:bg-red-800/60',
+                                            'absent_with_permission' => 'bg-amber-100 dark:bg-amber-900/40 hover:bg-amber-200 dark:hover:bg-amber-800/60',
+                                            'sick'                   => 'bg-blue-100 dark:bg-blue-900/40 hover:bg-blue-200 dark:hover:bg-blue-800/60',
+                                            default                  => ($isWeekend ? 'bg-gray-50 dark:bg-gray-800/30' : 'hover:bg-gray-100 dark:hover:bg-gray-800/60') . ' cursor-pointer',
+                                        };
+
+                                        $dotColor = match($status) {
+                                            'present'                => 'bg-green-500',
+                                            'absent'                 => 'bg-red-500',
+                                            'absent_with_permission' => 'bg-amber-400',
+                                            'sick'                   => 'bg-blue-400',
+                                            default                  => '',
+                                        };
+
+                                        $shortLabel = match($status) {
+                                            'present'                => 'P',
+                                            'absent'                 => 'A',
+                                            'absent_with_permission' => 'AP',
+                                            'sick'                   => 'S',
+                                            default                  => '',
+                                        };
+
+                                        $labelColor = match($status) {
+                                            'present'                => 'text-green-700 dark:text-green-300',
+                                            'absent'                 => 'text-red-700 dark:text-red-300',
+                                            'absent_with_permission' => 'text-amber-700 dark:text-amber-300',
+                                            'sick'                   => 'text-blue-700 dark:text-blue-300',
+                                            default                  => 'text-gray-300 dark:text-gray-600',
+                                        };
+                                    @endphp
+
+                                    <td class="px-0.5 py-1 text-center {{ $isToday ? 'ring-1 ring-inset ring-primary-300 dark:ring-primary-700' : '' }}">
+                                        <button wire:click="openAttendanceModal({{ $staff->id }}, '{{ $dateStr }}')"
+                                                title="{{ $day->format('D, M j') }}{{ $status ? ' – ' . \App\Models\CallStaffAttendance::statusOptions()[$status] : ' – Not marked' }}{{ $attendance?->notes ? "\n" . $attendance->notes : '' }}"
+                                                @if($isWeekend) class="w-8 h-8 rounded-md flex items-center justify-center mx-auto {{ $cellBg }} transition-colors opacity-50"
+                                                @else class="w-8 h-8 rounded-md flex items-center justify-center mx-auto {{ $cellBg }} transition-colors"
+                                                @endif>
+                                            @if ($status)
+                                                <span class="text-[10px] font-bold {{ $labelColor }}">{{ $shortLabel }}</span>
+                                            @else
+                                                <span class="text-[10px] text-gray-200 dark:text-gray-700">–</span>
+                                            @endif
+                                        </button>
+                                    </td>
+                                @endforeach
+
+                                {{-- Summary cell --}}
+                                <td class="sticky right-0 z-10 bg-white dark:bg-gray-900 group-hover/row:bg-gray-50/80 dark:group-hover/row:bg-gray-800/40
+                                           border-l border-gray-200 dark:border-gray-700 px-2 py-2 transition-colors">
+                                    <div class="flex flex-col gap-0.5 text-[10px] font-medium leading-tight text-center">
+                                        @if ($presentCount) <span class="text-green-600 dark:text-green-400">{{ $presentCount }}P</span> @endif
+                                        @if ($absentCount)  <span class="text-red-600 dark:text-red-400">{{ $absentCount }}A</span> @endif
+                                        @if ($permCount)    <span class="text-amber-600 dark:text-amber-400">{{ $permCount }}AP</span> @endif
+                                        @if ($sickCount)    <span class="text-blue-600 dark:text-blue-400">{{ $sickCount }}S</span> @endif
+                                        @if (!$presentCount && !$absentCount && !$permCount && !$sickCount)
+                                            <span class="text-gray-300 dark:text-gray-600">–</span>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+
+                    @empty
+                        <tr>
+                            <td colspan="{{ count($days) + 2 }}" class="px-6 py-12 text-center text-gray-400 dark:text-gray-600">
+                                <x-filament::icon icon="heroicon-o-user-group" class="w-10 h-10 mx-auto mb-2 opacity-40"/>
+                                <p>No staff found for the selected filters.</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {{-- ─── Attendance Modal ───────────────────────────────────────────────── --}}
+    @if ($showModal)
+        @php
+            $modalStaff = \App\Models\CallStaff::find($editingStaffId);
+            $parsedDate = \Carbon\Carbon::parse($editingDate);
+        @endphp
+
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4"
+             x-data x-on:keydown.escape.window="$wire.showModal = false">
+
+            {{-- Backdrop --}}
+            <div class="absolute inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm"
+                 wire:click="$set('showModal', false)"></div>
+
+            {{-- Modal panel --}}
+            <div class="relative z-10 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+
+                {{-- Header --}}
+                <div class="px-5 py-4 border-b border-gray-100 dark:border-gray-800 flex items-start justify-between">
+                    <div>
+                        <h3 class="text-base font-semibold text-gray-900 dark:text-white">
+                            Mark Attendance
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+                            {{ $modalStaff?->name }} &middot; {{ $parsedDate->format('l, M j Y') }}
+                        </p>
+                    </div>
+                    <button wire:click="$set('showModal', false)"
+                            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors mt-0.5">
+                        <x-filament::icon icon="heroicon-m-x-mark" class="w-5 h-5"/>
+                    </button>
+                </div>
+
+                {{-- Status options --}}
+                <div class="px-5 py-4 space-y-2">
+                    @php
+                        $statusOptions = [
+                            ['value' => 'present',                'label' => 'Present',               'icon' => 'heroicon-m-check-circle',   'color' => 'green',  'ring' => 'ring-green-500',  'bg' => 'bg-green-50 dark:bg-green-950',  'text' => 'text-green-700 dark:text-green-300'],
+                            ['value' => 'absent',                 'label' => 'Absent',                'icon' => 'heroicon-m-x-circle',       'color' => 'red',    'ring' => 'ring-red-500',    'bg' => 'bg-red-50 dark:bg-red-950',      'text' => 'text-red-700 dark:text-red-300'],
+                            ['value' => 'absent_with_permission', 'label' => 'Absent w/ Permission',  'icon' => 'heroicon-m-clock',          'color' => 'amber',  'ring' => 'ring-amber-400',  'bg' => 'bg-amber-50 dark:bg-amber-950',  'text' => 'text-amber-700 dark:text-amber-300'],
+                            ['value' => 'sick',                   'label' => 'Sick',                  'icon' => 'heroicon-m-heart',          'color' => 'blue',   'ring' => 'ring-blue-400',   'bg' => 'bg-blue-50 dark:bg-blue-950',    'text' => 'text-blue-700 dark:text-blue-300'],
+                        ];
+                    @endphp
+
+                    @foreach ($statusOptions as $option)
+                        <button wire:click="$set('editingStatus', '{{ $option['value'] }}')"
+                                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all
+                                       {{ $editingStatus === $option['value']
+                                           ? $option['ring'] . ' ' . $option['bg']
+                                           : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600' }}">
+                            <x-filament::icon icon="{{ $option['icon'] }}"
+                                              class="w-5 h-5 {{ $editingStatus === $option['value'] ? $option['text'] : 'text-gray-400' }}"/>
+                            <span class="text-sm font-medium {{ $editingStatus === $option['value'] ? $option['text'] : 'text-gray-700 dark:text-gray-300' }}">
+                                {{ $option['label'] }}
+                            </span>
+                            @if ($editingStatus === $option['value'])
+                                <x-filament::icon icon="heroicon-m-check" class="w-4 h-4 ml-auto {{ $option['text'] }}"/>
+                            @endif
+                        </button>
+                    @endforeach
+
+                    {{-- Notes textarea --}}
+                    <div class="pt-1">
+                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Notes (optional)</label>
+                        <textarea wire:model="editingNotes"
+                                  rows="2"
+                                  placeholder="Add a note…"
+                                  class="w-full text-sm rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 resize-none"></textarea>
+                    </div>
+                </div>
+
+                {{-- Footer --}}
+                <div class="px-5 py-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-gray-800 flex items-center gap-2">
+                    <x-filament::button wire:click="saveAttendance"
+                                        :disabled="!$editingStatus"
+                                        color="primary"
+                                        class="flex-1">
+                        Save
+                    </x-filament::button>
+
+                    @if ($editingStatus)
+                        <x-filament::button wire:click="clearAttendance"
+                                            color="danger"
+                                            outlined>
+                            Clear
+                        </x-filament::button>
+                    @endif
+
+                    <x-filament::button wire:click="$set('showModal', false)"
+                                        color="gray"
+                                        outlined>
+                        Cancel
+                    </x-filament::button>
+                </div>
+            </div>
+        </div>
+    @endif
+
+</x-filament-panels::page>
