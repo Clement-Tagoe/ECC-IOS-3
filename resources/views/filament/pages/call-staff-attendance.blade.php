@@ -1,63 +1,41 @@
 <x-filament-panels::page>
-
-    {{-- ─── Stats Bar ─────────────────────────────────────────────────────── --}}
-    {{-- <div class="grid grid-cols-2 gap-3 sm:grid-cols-5 mb-5">
-        @php
-            $statCards = [
-                ['label' => 'Marked',   'value' => $this->stats['total'],      'color' => 'bg-gray-100 dark:bg-gray-800',    'text' => 'text-gray-700 dark:text-gray-200'],
-                ['label' => 'Present',  'value' => $this->stats['present'],    'color' => 'bg-green-50 dark:bg-green-950',   'text' => 'text-green-700 dark:text-green-300'],
-                ['label' => 'Absent',   'value' => $this->stats['absent'],     'color' => 'bg-red-50 dark:bg-red-950',       'text' => 'text-red-700 dark:text-red-300'],
-                ['label' => 'Permission','value' => $this->stats['permission'],'color' => 'bg-amber-50 dark:bg-amber-950',   'text' => 'text-amber-700 dark:text-amber-300'],
-                ['label' => 'Sick',     'value' => $this->stats['sick'],       'color' => 'bg-blue-50 dark:bg-blue-950',     'text' => 'text-blue-700 dark:text-blue-300'],
-            ];
-        @endphp
-
-        @foreach ($statCards as $card)
-            <div class="rounded-xl {{ $card['color'] }} px-4 py-3 flex flex-col items-center shadow-sm border border-gray-200 dark:border-gray-700">
-                <span class="text-2xl font-bold {{ $card['text'] }}">{{ $card['value'] }}</span>
-                <span class="text-xs font-medium text-gray-500 dark:text-gray-400 mt-0.5">{{ $card['label'] }}</span>
-            </div>
-        @endforeach
-    </div> --}}
-
-    {{-- ─── Filter Toolbar ─────────────────────────────────────────────────── --}}
-    <div class="flex flex-wrap items-center gap-3 mb-4">
+    <div class="flex flex-wrap items-center gap-3 mb-4 px-8 py-8 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-900">
 
         {{-- Month picker --}}
         <div class="flex items-center gap-2">
-        <x-filament::icon icon="heroicon-m-calendar" class="w-4 h-4 text-gray-400"/>
+            <x-filament::icon icon="heroicon-m-calendar-days" class="w-6 h-6 text-gray-400"/>
 
-        <button type="button"
-                wire:click="previousMonth"
-                title="Previous month"
-                class="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 transition-colors">
-            <x-filament::icon icon="heroicon-m-chevron-left" class="w-4 h-4"/>
-        </button>
+            <button type="button"
+                    wire:click="previousMonth"
+                    title="Previous month"
+                    class="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 transition-colors">
+                <x-filament::icon icon="heroicon-m-chevron-left" class="w-6 h-6"/>
+            </button>
 
-        <input type="month"
-            wire:model.live="selectedMonth"
-            class="text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 px-2"/>
+            <input type="month"
+                wire:model.live="selectedMonth"
+                class="text-sm rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 px-2"/>
 
-        <button type="button"
-                wire:click="nextMonth"
-                title="Next month"
-                class="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 transition-colors">
-            <x-filament::icon icon="heroicon-m-chevron-right" class="w-4 h-4"/>
-        </button>
+            <button type="button"
+                    wire:click="nextMonth"
+                    title="Next month"
+                    class="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 transition-colors">
+                <x-filament::icon icon="heroicon-m-chevron-right" class="w-6 h-6"/>
+            </button>
 
-        <button type="button"
-                wire:click="goToCurrentMonth"
-                title="Jump to current month"
-                class="text-xs font-medium text-primary-600 dark:text-primary-400 hover:underline ml-0.5">
-            Today
-        </button>
-    </div>
+            <button type="button"
+                    wire:click="goToCurrentMonth"
+                    title="Jump to current month"
+                    class="text-xs font-medium text-primary-600 dark:text-primary-400 hover:underline ml-0.5">
+                Today
+            </button>
+        </div>
 
         {{-- Group filter --}}
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 px-4">
             <x-filament::icon icon="heroicon-m-user-group" class="w-4 h-4 text-gray-400"/>
             <select wire:model.live="selectedGroup"
-                    class="text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 pl-2 pr-8">
+                    class="text-sm rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 pl-2 pr-8">
                 <option value="">All Groups</option>
                 @foreach ($this->groups as $group)
                     <option value="{{ $group->id }}">{{ $group->name }}</option>
@@ -71,7 +49,7 @@
             <input wire:model.live.debounce.300ms="search"
                    type="text"
                    placeholder="Search staff…"
-                   class="text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 pl-3 pr-4 w-44"/>
+                   class="text-sm rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 pl-3 pr-4 w-66"/>
         </div>
 
         {{-- Legend --}}
@@ -106,6 +84,7 @@
 
                         {{-- Day columns --}}
                         @foreach ($days as $day)
+                           
                             @php
                                 $dateStr  = $day->toDateString();
                                 $isToday  = $dateStr === $today;
@@ -178,11 +157,6 @@
                                         <span class="font-medium text-gray-800 dark:text-gray-200 text-sm truncate max-w-[170px]">
                                             {{ $staff->name }}
                                         </span>
-                                        {{-- @if ($staff->position)
-                                            <span class="text-xs text-gray-400 dark:text-gray-500 truncate max-w-[170px]">
-                                                {{ $staff->position }}
-                                            </span>
-                                        @endif --}}
                                     </div>
                                 </td>
 
@@ -229,7 +203,7 @@
                                     @endphp
 
                                     <td class="px-0.5 py-1 text-center {{ $isToday ? 'ring-1 ring-inset ring-primary-300 dark:ring-primary-700' : '' }}">
-                                        <button wire:click="openAttendanceModal({{ $staff->id }}, '{{ $dateStr }}')"
+                                        <button wire:click="openStaffAttendanceModal({{ $staff->id }}, '{{ $dateStr }}')"
                                                 title="{{ $day->format('D, M j') }}{{ $status ? ' – ' . \App\Models\CallStaffAttendance::statusOptions()[$status] : ' – Not marked' }}{{ $attendance?->notes ? "\n" . $attendance->notes : '' }}"
                                                 @if($isWeekend) class="w-8 h-8 rounded-md flex items-center justify-center mx-auto {{ $cellBg }} transition-colors opacity-50"
                                                 @else class="w-8 h-8 rounded-md flex items-center justify-center mx-auto {{ $cellBg }} transition-colors"
@@ -268,106 +242,72 @@
                         </tr>
                     @endforelse
                 </tbody>
+
             </table>
         </div>
     </div>
 
-    {{-- ─── Attendance Modal ───────────────────────────────────────────────── --}}
-    @if ($showModal)
-        @php
-            $modalStaff = \App\Models\CallStaff::find($editingStaffId);
-            $parsedDate = \Carbon\Carbon::parse($editingDate);
-        @endphp
+    <x-filament::modal id="edit-call-staff-attendance" width="lg">
+        <x-slot name="heading">
+            Mark Attendance
+        </x-slot>
 
-        <div class="fixed inset-0 z-50 flex items-center justify-center p-4"
-             x-data x-on:keydown.escape.window="$wire.showModal = false">
+        <x-slot name="description">
+            {{ $this->modalStaff?->name }} &middot; {{ $this->parsedDate?->format('l, M j Y') }}
+        </x-slot>
 
-            {{-- Backdrop --}}
-            <div class="absolute inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm"
-                 wire:click="$set('showModal', false)"></div>
+        {{-- Status options --}}
+        <div class="space-y-2">
+            @php
+                $statusOptions = [
+                    ['value' => 'present',                'label' => 'Present',               'icon' => 'heroicon-m-check-circle',   'ring' => 'ring-green-500',  'bg' => 'bg-green-50 dark:bg-green-950',  'text' => 'text-green-700 dark:text-green-300'],
+                    ['value' => 'absent',                 'label' => 'Absent',                'icon' => 'heroicon-m-x-circle',       'ring' => 'ring-red-500',    'bg' => 'bg-red-50 dark:bg-red-950',      'text' => 'text-red-700 dark:text-red-300'],
+                    ['value' => 'absent_with_permission', 'label' => 'Absent w/ Permission',  'icon' => 'heroicon-m-clock',          'ring' => 'ring-amber-400',  'bg' => 'bg-amber-50 dark:bg-amber-950',  'text' => 'text-amber-700 dark:text-amber-300'],
+                    ['value' => 'sick',                   'label' => 'Sick',                  'icon' => 'heroicon-m-heart',          'ring' => 'ring-blue-400',   'bg' => 'bg-blue-50 dark:bg-blue-950',    'text' => 'text-blue-700 dark:text-blue-300'],
+                ];
+            @endphp
 
-            {{-- Modal panel --}}
-            <div class="relative z-10 bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-
-                {{-- Header --}}
-                <div class="px-5 py-4 border-b border-gray-100 dark:border-gray-800 flex items-start justify-between">
-                    <div>
-                        <h3 class="text-base font-semibold text-gray-900 dark:text-white">
-                            Mark Attendance
-                        </h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                            {{ $modalStaff?->name }} &middot; {{ $parsedDate->format('l, M j Y') }}
-                        </p>
-                    </div>
-                    <button wire:click="$set('showModal', false)"
-                            class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors mt-0.5">
-                        <x-filament::icon icon="heroicon-m-x-mark" class="w-5 h-5"/>
-                    </button>
-                </div>
-
-                {{-- Status options --}}
-                <div class="px-5 py-4 space-y-2">
-                    @php
-                        $statusOptions = [
-                            ['value' => 'present',                'label' => 'Present',               'icon' => 'heroicon-m-check-circle',   'color' => 'green',  'ring' => 'ring-green-500',  'bg' => 'bg-green-50 dark:bg-green-950',  'text' => 'text-green-700 dark:text-green-300'],
-                            ['value' => 'absent',                 'label' => 'Absent',                'icon' => 'heroicon-m-x-circle',       'color' => 'red',    'ring' => 'ring-red-500',    'bg' => 'bg-red-50 dark:bg-red-950',      'text' => 'text-red-700 dark:text-red-300'],
-                            ['value' => 'absent_with_permission', 'label' => 'Absent w/ Permission',  'icon' => 'heroicon-m-clock',          'color' => 'amber',  'ring' => 'ring-amber-400',  'bg' => 'bg-amber-50 dark:bg-amber-950',  'text' => 'text-amber-700 dark:text-amber-300'],
-                            ['value' => 'sick',                   'label' => 'Sick',                  'icon' => 'heroicon-m-heart',          'color' => 'blue',   'ring' => 'ring-blue-400',   'bg' => 'bg-blue-50 dark:bg-blue-950',    'text' => 'text-blue-700 dark:text-blue-300'],
-                        ];
-                    @endphp
-
-                    @foreach ($statusOptions as $option)
-                        <button wire:click="$set('editingStatus', '{{ $option['value'] }}')"
-                                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all
-                                       {{ $editingStatus === $option['value']
-                                           ? $option['ring'] . ' ' . $option['bg']
-                                           : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600' }}">
-                            <x-filament::icon icon="{{ $option['icon'] }}"
-                                              class="w-5 h-5 {{ $editingStatus === $option['value'] ? $option['text'] : 'text-gray-400' }}"/>
-                            <span class="text-sm font-medium {{ $editingStatus === $option['value'] ? $option['text'] : 'text-gray-700 dark:text-gray-300' }}">
-                                {{ $option['label'] }}
-                            </span>
-                            @if ($editingStatus === $option['value'])
-                                <x-filament::icon icon="heroicon-m-check" class="w-4 h-4 ml-auto {{ $option['text'] }}"/>
-                            @endif
-                        </button>
-                    @endforeach
-
-                    {{-- Notes textarea --}}
-                    <div class="pt-1">
-                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Notes (optional)</label>
-                        <textarea wire:model="editingNotes"
-                                  rows="2"
-                                  placeholder="Add a note…"
-                                  class="w-full text-sm rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 resize-none"></textarea>
-                    </div>
-                </div>
-
-                {{-- Footer --}}
-                <div class="px-5 py-4 bg-gray-50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-gray-800 flex items-center gap-2">
-                    <x-filament::button wire:click="saveAttendance"
-                                        :disabled="!$editingStatus"
-                                        color="primary"
-                                        class="flex-1">
-                        Save
-                    </x-filament::button>
-
-                    @if ($editingStatus)
-                        <x-filament::button wire:click="clearAttendance"
-                                            color="danger"
-                                            outlined>
-                            Clear
-                        </x-filament::button>
+            @foreach ($statusOptions as $option)
+                <button wire:click="$set('editingStatus', '{{ $option['value'] }}')"
+                        type="button"
+                        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all
+                            {{ $editingStatus === $option['value']
+                                ? $option['ring'] . ' ' . $option['bg']
+                                : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600' }}">
+                    <x-filament::icon icon="{{ $option['icon'] }}"
+                                    class="w-5 h-5 {{ $editingStatus === $option['value'] ? $option['text'] : 'text-gray-400' }}"/>
+                    <span class="text-sm font-medium {{ $editingStatus === $option['value'] ? $option['text'] : 'text-gray-700 dark:text-gray-300' }}">
+                        {{ $option['label'] }}
+                    </span>
+                    @if ($editingStatus === $option['value'])
+                        <x-filament::icon icon="heroicon-m-check" class="w-4 h-4 ml-auto {{ $option['text'] }}"/>
                     @endif
+                </button>
+            @endforeach
 
-                    <x-filament::button wire:click="$set('showModal', false)"
-                                        color="gray"
-                                        outlined>
-                        Cancel
-                    </x-filament::button>
-                </div>
+            <div class="pt-1">
+                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Notes (optional)</label>
+                <textarea wire:model="editingNotes"
+                        rows="2"
+                        placeholder="Add a note…"
+                        class="w-full min-h-32 text-sm rounded-lg  border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 resize-none placeholder:p-2"></textarea>
             </div>
         </div>
-    @endif
 
+        <x-slot name="footerActions">
+            <x-filament::button wire:click="saveAttendance" :disabled="!$editingStatus" color="primary">
+                Save
+            </x-filament::button>
+
+            @if ($editingStatus)
+                <x-filament::button wire:click="clearAttendance" color="danger" outlined>
+                    Clear
+                </x-filament::button>
+            @endif
+
+            <x-filament::button x-on:click="close" color="gray" outlined>
+                Cancel
+            </x-filament::button>
+        </x-slot>
+    </x-filament::modal>
 </x-filament-panels::page>

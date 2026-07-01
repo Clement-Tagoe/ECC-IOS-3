@@ -5,18 +5,27 @@ namespace App\Filament\Pages;
 use App\Models\CallStaff;
 use App\Models\CallStaffAttendance as AttendanceModel;
 use App\Models\CallStaffGroup;
+use BackedEnum;
 use Carbon\Carbon;
-use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Enums\Width;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
+use UnitEnum;
 
 class CallStaffAttendance extends Page
 {
     protected string $view = 'filament.pages.call-staff-attendance';
+
+    protected static string | BackedEnum | null $navigationIcon = Heroicon::CalendarDateRange;
+
+    protected static string | UnitEnum | null $navigationGroup = 'Call-Taking';
+
+    protected static ?int $navigationSort = 6;
+
 
      // URL-persisted filters
     #[Url]
@@ -29,7 +38,6 @@ class CallStaffAttendance extends Page
     public string $search = '';
  
     // Modal state
-    public bool $showModal = false;
     public ?int $editingStaffId = null;
     public ?string $editingDate = null;
     public ?string $editingStatus = null;
@@ -77,7 +85,7 @@ class CallStaffAttendance extends Page
             $this->selectedMonth = Carbon::now()->format('Y-m');
         }
     }
-    // ─── Computed Data ────────────────────────────────────────────────────────
+    // // ─── Computed Data ────────────────────────────────────────────────────────
  
     #[Computed]
     public function daysInMonth(): array
@@ -119,69 +127,35 @@ class CallStaffAttendance extends Page
     {
         return CallStaffGroup::orderBy('name')->get();
     }
- 
-    #[Computed]
-    public function monthOptions(): array
-    {
-        $options = [];
-        $start = Carbon::now()->subMonths(11);
-        for ($i = 0; $i < 13; $i++) {
-            $month = $start->copy()->addMonths($i);
-            $options[$month->format('Y-m')] = $month->format('F Y');
-        }
 
-        return $options;
-    }
- 
-    // #[Computed]
-    // public function stats(): array
-    // {
-    //     $monthStart = Carbon::createFromFormat('Y-m', $this->selectedMonth)->startOfMonth()->toDateString();
-    //     $monthEnd   = Carbon::createFromFormat('Y-m', $this->selectedMonth)->endOfMonth()->toDateString();
- 
-    //     $staffIds = $this->selectedGroup
-    //         ? CallStaff::where('call_staff_group_id', $this->selectedGroup)->pluck('id')
-    //         : CallStaff::all()->pluck('id');
-        
-    //     $attendances = AttendanceModel::whereIn('call_staff_id', $staffIds)
-    //         ->whereBetween('date', [$monthStart, $monthEnd])
-    //         ->get();
-       
-    //     return [
-    //         'total'       => $attendances->count(),
-    //         'present'     => $attendances->where('status', 'present')->count(),
-    //         'absent'      => $attendances->where('status', 'absent')->count(),
-    //         'permission'  => $attendances->where('status', 'absent_with_permission')->count(),
-    //         'sick'        => $attendances->where('status', 'sick')->count(),
-    //     ];
-    // }
- 
-    // ─── Sort ─────────────────────────────────────────────────────────────────
- 
-    // public function sort(string $field): void
-    // {
-    //     if ($this->sortField === $field) {
-    //         $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
-    //     } else {
-    //         $this->sortField = $field;
-    //         $this->sortDirection = 'asc';
-    //     }
-    // }
- 
     // ─── Attendance Cell Click ────────────────────────────────────────────────
- 
-    public function openAttendanceModal(int $staffId, string $date): void
+
+    public function openStaffAttendanceModal(int $staffId, string $date): void
     {
         $this->editingStaffId = $staffId;
         $this->editingDate    = $date;
- 
-        $existing = AttendanceModel::where('call_staff_id', $staffId)
+
+        $existing = AttendanceModel::query()
+            ->where('call_staff_id', $staffId)
             ->where('date', $date)
             ->first();
- 
+
         $this->editingStatus = $existing?->status;
-        $this->editingNotes  = $existing?->notes;
-        $this->showModal     = true;
+        $this->editingNotes = $existing?->notes;
+
+        $this->dispatch('open-modal', id: 'edit-call-staff-attendance');
+    }
+
+    #[Computed]
+    public function modalStaff()
+    {
+        return $this->editingStaffId ? CallStaff::find($this->editingStaffId) : null;
+    }
+
+    #[Computed]
+    public function parsedDate(): ?\Carbon\Carbon
+    {
+        return $this->editingDate ? \Carbon\Carbon::parse($this->editingDate) : null;
     }
  
     public function saveAttendance(): void
@@ -196,14 +170,16 @@ class CallStaffAttendance extends Page
                 'notes'  => $this->editingNotes,
             ]
         );
- 
-        $this->showModal = false;
+
+        $this->dispatch('close-modal', id: 'edit-call-staff-attendance');
         $this->reset(['editingStaffId', 'editingDate', 'editingStatus', 'editingNotes']);
  
         Notification::make()
             ->title('Attendance saved')
             ->success()
             ->send();
+
+        
     }
  
     public function clearAttendance(): void
@@ -212,7 +188,7 @@ class CallStaffAttendance extends Page
             ->where('date', $this->editingDate)
             ->delete();
  
-        $this->showModal = false;
+        $this->dispatch('close-modal', id: 'edit-call-staff-attendance');
         $this->reset(['editingStaffId', 'editingDate', 'editingStatus', 'editingNotes']);
  
         Notification::make()
@@ -220,39 +196,5 @@ class CallStaffAttendance extends Page
             ->warning()
             ->send();
     }
- 
-    // ─── Quick-set all staff for a day ───────────────────────────────────────
- 
-    // public function markAllPresent(string $date): void
-    // {
-    //     $staffIds = $this->selectedGroup
-    //         ? CallStaff::where('call_staff_group_id', $this->selectedGroup)->pluck('id')
-    //         : CallStaff::all()->pluck('id');
- 
-    //     foreach ($staffIds as $id) {
-    //         AttendanceModel::updateOrCreate(
-    //             ['call_staff_id' => $id, 'date' => $date],
-    //             ['status' => 'present']
-    //         );
-    //     }
- 
-    //     Notification::make()->title('All marked present for ' . Carbon::parse($date)->format('M j'))->success()->send();
-    // }
- 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Action::make('export')
-                ->label('Export CSV')
-                ->icon('heroicon-o-arrow-down-tray')
-                ->color('gray')
-                ->action('exportCsv'),
-        ];
-    }
- 
-    public function exportCsv(): void
-    {
-        // Trigger a download — wire:click calls this, browser handles via response
-        $this->dispatch('export-csv', month: $this->selectedMonth, group: $this->selectedGroup);
-    }
+
 }
