@@ -11,16 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('call_shift_reports', function (Blueprint $table) {
+        Schema::create('call_staff_activities', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->string('shift_type');
-            $table->time('start_time');
-            $table->time('end_time');
-            $table->string('status');
-            $table->text('notes')->nullable();
-            $table->timestamps();
+            $table->foreignId('call_staff_id')->constrained();
+            $table->string('call_taker_id');
+            $table->string('attendance');
+            $table->string('console_id');
+            $table->integer('incoming');
+            $table->integer('received');
+            $table->integer('unanswered');
             $table->softDeletes();
+            $table->timestamps();
             $table->userstamps();
             $table->userstampSoftDeletes();
         });
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('call_shift_reports');
+        Schema::dropIfExists('call_staff_activities');
     }
 };

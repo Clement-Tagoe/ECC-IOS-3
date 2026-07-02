@@ -5,7 +5,7 @@ namespace App\Filament\Pages;
 use App\Filament\Widgets\MonitoringDashboard\CameraStatusByRegionChart2;
 use App\Filament\Widgets\MonitoringDashboard\LatestMonitoringTasks;
 use App\Filament\Widgets\MonitoringDashboard\MonitoringConsolesStatusWidget2;
-use App\Filament\Widgets\MonitoringDashboard\MonitoringShiftReportsWidget2;
+use App\Filament\Widgets\MonitoringDashboard\MonitoringStaffAttendanceChart2;
 use App\Filament\Widgets\MonitoringDashboard\MonitoringStatsOverview;
 use App\Filament\Widgets\MonitoringDashboard\TopMonitoringTopicsChart2;
 use Filament\Forms\Components\DatePicker;
@@ -64,7 +64,7 @@ class MonitoringDashboard extends BaseDashboard
             LatestMonitoringTasks::class,
             TopMonitoringTopicsChart2::class,
             CameraStatusByRegionChart2::class,
-            MonitoringShiftReportsWidget2::class,
+            MonitoringStaffAttendanceChart2::class,
         ];
     }
 }

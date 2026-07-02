@@ -2,10 +2,10 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\CallTakingDashboard\CallStaffAttendanceChart2;
 use App\Filament\Widgets\CallTakingDashboard\AgencyCaseLoadChart;
 use App\Filament\Widgets\CallTakingDashboard\CallBreakdownChart2;
 use App\Filament\Widgets\CallTakingDashboard\CallConsoleStatusWidget2;
-use App\Filament\Widgets\CallTakingDashboard\CallShiftReportsWidget2;
 use App\Filament\Widgets\CallTakingDashboard\CallStatsOverview;
 use App\Filament\Widgets\CallTakingDashboard\CasesByNatureChart;
 use App\Filament\Widgets\CallTakingDashboard\CasesByRegionChart;
@@ -59,11 +59,11 @@ class CallTakingDashboard extends BaseDashboard
             CallStatsOverview::class,
             CallConsoleStatusWidget2::class,
             LatestValidCases::class,
-            CallShiftReportsWidget2::class,
             CasesByNatureChart::class,
             AgencyCaseLoadChart::class,
             CasesByRegionChart::class,
             CallBreakdownChart2::class,
+            CallStaffAttendanceChart2::class,
             EmergencyContacts::class,
         ];
     }

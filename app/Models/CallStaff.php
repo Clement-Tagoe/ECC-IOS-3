@@ -21,35 +21,15 @@ class CallStaff extends Model
         return $this->belongsTo(CallStaffGroup::class, 'call_staff_group_id');
     }
 
-    public function attendances(): HasMany
-    {
-        return $this->hasMany(Attendance::class);
-    }
-
     public function callStaffAttendances(): HasMany
     {
         return $this->hasMany(CallStaffAttendance::class);
     }
 
-    public function attendanceForDate(string $date): ?Attendance
+    public function callStaffActivities(): HasMany
     {
-        return $this->attendances->firstWhere('date', $date);
+        return $this->hasMany(CallStaffActivity::class);
     }
 
-    // Convenience methods for summaries
-    public function presentCountForMonth(int $month, int $year): int
-    {
-        return $this->attendances()
-                    ->forMonth($month, $year)
-                    ->present()
-                    ->count();
-    }
 
-    public function absentCountForMonth(int $month, int $year): int
-    {
-        return $this->attendances()
-                    ->forMonth($month, $year)
-                    ->absent()
-                    ->count();
-    }
 }

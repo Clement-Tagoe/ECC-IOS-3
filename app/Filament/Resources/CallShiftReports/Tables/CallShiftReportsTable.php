@@ -42,36 +42,13 @@ class CallShiftReportsTable
                     ->searchable(),
                 TextColumn::make('start_time')
                     ->time()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 TextColumn::make('end_time')
                     ->time()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('expected_attendance')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('present')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('absent')
-                    ->numeric()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('absent_with_permission')
-                    ->numeric()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('occupied_consoles')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('unoccupied_consoles')
-                    ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

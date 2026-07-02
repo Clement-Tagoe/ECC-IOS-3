@@ -4,7 +4,7 @@ namespace App\Filament\Pages;
 
 
 use App\Filament\Widgets\MainDashboard\CallConsolesStatusWidget;
-use App\Filament\Widgets\MainDashboard\CallShiftReportsWidget;
+use App\Filament\Widgets\MainDashboard\CallStaffAttendanceChart;
 use App\Filament\Widgets\MainDashboard\CameraStatusByRegionChart;
 use App\Filament\Widgets\MainDashboard\ChartStackWrapper;
 use App\Filament\Widgets\MainDashboard\GhanaCasesMapWidget;
@@ -12,7 +12,7 @@ use App\Filament\Widgets\MainDashboard\LatestReports;
 use App\Filament\Widgets\MainDashboard\LatestTasks;
 use App\Filament\Widgets\MainDashboard\MainStatsOverview;
 use App\Filament\Widgets\MainDashboard\MonitoringConsolesStatusWidget;
-use App\Filament\Widgets\MainDashboard\MonitoringShiftReportsWidget;
+use App\Filament\Widgets\MainDashboard\MonitoringStaffAttendanceChart;
 use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Actions\FilterAction;
@@ -66,8 +66,8 @@ class MainDashboard extends BaseDashboard
             LatestTasks::class,
             CallConsolesStatusWidget::class,
             MonitoringConsolesStatusWidget::class,
-            CallShiftReportsWidget::class,
-            MonitoringShiftReportsWidget::class,
+            CallStaffAttendanceChart::class,
+            MonitoringStaffAttendanceChart::class,
             CameraStatusByRegionChart::class,
         ];
     }

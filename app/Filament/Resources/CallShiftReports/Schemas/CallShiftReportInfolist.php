@@ -24,18 +24,6 @@ class CallShiftReportInfolist
                             TextEntry::make('start_time'),
                             TextEntry::make('end_time'),
                             TextEntry::make('shift_type'),
-                            TextEntry::make('expected_attendance')
-                                ->numeric(), 
-                            TextEntry::make('present')
-                                ->numeric(), 
-                            TextEntry::make('absent')
-                                ->numeric(),
-                            TextEntry::make('absent_with_permission')
-                                ->numeric(),  
-                            TextEntry::make('occupied_consoles')
-                                ->numeric(), 
-                            TextEntry::make('unoccupied_consoles')
-                                ->numeric(), 
                             TextEntry::make('status')
                                 ->badge(),
                             TextEntry::make('notes')

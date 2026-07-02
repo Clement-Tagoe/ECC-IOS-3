@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attendances', function (Blueprint $table) {
+        Schema::create('monitoring_staff_attendances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('call_staff_id')->constrained('call_staffs')->cascadeOnDelete();
+            $table->foreignId('monitoring_staff_id')->constrained('monitoring_staffs')->cascadeOnDelete();
             $table->date('date');
-            $table->enum('status', ['present', 'absent']);
+            $table->string('status');
+            $table->text('notes')->nullable();
             $table->timestamps();
-            $table->softDeletes();
-            $table->userstamps();
-            $table->userstampSoftDeletes();
-            $table->unique(['call_staff_id', 'date']);
+
+            $table->unique(['monitoring_staff_id', 'date']);
+            $table->index(['date']);
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendances');
+        Schema::dropIfExists('monitoring_staff_attendances');
     }
 };

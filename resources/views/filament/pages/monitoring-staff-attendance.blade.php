@@ -137,15 +137,15 @@
                         @foreach ($staffMembers as $staff)
                             
                             @php
-                                $attendanceMap = $staff->callStaffAttendances->keyBy(
+                                $attendanceMap = $staff->monitoringStaffAttendances->keyBy(
                                     fn($a) => $a->date instanceof \Carbon\Carbon
                                         ? $a->date->toDateString()
                                         : \Carbon\Carbon::parse($a->date)->toDateString()
                                 );
-                                $presentCount  = $staff->callStaffAttendances->where('status', 'present')->count();
-                                $absentCount   = $staff->callStaffAttendances->where('status', 'absent')->count();
-                                $permCount     = $staff->callStaffAttendances->where('status', 'absent_with_permission')->count();
-                                $sickCount     = $staff->callStaffAttendances->where('status', 'sick')->count();
+                                $presentCount  = $staff->monitoringStaffAttendances->where('status', 'present')->count();
+                                $absentCount   = $staff->monitoringStaffAttendances->where('status', 'absent')->count();
+                                $permCount     = $staff->monitoringStaffAttendances->where('status', 'absent_with_permission')->count();
+                                $sickCount     = $staff->monitoringStaffAttendances->where('status', 'sick')->count();
 
                                 $totalMarked = $presentCount + $absentCount + $permCount + $sickCount;
                                 $attendanceRate = $totalMarked > 0
@@ -216,7 +216,7 @@
 
                                     <td class="px-0.5 py-1 text-center {{ $isToday ? 'ring-1 ring-inset ring-primary-300 dark:ring-primary-700' : '' }}">
                                         <button wire:click="openStaffAttendanceModal({{ $staff->id }}, '{{ $dateStr }}')"
-                                                title="{{ $day->format('D, M j') }}{{ $status ? ' – ' . \App\Models\CallStaffAttendance::statusOptions()[$status] : ' – Not marked' }}{{ $attendance?->notes ? "\n" . $attendance->notes : '' }}"
+                                                title="{{ $day->format('D, M j') }}{{ $status ? ' – ' . \App\Models\MonitoringStaffAttendance::statusOptions()[$status] : ' – Not marked' }}{{ $attendance?->notes ? "\n" . $attendance->notes : '' }}"
                                                 @if($isWeekend) class="w-8 h-8 rounded-md flex items-center justify-center mx-auto {{ $cellBg }} transition-colors opacity-50"
                                                 @else class="w-8 h-8 rounded-md flex items-center justify-center mx-auto {{ $cellBg }} transition-colors"
                                                 @endif>
@@ -265,7 +265,7 @@
         </div>
     </div>
 
-    <x-filament::modal id="edit-call-staff-attendance" width="lg">
+    <x-filament::modal id="edit-monitoring-staff-attendance" width="lg">
         <x-slot name="heading">
             Mark Attendance
         </x-slot>
