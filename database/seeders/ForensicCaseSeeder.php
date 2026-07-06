@@ -28,7 +28,7 @@ class ForensicCaseSeeder extends Seeder
             'case_title'   => 'Business Email Compromise — Zenith Financial Services',
             'reference_id' => 'DFI-2024-002',
             'location'     => 'Kumasi, Ashanti Region',
-            'status'                =>  'open',
+            'status'       =>  'open',
             'review_status'                => 'reviewed',
             'description'  => 'Zenith Financial Services reported a fraudulent wire transfer of GHS 420,000 following a suspected business email compromise. Investigation revealed that the CFO\'s Microsoft 365 account was accessed by a threat actor from an IP address geolocated in Lagos, Nigeria, after credentials were harvested via a phishing page visited on 2024-05-01. A malicious inbox rule was created to intercept finance-related correspondence and forward it to an external ProtonMail address. A spoofed payment instruction email was subsequently sent to the accounts team, resulting in the fraudulent transfer. The case is currently under review pending cloud account disclosure orders.',
         ])->receivers()->attach([2, 3]);

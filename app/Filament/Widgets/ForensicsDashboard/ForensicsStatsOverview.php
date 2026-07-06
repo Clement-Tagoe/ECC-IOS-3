@@ -33,60 +33,45 @@ class ForensicsStatsOverview extends StatsOverviewWidget
                         ? Carbon::parse($this->pageFilters['endDate'])->endOfDay() 
                         : now()->endOfDay();
 
-        $taskAssigned = Task::whereHas('collaborators', fn ($q) => $q->where('users.id', Auth::id()))
+        $forensicCasesSent = ForensicCase::where('user_id', Auth::id())
             ->whereBetween('created_at', [$startDate, $endDate])
             ->count();
 
-        $tasksCompleted = Task::where('status', 'completed')
-            ->whereHas('collaborators', fn ($q) => $q->where('users.id', Auth::id()))
+        $forensicCasesReceived = ForensicCase::whereHas('receivers', fn ($q) => $q->where('users.id', Auth::id()))
             ->whereBetween('created_at', [$startDate, $endDate])
             ->count();
 
-        $forensicCasesInReview = ForensicCase::where('status', 'in_review')
+         $forensicReportsSent = ForensicReport::where('user_id', Auth::id())
             ->whereBetween('created_at', [$startDate, $endDate])
             ->count();
 
-        $forensicCasesReviewed = ForensicCase::where('status', 'reviewed')
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->count();
-
-        $forensicReportsInReview = ForensicReport::where('status', 'in_review')
-            ->whereBetween('created_at', [$startDate, $endDate])
-            ->count();
-
-        $forensicReportsReviewed = ForensicReport::where('status', 'reviewed')
+        $forensicReportsReceived = ForensicReport::whereHas('receivers', fn ($q) => $q->where('users.id', Auth::id()))
             ->whereBetween('created_at', [$startDate, $endDate])
             ->count();
 
         return [
-            Stat::make('Forensic Cases In Review', $forensicCasesInReview)
-                ->description('Cases in review')
+            Stat::make('Forensic Cases Sent', $forensicCasesSent)
+                ->description('Sent Cases')
                 ->color('success')
                 ->icon('heroicon-o-document-arrow-up')
                 ->chart([2, 2, 2, 2, 2, 2, 2, 2]),
 
-            Stat::make('Forensic Cases Reviewed', $forensicCasesReviewed)
-                ->description('Cases reviewed')
+            Stat::make('Forensic Cases Received', $forensicCasesReceived)
+                ->description('Cases received')
                 ->color('auxiliary')
                 ->icon('heroicon-o-document-arrow-down')
                 ->chart([2, 2, 2, 2, 2, 2, 2, 2]),
             
-            Stat::make('Forensic Reports In Review', $forensicReportsInReview)
-                ->description('Reports in review')
+            Stat::make('Forensic Reports Sent', $forensicReportsSent)
+                ->description('Reports sent')
                 ->color('success')
                 ->icon('heroicon-o-document-arrow-up')
                 ->chart([2, 2, 2, 2, 2, 2, 2, 2]),
 
-            Stat::make('Forensic Reports Reviewed', $forensicReportsReviewed)
-                ->description('Reports reviewed')
+            Stat::make('Forensic Reports Received', $forensicReportsReceived)
+                ->description('Reports received')
                 ->color('auxiliary')
                 ->icon('heroicon-o-document-arrow-down')
-                ->chart([2, 2, 2, 2, 2, 2, 2, 2]),
-            
-            Stat::make('Tasks Assigned', $taskAssigned)
-                ->description('Tasks Assigned')
-                ->color('nonary')
-                ->icon('heroicon-o-clipboard-document')
                 ->chart([2, 2, 2, 2, 2, 2, 2, 2]),
 
             // Stat::make('Tasks Completed', $tasksCompleted)

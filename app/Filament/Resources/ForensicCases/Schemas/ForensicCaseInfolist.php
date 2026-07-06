@@ -185,14 +185,6 @@ class ForensicCaseInfolist
                     ->columnSpanFull()
                     ->schema([
                             Group::make([
-                                TextEntry::make('creator.name')
-                                    ->label('Created by'), 
-                                TextEntry::make('editor.name')
-                                    ->label('Edited by'),
-                                TextEntry::make('destroyer.name') 
-                                    ->label('Deleted by')
-                                ])->columns(3)->columnSpan(2),
-                            Group::make([
                                 TextEntry::make('created_at')
                                     ->dateTime(),
                                 TextEntry::make('updated_at')

@@ -9,13 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\Commentions\Contracts\Commentable;
 use Kirschbaum\Commentions\HasComments;
-use Mattiverse\Userstamps\Traits\Userstamps;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class ForensicCase extends Model implements HasMedia, Commentable
 {
-    use Userstamps, SoftDeletes, InteractsWithMedia, HasComments;
+    use SoftDeletes, InteractsWithMedia, HasComments;
 
     protected $guarded = [];
 

@@ -2,6 +2,12 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\ForensicsDashboard\ForensicReportsSentChart;
+use App\Filament\Widgets\ForensicsDashboard\ForensicCaseReviewStatusChart;
+use App\Filament\Widgets\ForensicsDashboard\ForensicCasesSentChart;
+use App\Filament\Widgets\ForensicsDashboard\ForensicCaseStatusChart;
+use App\Filament\Widgets\ForensicsDashboard\ForensicReportsReviewStatusChart;
+use App\Filament\Widgets\ForensicsDashboard\ForensicReportsStatusChart;
 use App\Filament\Widgets\ForensicsDashboard\ForensicsStatsOverview;
 use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Dashboard as BaseDashboard;
@@ -42,6 +48,12 @@ class ForensicsDashboard extends BaseDashboard
     {
         return [
             ForensicsStatsOverview::class,
+            ForensicCaseStatusChart::class,
+            ForensicCaseReviewStatusChart::class,
+            ForensicCasesSentChart::class,
+            ForensicReportsStatusChart::class,
+            ForensicReportsReviewStatusChart::class,
+            ForensicReportsSentChart::class,
         ];
     }
 }

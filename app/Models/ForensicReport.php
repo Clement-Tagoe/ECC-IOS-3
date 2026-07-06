@@ -15,7 +15,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class ForensicReport extends Model implements HasMedia, Commentable
 {
-    use Userstamps, SoftDeletes, InteractsWithMedia, HasComments;
+    use SoftDeletes, InteractsWithMedia, HasComments;
 
     protected $guarded = [];
 

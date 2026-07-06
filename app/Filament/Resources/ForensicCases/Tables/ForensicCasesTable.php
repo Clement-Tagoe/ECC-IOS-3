@@ -42,18 +42,6 @@ class ForensicCasesTable
                     ->label('Sent To')
                     ->badge()
                     ->color('gray'),
-                TextColumn::make('creator.name')
-                    ->label('Created by')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('editor.name')
-                    ->label('Edited by')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('destroyer.name')
-                    ->label('Deleted by')
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
