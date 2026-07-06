@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\ForensicCase;
+use App\Models\ForensicReport;
 use App\Models\Report;
 use App\Models\Task;
 use App\Observers\MessageObserver;
@@ -49,6 +51,8 @@ class AppServiceProvider extends ServiceProvider
             $involved = match (true) {
                 $record instanceof Task   => collect([$record->user])->merge($record->collaborators),
                 $record instanceof Report => collect([$record->user])->merge($record->receivers),
+                $record instanceof ForensicCase   => collect([$record->user])->merge($record->receivers),
+                $record instanceof ForensicReport => collect([$record->user])->merge($record->receivers),
                 default                   => collect(),
             };
 

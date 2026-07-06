@@ -2,13 +2,16 @@
 
 namespace App\Filament\Resources\ForensicCases\Schemas;
 
+use App\Enums\ForensicCaseReviewStatus;
 use App\Enums\ForensicCaseStatus;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class ForensicCaseForm
@@ -33,11 +36,32 @@ class ForensicCaseForm
                             ->inline()
                             ->required()
                             ->live()
-                            ->default(ForensicCaseStatus::InReview)
-                            ->disabled(fn () => !Auth::user()->hasRole(['System-Admin', 'Director', 'Unit-Head(Call-Taking)'])),
+                            ->default(ForensicCaseStatus::Open),
+                        ToggleButtons::make('review_status')
+                            ->options(ForensicCaseReviewStatus::class)
+                            ->inline()
+                            ->required()
+                            ->live()
+                            ->default(ForensicCaseReviewStatus::InReview),
                         Textarea::make('description')
                             ->required()
                             ->columnSpanFull(),
+                        Select::make('collaborators')
+                            ->relationship('collaborators', 'name')
+                            ->multiple()
+                            ->searchable()
+                            ->preload()
+                            ->nullable(),
+                        Select::make('receivers')
+                            ->label('Send To (Receivers)')
+                            ->relationship(
+                                name: 'receivers', 
+                                titleAttribute: 'name',
+                                modifyQueryUsing: fn (Builder $query) => $query->where('users.id', '!=',Auth::id()))   // assuming User has 'name' column
+                            ->multiple()
+                            ->searchable()
+                            ->preload()
+                            ->required(),
                         SpatieMediaLibraryFileUpload::make('evidence_files')
                                 ->collection('forensic-evidence-files')
                                 ->multiple()

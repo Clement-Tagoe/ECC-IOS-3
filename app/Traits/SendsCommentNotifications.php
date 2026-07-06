@@ -2,8 +2,12 @@
 
 namespace App\Traits;
 
+use App\Filament\Resources\ForensicCases\ForensicCaseResource;
+use App\Filament\Resources\ForensicReports\ForensicReportResource;
 use App\Filament\Resources\Reports\ReportResource;
 use App\Filament\Resources\Tasks\TaskResource;
+use App\Models\ForensicCase;
+use App\Models\ForensicReport;
 use App\Models\Report;
 use App\Models\Task;
 use Filament\Actions\Action;
@@ -45,6 +49,8 @@ trait SendsCommentNotifications
             return match (true) {
                 $record instanceof Task   => TaskResource::getUrl('view', ['record' => $record]),
                 $record instanceof Report => ReportResource::getUrl('view', ['record' => $record]),
+                $record instanceof ForensicCase   => ForensicCaseResource::getUrl('view', ['record' => $record]),
+                $record instanceof ForensicReport => ForensicReportResource::getUrl('view', ['record' => $record]),
                 default                   => null,
             };
         };

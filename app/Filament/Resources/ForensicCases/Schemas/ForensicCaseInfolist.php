@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\ForensicCases\Schemas;
 
-
+use App\Models\ForensicCase;
 use Filament\Actions\Action;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\RepeatableEntry;
@@ -13,6 +13,7 @@ use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
+use Kirschbaum\Commentions\Filament\Infolists\Components\CommentsEntry;
 
 
 class ForensicCaseInfolist
@@ -31,6 +32,15 @@ class ForensicCaseInfolist
                             TextEntry::make('location'),
                             TextEntry::make('status')
                                 ->badge(),
+                            TextEntry::make('review_status')
+                                ->badge(),
+                            TextEntry::make('collaborators.name')
+                                ->label('Collaborators')
+                                ->listWithLineBreaks()
+                                ->placeholder('No collaborators'),
+                            TextEntry::make('receivers.name')
+                                ->label('Sent To (Receivers)')
+                                ->listWithLineBreaks(),
                             TextEntry::make('description') 
                                 ->columnSpanFull(),
                             ]),
@@ -191,6 +201,19 @@ class ForensicCaseInfolist
                                     ->dateTime(),
                                 ])->columns(3)->columnSpan(2),
                             ]),
+                Section::make()
+                    ->columnSpanFull()
+                    ->schema([
+                        CommentsEntry::make('comments')
+                            ->mentionables(function (ForensicCase $record) {
+                                return $record->receivers
+                                    ->push($record->user)
+                                    ->filter()
+                                    ->unique('id');
+
+                            })
+                            ->perPage(8),
+                    ]),
         ]);
     }
 }

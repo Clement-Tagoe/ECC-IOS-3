@@ -2,14 +2,17 @@
 
 namespace App\Filament\Resources\ForensicReports\Schemas;
 
+use App\Enums\ForensicReportReviewStatus;
 use App\Enums\ForensicReportStatus;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class ForensicReportForm
@@ -39,8 +42,29 @@ class ForensicReportForm
                             ->inline()
                             ->required()
                             ->live()
-                            ->default(ForensicReportStatus::InReview)
-                            ->disabled(fn () => !Auth::user()->hasRole(['System-Admin', 'Director', 'Unit-Head(Call-Taking)'])),
+                            ->default(ForensicReportStatus::Open),
+                        ToggleButtons::make('review_status')
+                            ->options(ForensicReportReviewStatus::class)
+                            ->inline()
+                            ->required()
+                            ->live()
+                            ->default(ForensicReportReviewStatus::InReview),
+                        Select::make('collaborators')
+                            ->relationship('collaborators', 'name')
+                            ->multiple()
+                            ->searchable()
+                            ->preload()
+                            ->nullable(),
+                        Select::make('receivers')
+                            ->label('Send To (Receivers)')
+                            ->relationship(
+                                name: 'receivers', 
+                                titleAttribute: 'name',
+                                modifyQueryUsing: fn (Builder $query) => $query->where('users.id', '!=',Auth::id()))   // assuming User has 'name' column
+                            ->multiple()
+                            ->searchable()
+                            ->preload()
+                            ->required(),
                     ]),
             
                 Section::make('2. Declaration')

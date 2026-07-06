@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ForensicReports\Tables;
 
 use App\Enums\ForensicReportStatus;
 use App\Filament\Exports\ForensicReportExporter;
+use App\Models\ForensicReport;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -24,6 +25,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 class ForensicReportsTable
 {
@@ -31,15 +33,23 @@ class ForensicReportsTable
     {
         return $table
             ->columns([
+                TextColumn::make('user.name')
+                    ->label('Sent By')
+                    ->searchable(),
                 TextColumn::make('case_reference_number')
                     ->searchable(),
                 TextColumn::make('investigation_title')
                     ->searchable(),
-                TextColumn::make('requesting_agency')
-                    ->searchable(),
                 TextColumn::make('status')
                     ->badge()
                     ->searchable(),
+                TextColumn::make('review_status')
+                    ->badge()
+                    ->searchable(),
+                TextColumn::make('receivers.name')
+                    ->label('Sent To')
+                    ->badge()
+                    ->color('gray'),
                 TextColumn::make('creator.name')
                     ->label('Created by')
                     ->searchable()
@@ -103,6 +113,14 @@ class ForensicReportsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                CommentsAction::make()
+                    ->mentionables(function (ForensicReport $record) {
+                        return $record->receivers
+                            ->push($record->user)
+                            ->filter()
+                            ->unique('id');
+                    })
+                    ->perPage(10),
                 DeleteAction::make(),
                 ForceDeleteAction::make(),
                 RestoreAction::make(),

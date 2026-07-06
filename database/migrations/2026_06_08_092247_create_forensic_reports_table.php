@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('forensic_reports', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
             // 1. Case Information
             $table->string('case_reference_number')->unique();
             $table->string('investigation_title');
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->string('court_jurisdiction')->nullable();
             $table->date('date_of_examination');
             $table->string('status');
+            $table->string('review_status');
  
             // 2. Declaration
             $table->text('certification_of_evidence_integrity')->nullable();
@@ -114,8 +116,7 @@ return new class extends Migration
             
             $table->timestamps();
             $table->softDeletes();
-            $table->userstamps();
-            $table->userstampSoftDeletes();
+            
             
         });
     }

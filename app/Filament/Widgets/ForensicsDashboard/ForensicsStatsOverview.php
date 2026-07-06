@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Auth;
 class ForensicsStatsOverview extends StatsOverviewWidget
 {
     use InteractsWithPageFilters;
+
+    public function getColumns(): int | array
+    {
+        return [
+            'md' => 3,
+            'xl' => 4,
+        ];
+    }
     
     protected function getStats(): array
     {

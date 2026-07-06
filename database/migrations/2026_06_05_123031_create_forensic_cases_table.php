@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('forensic_cases', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->string('case_title');
             $table->string('reference_id');
             $table->string('location');
             $table->string('status');
+            $table->string('review_status');
             $table->longText('description');
             $table->timestamps();
             $table->softDeletes();
-            $table->userstamps();
-            $table->userstampSoftDeletes();
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ForensicCases\Tables;
 
 use App\Filament\Exports\ForensicCaseExporter;
+use App\Models\ForensicCase;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -20,6 +21,7 @@ use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 class ForensicCasesTable
 {
@@ -27,14 +29,19 @@ class ForensicCasesTable
     {
         return $table
             ->columns([
+                TextColumn::make('user.name')
+                    ->label('Sent By')
+                    ->searchable(),
                 TextColumn::make('case_title')
-                    ->searchable(),
-                TextColumn::make('reference_id')
-                    ->searchable(),
-                TextColumn::make('location')
                     ->searchable(),
                 TextColumn::make('status')
                     ->badge(),
+                TextColumn::make('review_status')
+                    ->badge(),
+                TextColumn::make('receivers.name')
+                    ->label('Sent To')
+                    ->badge()
+                    ->color('gray'),
                 TextColumn::make('creator.name')
                     ->label('Created by')
                     ->searchable()
@@ -96,6 +103,14 @@ class ForensicCasesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                CommentsAction::make()
+                    ->mentionables(function (ForensicCase $record) {
+                        return $record->receivers
+                            ->push($record->user)
+                            ->filter()
+                            ->unique('id');
+                    })
+                    ->perPage(10),
                 DeleteAction::make(),
             ])
             ->toolbarActions([

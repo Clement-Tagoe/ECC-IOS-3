@@ -9,31 +9,36 @@ use Filament\Support\Icons\Heroicon;
 
 enum ForensicReportStatus: string implements HasColor, HasIcon, HasLabel
 {
-    case InReview = 'in_review';
+    case Open = 'open';
 
-    case Reviewed = 'reviewed';
+    case OnHold = 'on_hold';
+
+    case Closed = 'closed';
 
     public function getLabel(): string
     {
         return match ($this) {
-            self::InReview => 'In Review',
-            self::Reviewed => 'Reviewed',
+            self::Open => 'Open',
+            self::OnHold => 'On Hold',
+            self::Closed => 'Closed',
         };
     }
 
     public function getColor(): string
     {
         return match ($this) {
-            self::InReview => 'primary',
-            self::Reviewed => 'success',
+            self::Open => 'primary',
+            self::OnHold => 'warning',
+            self::Closed => 'success',
         };
     }
 
     public function getIcon(): Heroicon
     {
         return match ($this) {
-            self::InReview => Heroicon::Eye,
-            self::Reviewed => Heroicon::CheckCircle,
+            self::Open => Heroicon::FolderOpen,
+            self::OnHold => Heroicon::PauseCircle,
+            self::Closed => Heroicon::CheckCircle,
         };
     }
 }

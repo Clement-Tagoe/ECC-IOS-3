@@ -2,17 +2,17 @@
 
 namespace App\Filament\Resources\ForensicReports\Schemas;
 
-
+use App\Models\ForensicReport;
 use Filament\Actions\Action;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\RepeatableEntry;
-use Filament\Infolists\Components\RepeatableEntry\TableColumn;
 use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
+use Kirschbaum\Commentions\Filament\Infolists\Components\CommentsEntry;
 
 
 class ForensicReportInfolist
@@ -42,6 +42,16 @@ class ForensicReportInfolist
                         TextEntry::make('status')
                             ->label('Status')
                             ->badge(),
+                        TextEntry::make('review_status')
+                            ->label('Review Status')
+                            ->badge(),
+                        TextEntry::make('collaborators.name')
+                            ->label('Collaborators')
+                            ->listWithLineBreaks()
+                            ->placeholder('No collaborators'),
+                        TextEntry::make('receivers.name')
+                            ->label('Sent To (Receivers)')
+                            ->listWithLineBreaks(),
                     ]),
  
                 // ── 2. Declaration ───────────────────────────────────────────
@@ -408,6 +418,19 @@ class ForensicReportInfolist
                             TextEntry::make('updated_at')->label('Updated At')->dateTime(),
                             TextEntry::make('deleted_at')->label('Deleted At')->dateTime(),
                         ])->columns(3)->columnSpan(2),
+                    ]),
+            Section::make()
+                    ->columnSpanFull()
+                    ->schema([
+                        CommentsEntry::make('comments')
+                            ->mentionables(function (ForensicReport $record) {
+                                return $record->receivers
+                                    ->push($record->user)
+                                    ->filter()
+                                    ->unique('id');
+
+                            })
+                            ->perPage(8),
                     ]),
         ]);
     }

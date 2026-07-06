@@ -14,6 +14,7 @@ class ForensicReportSeeder extends Seeder
     public function run(): void
     {
         ForensicReport::create([
+                'user_id' => 1,
             // 1. Case Information
                 'case_reference_number' => 'DFI-2024-001',
                 'investigation_title'   => 'Unauthorized Data Exfiltration — Acme Corp',
@@ -21,7 +22,8 @@ class ForensicReportSeeder extends Seeder
                 'lead_examiner'         => 'Dr. Samuel Osei',
                 'court_jurisdiction'    => 'High Court, Accra — Commercial Division',
                 'date_of_examination'   => '2024-03-10',
-                'status'                => 'reviewed',
+                'status'                =>  'open',
+                'review_status'                => 'reviewed',
  
                 // 2. Declaration
                 'certification_of_evidence_integrity' => 'I certify that the evidence was acquired using forensically sound methods and has not been altered in any way during the examination process.',
@@ -111,9 +113,10 @@ class ForensicReportSeeder extends Seeder
                 'tool_logs'            => 'FTK Imager acquisition log attached. Autopsy case export log attached.',
                 'evidence_photographs' => json_encode(['photos/case001/device_front.jpg', 'photos/case001/evidence_tag.jpg']),
                 'glossary_of_terms'    => "MFT — Master File Table: NTFS structure recording metadata for every file on the volume.\nLNK — Shell Link file: Windows shortcut artefact recording recently accessed files.\nPrefetch — Windows artefact recording application execution history.\nUSBSTOR — Windows registry hive recording USB storage device connection history.",
-        ]);
+        ])->receivers()->attach([3, 4]);
 
     ForensicReport::create([
+                'user_id' => 1,
         // 1. Case Information
                 'case_reference_number' => 'DFI-2024-002',
                 'investigation_title'   => 'Business Email Compromise — Zenith Financial Services',
@@ -121,7 +124,8 @@ class ForensicReportSeeder extends Seeder
                 'lead_examiner'         => 'Insp. Abena Kyei',
                 'court_jurisdiction'    => 'District Court, Kumasi',
                 'date_of_examination'   => '2024-05-20',
-                'status'                => 'reviewed',
+                'status'                =>  'open',
+                'review_status'                => 'reviewed',
  
                 // 2. Declaration
                 'certification_of_evidence_integrity' => 'I certify that all digital evidence was handled and examined in a forensically sound manner, preserving its integrity throughout.',
@@ -211,9 +215,10 @@ class ForensicReportSeeder extends Seeder
                 'tool_logs'            => 'Magnet AXIOM processing log attached. Azure AD export log attached.',
                 'evidence_photographs' => json_encode(['photos/case002/laptop_front.jpg', 'photos/case002/evidence_seal.jpg']),
                 'glossary_of_terms'    => "BEC — Business Email Compromise: A form of cybercrime targeting organisations that conduct wire transfers.\nPST — Personal Storage Table: Microsoft Outlook email archive format.\nAzure AD — Microsoft's cloud-based identity and access management service.\nMFA — Multi-Factor Authentication: Security mechanism requiring multiple verification steps.",
-        ]);
+        ])->receivers()->attach([3, 4]);;
 
     ForensicReport::create([
+                'user_id' => 1,
         // 1. Case Information
                 'case_reference_number' => 'DFI-2024-003',
                 'investigation_title'   => 'Possession of Prohibited Digital Material — Suspect: J. Doe',
@@ -221,7 +226,8 @@ class ForensicReportSeeder extends Seeder
                 'lead_examiner'         => 'Det. Cpl. Kwame Asante',
                 'court_jurisdiction'    => 'High Court, Accra — Criminal Division',
                 'date_of_examination'   => '2024-07-05',
-                'status'                => 'in_review',
+                'status'                =>  'open',
+                'review_status'                => 'in_review',
  
                 // 2. Declaration
                 'certification_of_evidence_integrity' => 'I certify that evidence was handled strictly in accordance with Ghana Police Service evidence handling protocols and has not been altered.',
@@ -311,6 +317,6 @@ class ForensicReportSeeder extends Seeder
                 'tool_logs'            => 'Cellebrite UFED extraction report attached. FTK Imager acquisition log attached. Autopsy case export pending.',
                 'evidence_photographs' => json_encode(['photos/case003/samsung_front.jpg', 'photos/case003/hdd_label.jpg', 'photos/case003/faraday_bag_sealed.jpg']),
                 'glossary_of_terms'    => "IMEI — International Mobile Equipment Identity: Unique identifier for mobile devices.\nUFED — Universal Forensic Extraction Device: Cellebrite mobile forensic acquisition tool.\nVeraCrypt — Open-source disk encryption software used to create encrypted containers.\nMLAT — Mutual Legal Assistance Treaty: International agreement for cross-border evidence sharing.\nFaraday bag — RF-shielded bag preventing wireless signals from reaching a device.",
-            ]);
+            ])->receivers()->attach([3, 4]);;
     }
 }
