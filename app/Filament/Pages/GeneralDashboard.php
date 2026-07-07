@@ -9,6 +9,8 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Actions\FilterAction;
 use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
+use Illuminate\Support\Facades\Gate;
+use UnitEnum;
 
 class GeneralDashboard extends BaseDashboard
 {
@@ -18,7 +20,14 @@ class GeneralDashboard extends BaseDashboard
 
     protected static ?string $title = 'General Dashboard';
 
+    protected static string | UnitEnum | null $navigationGroup = 'Dashboards';
+
     protected static ?int $navigationSort = -4;
+
+    public static function canAccess(): bool
+    {
+        return Gate::allows('View:GeneralDashboard');
+    }
     
     protected function getHeaderActions(): array
     {

@@ -15,10 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('contact');
-            $table->string('agency')->nullable();
-            $table->string('location')->nullable();
-            $table->string('district')->nullable();
-            $table->string('region')->nullable();
+            $table->foreignId('region_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('agency_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('location_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
             $table->userstamps();

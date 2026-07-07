@@ -22,4 +22,5 @@ class CallConsole extends Model
     {
         return $this->belongsTo(CallStaff::class, 'call_staff_id');
     }
+
 }

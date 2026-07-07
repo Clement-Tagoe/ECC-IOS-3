@@ -26,7 +26,7 @@ class MonitoringDashboard extends BaseDashboard
 
     protected static ?int $navigationSort = -2;
 
-    protected static string | UnitEnum | null $navigationGroup = 'Monitoring';
+    protected static string | UnitEnum | null $navigationGroup = 'Dashboards';
 
     protected static ?string $navigationLabel = 'Monitoring Dashboard';
 

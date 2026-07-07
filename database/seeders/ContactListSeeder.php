@@ -16,28 +16,25 @@ class ContactListSeeder extends Seeder
         ContactList::create([
             'name' => 'Lawrence Atizigi',
             'contact' => '0244123457',
-            'agency' => 'ECG',
-            'location' => 'Tema Comm.11',
-            'district' => 'Tema Central',
-            'region' => 'Greater Accra Region'
+            'agency_id' => 1,
+            'location_id' => 1,
+            'region_id' => 1
         ]);
 
         ContactList::create([
             'name' => 'Patricia Lomotey',
             'contact' => '0205123787',
-            'agency' => 'Fire Service',
-            'location' => 'East Legon',
-            'district' => 'Ayawaso West Wuguon',
-            'region' => 'Greater Accra Region'
+            'agency_id' => 2,
+            'location_id' => 1,
+            'region_id' => 1
         ]);
 
         ContactList::create([
             'name' => 'Matthew Addo',
             'contact' => '027321452',
-            'agency' => 'Ghana Police',
-            'location' => 'Osu',
-            'district' => 'Ledzokuku',
-            'region' => 'Greater Accra Region'
+            'agency_id' => 3,
+            'location_id' => 1,
+            'region_id' => 1
         ]);
     }
 }

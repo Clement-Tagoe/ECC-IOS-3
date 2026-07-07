@@ -2,10 +2,10 @@
 
 namespace App\Filament\Pages;
 
-use App\Filament\Widgets\CallTakingDashboard\CallStaffAttendanceChart2;
 use App\Filament\Widgets\CallTakingDashboard\AgencyCaseLoadChart;
 use App\Filament\Widgets\CallTakingDashboard\CallBreakdownChart2;
 use App\Filament\Widgets\CallTakingDashboard\CallConsoleStatusWidget2;
+use App\Filament\Widgets\CallTakingDashboard\CallStaffAttendanceChart2;
 use App\Filament\Widgets\CallTakingDashboard\CallStatsOverview;
 use App\Filament\Widgets\CallTakingDashboard\CasesByNatureChart;
 use App\Filament\Widgets\CallTakingDashboard\CasesByRegionChart;
@@ -16,6 +16,7 @@ use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Actions\FilterAction;
 use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
 use Filament\Support\Enums\Width;
+use Illuminate\Support\Facades\Gate;
 use UnitEnum;
 
 class CallTakingDashboard extends BaseDashboard
@@ -30,7 +31,12 @@ class CallTakingDashboard extends BaseDashboard
 
     protected static ?string $navigationLabel = 'Call-Taking Dashboard';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Call-Taking';
+    protected static string | UnitEnum | null $navigationGroup = 'Dashboards';
+
+    public static function canAccess(): bool
+    {
+        return Gate::allows('View:CallTakingDashboard');
+    }
 
     public function getMaxContentWidth(): Width
     {

@@ -11,6 +11,8 @@ use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Actions\FilterAction;
 use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
 use Filament\Support\Enums\Width;
+use Illuminate\Support\Facades\Gate;
+use UnitEnum;
 
 class LogisticsDashboard extends BaseDashboard
 {
@@ -19,6 +21,13 @@ class LogisticsDashboard extends BaseDashboard
     protected static string $routePath = 'logistics-dashboard';
 
     protected static ?string $title = 'Logistics Dashboard';
+
+    protected static string | UnitEnum | null $navigationGroup = 'Dashboards';
+
+    public static function canAccess(): bool
+    {
+        return Gate::allows('View:LogisticsDashboard');
+    }
 
     public function getColumns(): int | array
     {

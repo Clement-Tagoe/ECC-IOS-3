@@ -87,7 +87,29 @@ class ListConsolesStatus extends Page
                             ->placeholder('Unassigned'),
                 ])
                 ->action(function (array $data, CallConsole $record):void {
+                        $isBlockedStatus = in_array(
+                        $record->status->value,
+                        [ConsoleStatus::Faulty, ConsoleStatus::Maintenance],
+                        true
+                    );
+
+                    if (! empty($data['call_staff_id']) && $isBlockedStatus) {
+                        $this->mountAction('cannotAssignConsole');
+                        return;
+                    }
+
                     $record->update($data);
                 });
+    }
+
+    public function cannotAssignConsoleAction(): Action
+    {
+        return Action::make('cannotAssignConsole')
+            ->modalHeading('Cannot assign this console')
+            ->modalDescription('This console is faulty or under maintenance and cannot be assigned to a staff member. Please change the status first.')
+            ->modalIcon('heroicon-o-exclamation-triangle')
+            ->modalIconColor('warning')
+            ->modalSubmitAction(false)
+            ->modalCancelActionLabel('OK');
     }
 }

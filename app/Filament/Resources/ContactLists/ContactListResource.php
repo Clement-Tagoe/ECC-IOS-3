@@ -17,12 +17,15 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class ContactListResource extends Resource
 {
     protected static ?string $model = ContactList::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::DevicePhoneMobile;
+
+    protected static string | UnitEnum | null $navigationGroup = 'Others';
 
     protected static ?string $recordTitleAttribute = 'name';
 

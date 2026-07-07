@@ -20,7 +20,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 28000,
             'unanswered_calls' => 3000,
             'status' => 'in_review',
-            'shift' => 'Morning',
+            'shift' => 'morning',
             'start_time' => '07:00:00',
             'end_time' => '19:00:00',
             'date' => Carbon::now(),
@@ -33,7 +33,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 29800,
             'unanswered_calls' => 4200,
             'status' => 'in_review',
-            'shift' => 'Morning',
+            'shift' => 'morning',
             'start_time' => '07:00:00',
             'end_time' => '19:00:00',
             'date' => Carbon::now()->subDays(1)
@@ -46,7 +46,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 25500,
             'unanswered_calls' => 4600,
             'status' => 'reviewed',
-            'shift' => 'Night',
+            'shift' => 'night',
             'start_time' => '19:00:00',
             'end_time' => '07:00:00',
             'date' => Carbon::now()->subDays(2)
@@ -59,7 +59,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 19800,
             'unanswered_calls' => 1700,
             'status' => 'in_review',
-            'shift' => 'Morning',
+            'shift' => 'morning',
             'start_time' => '07:00:00',
             'end_time' => '19:00:00',
             'date' => Carbon::now()->subDays(3)
@@ -72,7 +72,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 33500,
             'unanswered_calls' => 6800,
             'status' => 'reviewed',
-            'shift' => 'Night',
+            'shift' => 'night',
             'start_time' => '19:00:00',
             'end_time' => '07:00:00',
             'date' => Carbon::now()->subDays(4)
@@ -85,7 +85,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 22000,
             'unanswered_calls' => 2500,
             'status' => 'in_review',
-            'shift' => 'Morning',
+            'shift' => 'morning',
             'start_time' => '07:00:00',
             'end_time' => '19:00:00',
             'date' => Carbon::now()->subDays(5)
@@ -98,7 +98,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 30500,
             'unanswered_calls' => 5150,
             'status' => 'reviewed',
-            'shift' => 'Night',
+            'shift' => 'night',
             'start_time' => '19:00:00',
             'end_time' => '07:00:00',
             'date' => Carbon::now()->subDays(6)
@@ -111,7 +111,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 24800,
             'unanswered_calls' => 3600,
             'status' => 'in_review',
-            'shift' => 'Morning',
+            'shift' => 'morning',
             'start_time' => '07:00:00',
             'end_time' => '19:00:00',
             'date' => Carbon::now()->subDays(7)
@@ -124,7 +124,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 36800,
             'unanswered_calls' => 7500,
             'status' => 'reviewed',
-            'shift' => 'Night',
+            'shift' => 'night',
             'start_time' => '19:00:00',
             'end_time' => '07:00:00',
             'date' => Carbon::now()->subDays(8)
@@ -137,7 +137,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 22800,
             'unanswered_calls' => 2800,
             'status' => 'in_review',
-            'shift' => 'Morning',
+            'shift' => 'morning',
             'start_time' => '07:00:00',
             'end_time' => '19:00:00',
             'date' => Carbon::now()->subDays(9)
@@ -150,7 +150,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 27800,
             'unanswered_calls' => 5400,
             'status' => 'reviewed',
-            'shift' => 'Night',
+            'shift' => 'night',
             'start_time' => '19:00:00',
             'end_time' => '07:00:00',
             'date' => Carbon::now()->subDays(10)

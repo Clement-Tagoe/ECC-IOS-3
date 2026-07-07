@@ -5,12 +5,13 @@ namespace App\Filament\Pages;
 use App\Filament\Widgets\ReceptionDashboard\PeakHoursChart;
 use App\Filament\Widgets\ReceptionDashboard\ReceptionTrendChart;
 use App\Filament\Widgets\ReceptionDashboard\VisitorManagementOverviewWidget;
-use App\Filament\Widgets\ReceptionDashboard\VisitorStatsOverviewWidget;
 use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Actions\FilterAction;
 use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
 use Filament\Support\Enums\Width;
+use Illuminate\Support\Facades\Gate;
+use UnitEnum;
 
 class ReceptionDashboard extends BaseDashboard
 {
@@ -21,6 +22,13 @@ class ReceptionDashboard extends BaseDashboard
     protected static ?string $title = 'Reception Dashboard';
 
     protected static ?string $navigationLabel = 'Reception Dashboard';
+
+    protected static string | UnitEnum | null $navigationGroup = 'Dashboards';
+
+    public static function canAccess(): bool
+    {
+        return Gate::allows('View:ReceptionDashboard');
+    }
 
     public function getColumns(): int | array
     {
@@ -47,7 +55,6 @@ class ReceptionDashboard extends BaseDashboard
     {
         return [
             VisitorManagementOverviewWidget::class,
-            // VisitorStatsOverviewWidget::class,
             ReceptionTrendChart::class,
             PeakHoursChart::class,
         ];

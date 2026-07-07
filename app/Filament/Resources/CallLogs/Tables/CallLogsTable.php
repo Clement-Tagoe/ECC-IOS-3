@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\CallLogs\Tables;
 
 use App\Enums\CallLogStatus;
+use App\Enums\ShiftType;
 use App\Filament\Exports\CallLogExporter;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
@@ -119,10 +120,7 @@ class CallLogsTable
                         return $indicators;
                     })->columnSpan(2)->columns(2),
                 SelectFilter::make('shift')
-                        ->options([
-                            'Day' => 'Day',
-                            'Night' => 'Night',
-                        ]),
+                        ->options(ShiftType::class),
                 SelectFilter::make('status')
                         ->options(CallLogStatus::class),
                 TrashedFilter::make(),

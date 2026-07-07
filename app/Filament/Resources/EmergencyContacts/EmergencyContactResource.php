@@ -25,6 +25,8 @@ class EmergencyContactResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'Call-Taking';
 
+    protected static ?int $navigationSort = 6;
+
     protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Schema $schema): Schema

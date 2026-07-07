@@ -81,6 +81,7 @@ class AuthPanelProvider extends PanelProvider
             ->registration()
             // ->profile()
             ->navigationGroups([
+                'Dashboards',
                 'General',
                 'Call-Taking',
                 'Monitoring',
