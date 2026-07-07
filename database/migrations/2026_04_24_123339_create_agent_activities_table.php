@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('agent_activities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('call_shift_report_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('call_log_id')->constrained()->cascadeOnDelete();
             $table->foreignId('call_staff_id')->constrained();
             $table->string('call_taker_id');
             $table->string('attendance');

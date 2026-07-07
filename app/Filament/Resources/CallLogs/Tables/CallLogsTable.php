@@ -50,7 +50,7 @@ class CallLogsTable
                 TextColumn::make('status')
                     ->badge(),
                 TextColumn::make('shift')
-                    ->searchable(),
+                    ->badge(),
                 TextColumn::make('start_time')
                     ->time()
                     ->sortable()

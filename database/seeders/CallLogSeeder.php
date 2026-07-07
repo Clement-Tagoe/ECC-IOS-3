@@ -20,7 +20,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 28000,
             'unanswered_calls' => 3000,
             'status' => 'in_review',
-            'shift' => 'Day',
+            'shift' => 'Morning',
             'start_time' => '07:00:00',
             'end_time' => '19:00:00',
             'date' => Carbon::now(),
@@ -33,7 +33,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 29800,
             'unanswered_calls' => 4200,
             'status' => 'in_review',
-            'shift' => 'Day',
+            'shift' => 'Morning',
             'start_time' => '07:00:00',
             'end_time' => '19:00:00',
             'date' => Carbon::now()->subDays(1)
@@ -59,7 +59,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 19800,
             'unanswered_calls' => 1700,
             'status' => 'in_review',
-            'shift' => 'Day',
+            'shift' => 'Morning',
             'start_time' => '07:00:00',
             'end_time' => '19:00:00',
             'date' => Carbon::now()->subDays(3)
@@ -85,7 +85,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 22000,
             'unanswered_calls' => 2500,
             'status' => 'in_review',
-            'shift' => 'Day',
+            'shift' => 'Morning',
             'start_time' => '07:00:00',
             'end_time' => '19:00:00',
             'date' => Carbon::now()->subDays(5)
@@ -111,7 +111,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 24800,
             'unanswered_calls' => 3600,
             'status' => 'in_review',
-            'shift' => 'Day',
+            'shift' => 'Morning',
             'start_time' => '07:00:00',
             'end_time' => '19:00:00',
             'date' => Carbon::now()->subDays(7)
@@ -137,7 +137,7 @@ class CallLogSeeder extends Seeder
             'prank_calls' => 22800,
             'unanswered_calls' => 2800,
             'status' => 'in_review',
-            'shift' => 'Day',
+            'shift' => 'Morning',
             'start_time' => '07:00:00',
             'end_time' => '19:00:00',
             'date' => Carbon::now()->subDays(9)
