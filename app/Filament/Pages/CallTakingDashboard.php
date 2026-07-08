@@ -23,7 +23,7 @@ class CallTakingDashboard extends BaseDashboard
 {
     use HasFiltersAction;
 
-    protected static string $routePath = 'call-taking';
+    protected static string $routePath = 'CallTaking-Dashboard';
 
     protected static ?string $title = 'Call-Taking & Dispatch Unit Dashboard';
 

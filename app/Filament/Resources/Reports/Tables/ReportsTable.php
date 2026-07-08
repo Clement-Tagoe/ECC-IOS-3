@@ -87,10 +87,10 @@ class ReportsTable
             ->filters([
                 Filter::make('date')
                     ->schema([
-                        DatePicker::make('created_from'),
-                            // ->default(Carbon::today()->subDays(5)),
-                        DatePicker::make('created_until'),
-                            // ->default(Carbon::today()),
+                        DatePicker::make('created_from')
+                            ->default(Carbon::today()->subDays(2)),
+                        DatePicker::make('created_until')
+                            ->default(Carbon::today()),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query

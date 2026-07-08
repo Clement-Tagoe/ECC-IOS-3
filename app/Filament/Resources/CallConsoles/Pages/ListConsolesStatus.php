@@ -9,6 +9,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 
 class ListConsolesStatus extends Page
@@ -84,32 +85,27 @@ class ListConsolesStatus extends Page
                             ->preload()
                             ->live()
                             ->nullable()
-                            ->placeholder('Unassigned'),
+                            ->placeholder('Unassigned')
+                            ->helperText('A console cannot be assigned to a staff member if it is faulty or under maintenance'),
                 ])
                 ->action(function (array $data, CallConsole $record):void {
                         $isBlockedStatus = in_array(
                         $record->status->value,
-                        [ConsoleStatus::Faulty, ConsoleStatus::Maintenance],
+                        [ConsoleStatus::Faulty->value, ConsoleStatus::Maintenance->value],
                         true
                     );
 
                     if (! empty($data['call_staff_id']) && $isBlockedStatus) {
-                        $this->mountAction('cannotAssignConsole');
+                        Notification::make()
+                            ->title('Cannot assign this console')
+                            ->body('This console is faulty or under maintenance and cannot be assigned to a staff member. Please change the status first.')
+                            ->warning()
+                            ->send();
+
                         return;
                     }
 
                     $record->update($data);
                 });
-    }
-
-    public function cannotAssignConsoleAction(): Action
-    {
-        return Action::make('cannotAssignConsole')
-            ->modalHeading('Cannot assign this console')
-            ->modalDescription('This console is faulty or under maintenance and cannot be assigned to a staff member. Please change the status first.')
-            ->modalIcon('heroicon-o-exclamation-triangle')
-            ->modalIconColor('warning')
-            ->modalSubmitAction(false)
-            ->modalCancelActionLabel('OK');
     }
 }

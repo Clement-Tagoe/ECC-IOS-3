@@ -17,7 +17,7 @@ class ReceptionDashboard extends BaseDashboard
 {
      use HasFiltersAction;
     
-    protected static string $routePath = 'reception';
+    protected static string $routePath = 'Reception-Dashboard';
 
     protected static ?string $title = 'Reception Dashboard';
 

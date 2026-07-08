@@ -31,18 +31,9 @@ class ReportForm
                             ->required(),
                         DatePicker::make('date')
                             ->required(),
-                        Select::make('type')
-                            ->options([
-                                'General' => 'General',
-                                'Monitoring' => 'Monitoring',
-                                'Incident' => 'Incident',
-                                'Analysis' => 'Analysis',
-                                'Field' => 'Field',
-                                'Evaluation' => 'Evaluation',
-                                'Situational' => 'Situational',
-                                'Briefing' => 'Briefing'
-                            ])
-                            ->required(),
+                        Select::make('report_type_id')
+                            ->label('type')
+                            ->relationship('reportType', 'name'),
                         Select::make('shift')
                             ->options([
                                 'Day' => 'Day',

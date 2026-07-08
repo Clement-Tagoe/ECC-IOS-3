@@ -9,6 +9,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Pages\Dashboard\Actions\FilterAction;
 use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
+use Filament\Support\Enums\Width;
 use Illuminate\Support\Facades\Gate;
 use UnitEnum;
 
@@ -16,7 +17,7 @@ class GeneralDashboard extends BaseDashboard
 {
     use HasFiltersAction;
     
-    protected static string $routePath = 'general';
+    protected static string $routePath = 'General-Dashboard';
 
     protected static ?string $title = 'General Dashboard';
 
@@ -27,6 +28,11 @@ class GeneralDashboard extends BaseDashboard
     public static function canAccess(): bool
     {
         return Gate::allows('View:GeneralDashboard');
+    }
+
+    public function getMaxContentWidth(): Width
+    {
+        return Width::Full;
     }
     
     protected function getHeaderActions(): array

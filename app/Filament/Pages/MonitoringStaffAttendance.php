@@ -12,6 +12,7 @@ use Filament\Pages\Page;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
 use UnitEnum;
@@ -48,6 +49,11 @@ class MonitoringStaffAttendance extends Page
         $this->selectedMonth = Carbon::now()->format('Y-m');
     }
 
+    public static function canAccess(): bool
+    {
+        return Gate::allows('View:MonitoringStaffAttendance');
+    }
+    
     public function getMaxContentWidth(): Width
     {
         return Width::Full;

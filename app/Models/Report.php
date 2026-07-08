@@ -43,6 +43,11 @@ class Report extends Model implements HasMedia, Commentable
         return $this->belongsTo(Department::class);
     }
 
+    public function reportType(): BelongsTo
+    {
+        return $this->belongsTo(ReportType::class);
+    }
+
     public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class);

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('department_id')->nullable()->constrained();
             $table->foreignId('task_id')->nullable()->constrained();
-            $table->string('type');
+            $table->foreignId('report_type_id')->nullable()->constrained();
             $table->date('date');
             $table->string('shift');
             $table->string('title');

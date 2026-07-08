@@ -21,7 +21,7 @@ class ForensicsDashboard extends BaseDashboard
 {
     use HasFiltersAction;
 
-    protected static string $routePath = 'forensics-dashboard';
+    protected static string $routePath = 'Forensics-Dashboard';
 
     protected static ?string $title = 'Forensics Dashboard';
 

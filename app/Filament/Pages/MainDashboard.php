@@ -24,7 +24,7 @@ class MainDashboard extends BaseDashboard
 {
     use HasFiltersAction;
     
-    protected static string $routePath = 'main-dashboard';
+    protected static string $routePath = 'Main-Dashboard';
 
     protected static ?string $title = 'Main Dashboard';
 

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Responses\CustomLoginResponse;
+use Filament\Auth\Http\Responses\Contracts\LoginResponse as LoginResponseContract;
 use App\Models\ForensicCase;
 use App\Models\ForensicReport;
 use App\Models\Report;
@@ -23,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(LoginResponseContract::class, CustomLoginResponse::class);
     }
 
     /**

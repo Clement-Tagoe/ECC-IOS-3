@@ -18,7 +18,7 @@ class LogisticsDashboard extends BaseDashboard
 {
     use HasFiltersAction;
 
-    protected static string $routePath = 'logistics-dashboard';
+    protected static string $routePath = 'Logistics-Dashboard';
 
     protected static ?string $title = 'Logistics Dashboard';
 

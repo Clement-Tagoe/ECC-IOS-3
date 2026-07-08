@@ -20,7 +20,7 @@ class MonitoringDashboard extends BaseDashboard
 {
     use HasFiltersAction;
     
-    protected static string $routePath = 'monitoring';
+    protected static string $routePath = 'Monitoring-Dashboard';
 
     protected static ?string $title = 'Monitoring Unit Dashboard';
 

@@ -18,7 +18,7 @@ class TransportDashboard extends BaseDashboard
 {
     use HasFiltersAction;
 
-    protected static string $routePath = 'transport';
+    protected static string $routePath = 'Transport-Dashboard';
 
     protected static ?string $title = 'Transport Dashboard';
 

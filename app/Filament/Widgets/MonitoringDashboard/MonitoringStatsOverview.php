@@ -25,7 +25,6 @@ class MonitoringStatsOverview extends StatsOverviewWidget
             : now()->endOfDay();
 
         $totalMonitoringTasks = MonitoringTask::whereBetween('date', [$startDate, $endDate])->count();
-        $todayReports = MonitoringShiftReport::whereBetween('date', [$startDate, $endDate])->get();
         
         $totalCameras  = CameraAudit::count();
         $onlineCameras = CameraAudit::where('status', 'online')->count();
