@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Procurements\Tables;
 
+use App\Enums\ProcurementPriority;
 use App\Filament\Exports\ProcurementExporter;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
@@ -13,10 +14,12 @@ use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Indicator;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -64,20 +67,20 @@ class ProcurementsTable
             ->filters([
                 Filter::make('date')
                     ->schema([
-                        DatePicker::make('created_from'),
-                            // ->default(Carbon::today()->subDays(5)),
-                        DatePicker::make('created_until'),
-                            // ->default(Carbon::today()),
+                        DatePicker::make('created_from')
+                            ->default(Carbon::today()->subDays(5)),
+                        DatePicker::make('created_until')
+                            ->default(Carbon::today()),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
                                 $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('reporting_date', '>=', $date),
+                                fn (Builder $query, $date): Builder => $query->whereDate('date', '>=', $date),
                             )
                             ->when(
                                 $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('reporting_date', '<=', $date),
+                                fn (Builder $query, $date): Builder => $query->whereDate('date', '<=', $date),
                             );
                     })
                     ->indicateUsing(function (array $data): array {
@@ -93,6 +96,8 @@ class ProcurementsTable
 
                         return $indicators;
                     })->columnSpan(2)->columns(2),
+                    SelectFilter::make('priority')
+                        ->options(ProcurementPriority::class),
                     TrashedFilter::make(),
                 ], layout: FiltersLayout::AboveContent)
             ->recordActions([

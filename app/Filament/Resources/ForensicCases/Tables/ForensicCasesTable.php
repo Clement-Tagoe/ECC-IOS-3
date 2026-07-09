@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\ForensicCases\Tables;
 
+use App\Enums\ForensicCaseReviewStatus;
+use App\Enums\ForensicCaseStatus;
 use App\Filament\Exports\ForensicCaseExporter;
 use App\Models\ForensicCase;
 use Carbon\Carbon;
@@ -18,6 +20,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Indicator;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -57,20 +60,20 @@ class ForensicCasesTable
             ->filters([
                 Filter::make('date')
                     ->schema([
-                        DatePicker::make('created_from'),
-                            // ->default(Carbon::today()->subDays(5)),
-                        DatePicker::make('created_until'),
-                            // ->default(Carbon::today()),
+                        DatePicker::make('created_from')
+                            ->default(Carbon::today()->subDays(5)),
+                        DatePicker::make('created_until')
+                            ->default(Carbon::today()),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
                                 $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('reporting_date', '>=', $date),
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             )
                             ->when(
                                 $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('reporting_date', '<=', $date),
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })
                     ->indicateUsing(function (array $data): array {
@@ -86,6 +89,10 @@ class ForensicCasesTable
 
                         return $indicators;
                     })->columnSpan(2)->columns(2),
+                    SelectFilter::make('status')
+                        ->options(ForensicCaseStatus::class),
+                    SelectFilter::make('review_status')
+                        ->options(ForensicCaseReviewStatus::class),
                     TrashedFilter::make(),
             ], layout: FiltersLayout::AboveContent)
             ->recordActions([

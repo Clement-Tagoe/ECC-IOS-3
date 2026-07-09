@@ -51,7 +51,8 @@ class ReportsTable
                     ->sortable()
                     ->weight(FontWeight::Medium)
                     ->limit(40),
-                TextColumn::make('type')
+                TextColumn::make('reportType.name')
+                    ->label('Type')
                     ->searchable(),
                 TextColumn::make('date')
                     ->date()
@@ -116,22 +117,12 @@ class ReportsTable
 
                         return $indicators;
                     })->columnSpan(2)->columns(2),
-                SelectFilter::make('status')
-                    ->options(ReportStatus::class),
-
+                // SelectFilter::make('status')
+                //     ->options(ReportStatus::class),
                 SelectFilter::make('priority')
                     ->options(ReportPriority::class),
                 SelectFilter::make('type')
-                    ->options([
-                                'General' => 'General',
-                                'Monitoring' => 'Monitoring',
-                                'Incident' => 'Incident',
-                                'Analysis' => 'Analysis',
-                                'Field' => 'Field',
-                                'Evaluation' => 'Evaluation',
-                                'Situational' => 'Situational',
-                                'Briefing' => 'Briefing'
-                            ]),
+                    ->relationship('reportType', 'name'),
                 TrashedFilter::make(),
             ], layout: FiltersLayout::AboveContent)
             ->recordActions([

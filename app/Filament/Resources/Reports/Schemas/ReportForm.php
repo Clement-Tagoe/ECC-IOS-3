@@ -32,7 +32,7 @@ class ReportForm
                         DatePicker::make('date')
                             ->required(),
                         Select::make('report_type_id')
-                            ->label('type')
+                            ->label('Type')
                             ->relationship('reportType', 'name'),
                         Select::make('shift')
                             ->options([

@@ -32,7 +32,8 @@ class ProcurementInfolist
                     ->columnSpanFull()
                     ->schema([
                         SpatieMediaLibraryImageEntry::make('images')
-                                ->collection('procurement-images'),
+                                ->collection('procurement-images')
+                                ->imageGallery(),
                     ]),
 
                 Section::make()

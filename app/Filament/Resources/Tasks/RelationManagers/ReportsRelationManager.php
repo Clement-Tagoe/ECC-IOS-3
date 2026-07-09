@@ -47,16 +47,9 @@ class ReportsRelationManager extends RelationManager
                     ->required(),
                 DatePicker::make('date')
                     ->required(),
-                Select::make('type')
-                    ->options([
-                        'General' => 'General',
-                        'Monitoring' => 'Monitoring',
-                        'Incident' => 'Incident',
-                        'Analysis' => 'Analysis',
-                        'Field' => 'Field',
-                        'Evaluation' => 'Evaluation',
-                    ])
-                    ->required(),
+                Select::make('report_type_id')
+                            ->label('Type')
+                            ->relationship('reportType', 'name'),
                 Select::make('shift')
                     ->options([
                         'Day' => 'Day',

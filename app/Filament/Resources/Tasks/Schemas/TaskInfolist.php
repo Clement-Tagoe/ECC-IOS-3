@@ -60,7 +60,8 @@ class TaskInfolist
                     ->columnSpanFull()
                     ->schema([
                         SpatieMediaLibraryImageEntry::make('images')
-                                ->collection('task-images'),
+                                ->collection('task-images')
+                                ->imageGallery(),
                         
                         RepeatableEntry::make('media')
                                 ->columns(3)

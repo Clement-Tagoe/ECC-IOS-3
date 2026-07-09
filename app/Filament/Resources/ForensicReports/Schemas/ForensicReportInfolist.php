@@ -337,7 +337,8 @@ class ForensicReportInfolist
                         // Evidence Photographs & Screenshots
                         SpatieMediaLibraryImageEntry::make('images')
                             ->label('Evidence Photographs & Screenshots')
-                            ->collection('forensic-report-images'),
+                            ->collection('forensic-report-images')
+                            ->imageGallery(),
 
                         // Evidence Files
                         RepeatableEntry::make('media')

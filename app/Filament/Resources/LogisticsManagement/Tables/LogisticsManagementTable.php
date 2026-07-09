@@ -80,20 +80,20 @@ class LogisticsManagementTable
             ->filters([
                Filter::make('date')
                     ->schema([
-                        DatePicker::make('created_from'),
-                            // ->default(Carbon::today()->subDays(5)),
-                        DatePicker::make('created_until'),
-                            // ->default(Carbon::today()),
+                        DatePicker::make('created_from')
+                            ->default(Carbon::today()->subDays(10)),
+                        DatePicker::make('created_until')
+                            ->default(Carbon::today()),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
                                 $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('reporting_date', '>=', $date),
+                                fn (Builder $query, $date): Builder => $query->whereDate('date', '>=', $date),
                             )
                             ->when(
                                 $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('reporting_date', '<=', $date),
+                                fn (Builder $query, $date): Builder => $query->whereDate('date', '<=', $date),
                             );
                     })
                     ->indicateUsing(function (array $data): array {

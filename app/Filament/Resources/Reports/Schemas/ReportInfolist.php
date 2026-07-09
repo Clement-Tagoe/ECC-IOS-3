@@ -31,7 +31,7 @@ class ReportInfolist
                         TextEntry::make('date')
                             ->label('Report Date'),
 
-                        TextEntry::make('type')
+                        TextEntry::make('reportType.name')
                             ->label('Report Type'),
 
                         TextEntry::make('shift'),
@@ -66,7 +66,8 @@ class ReportInfolist
                     ->columnSpanFull()
                     ->schema([
                         SpatieMediaLibraryImageEntry::make('images')
-                                ->collection('report-images'),
+                                ->collection('report-images')
+                                ->imageGallery(),
                         
                         RepeatableEntry::make('media')
                                 ->columns(3)

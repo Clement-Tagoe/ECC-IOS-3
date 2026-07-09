@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\CameraAudits\Tables;
 
+use App\Enums\CameraStatus;
 use App\Filament\Exports\CameraAuditExporter;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -14,6 +15,8 @@ use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
@@ -22,15 +25,15 @@ class CameraAuditsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->deferLoading()
+            ->defaultPaginationPageOption(25)
             ->columns([
                 TextColumn::make('camera_name')
                     ->searchable(),
                 TextColumn::make('region.name')
-                    ->searchable()
                     ->sortable(),
                 TextColumn::make('cameraLocation.name')
-                    ->label('Location')
-                    ->searchable(),
+                    ->label('Location'),
                 TextColumn::make('status')
                     ->badge(),
                 TextColumn::make('observations.name')
@@ -61,8 +64,16 @@ class CameraAuditsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                TrashedFilter::make(),
-            ])
+                SelectFilter::make('status')
+                    ->options(CameraStatus::class),
+                 SelectFilter::make('observations')
+                        ->relationship('observations', 'name'),
+                SelectFilter::make('location')
+                        ->relationship('cameraLocation', 'name'),
+                SelectFilter::make('region')
+                        ->relationship('region', 'name'),
+                    TrashedFilter::make(),
+            ], layout: FiltersLayout::AboveContent)
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),

@@ -59,7 +59,8 @@ class MonitoringTaskInfolist
                     ->columnSpanFull()
                     ->schema([
                         SpatieMediaLibraryImageEntry::make('images')
-                                ->collection('monitoring-images'),
+                                ->collection('monitoring-images')
+                                ->imageGallery(),
                     ])
                 ]);
     }

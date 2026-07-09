@@ -1,68 +1,93 @@
 <?php
 
-namespace App\Filament\Resources\CallLogs\Tables;
+namespace App\Filament\Resources\CallStaff\CallStaffResource\RelationManagers;
 
-use App\Enums\CallLogStatus;
-use App\Enums\ShiftType;
-use App\Filament\Exports\CallLogExporter;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\DissociateAction;
+use Filament\Actions\DissociateBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
-use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Indicator;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CallLogsTable
+class AgentActivitiesRelationManager extends RelationManager
 {
-    public static function configure(Table $table): Table
+    protected static string $relationship = 'agentActivities';
+
+    public function form(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Select::make('call_log_id')
+                    ->relationship('callLog', 'id')
+                    ->required(),
+                TextInput::make('call_taker_id')
+                    ->required(),
+                TextInput::make('attendance')
+                    ->required(),
+                TextInput::make('console_id')
+                    ->required(),
+                TextInput::make('incoming')
+                    ->required()
+                    ->numeric(),
+                TextInput::make('received')
+                    ->required()
+                    ->numeric(),
+                TextInput::make('unanswered')
+                    ->required()
+                    ->numeric(),
+                TextInput::make('created_by')
+                    ->numeric()
+                    ->default(null),
+                TextInput::make('updated_by')
+                    ->numeric()
+                    ->default(null),
+                TextInput::make('deleted_by')
+                    ->numeric()
+                    ->default(null),
+            ]);
+    }
+
+    public function table(Table $table): Table
     {
         return $table
-            ->defaultSort('date', 'desc')
+            ->recordTitleAttribute('call_taker_id')
             ->columns([
-                TextColumn::make('incoming_calls')
+                TextColumn::make('created_at')
+                    ->label('Date/Time')
+                    ->dateTime()
+                    ->sortable(),
+                TextColumn::make('attendance')
+                    ->searchable(),
+                TextColumn::make('console_id')
+                    ->label('Console ID')
+                    ->searchable(),
+                TextColumn::make('incoming')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('total_calls_received')
+                TextColumn::make('received')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('valid_calls')
+                TextColumn::make('unanswered')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('prank_calls')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('unanswered_calls')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('status')
-                    ->badge(),
-                TextColumn::make('shift')
-                    ->badge(),
-                TextColumn::make('start_time')
-                    ->time()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('end_time')
-                    ->time()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('date')
-                    ->date(),
-                TextColumn::make('creator.name')
+               TextColumn::make('creator.name')
                     ->label('Created by')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -73,10 +98,6 @@ class CallLogsTable
                 TextColumn::make('destroyer.name')
                     ->label('Deleted by')
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->dateTime()
@@ -91,19 +112,19 @@ class CallLogsTable
                 Filter::make('date')
                     ->schema([
                         DatePicker::make('created_from')
-                            ->default(Carbon::today()->subDays(5)),
+                            ->default(Carbon::today()->subDays(10)),
                         DatePicker::make('created_until')
-                            ->default(Carbon::today())
+                            ->default(Carbon::today()),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
                                 $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('date', '>=', $date),
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             )
                             ->when(
                                 $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('date', '<=', $date),
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })
                     ->indicateUsing(function (array $data): array {
@@ -119,29 +140,29 @@ class CallLogsTable
 
                         return $indicators;
                     })->columnSpan(2)->columns(2),
-                SelectFilter::make('shift')
-                        ->options(ShiftType::class),
-                SelectFilter::make('status')
-                        ->options(CallLogStatus::class),
                 TrashedFilter::make(),
-            ], layout: FiltersLayout::AboveContent)
+            ])
+            ->headerActions([
+                //...
+            ])
             ->recordActions([
-                ViewAction::make(),
                 EditAction::make(),
+                DissociateAction::make(),
                 DeleteAction::make(),
                 ForceDeleteAction::make(),
                 RestoreAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    ExportBulkAction::make()
-                        ->exporter(CallLogExporter::class),
+                    DissociateBulkAction::make(),
                     DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->modifyQueryUsing(fn (Builder $query) => $query
+                ->withoutGlobalScopes([
+                    SoftDeletingScope::class,
+                ]));
     }
-
-    
 }

@@ -179,7 +179,8 @@ class ForensicCaseInfolist
                                 }),
                                 
                         SpatieMediaLibraryImageEntry::make('images')
-                                ->collection('forensic-images'),
+                                ->collection('forensic-images')
+                                ->imageGallery(),
                     ]),
                 Section::make()
                     ->columnSpanFull()

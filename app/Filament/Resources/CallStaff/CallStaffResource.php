@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\CallStaff;
 
+use App\Filament\Resources\CallStaff\CallStaffResource\RelationManagers\AgentActivitiesRelationManager;
 use App\Filament\Resources\CallStaff\Pages\ViewCallStaff;
 use App\Filament\Resources\CallStaff\Pages\CreateCallStaff;
 use App\Filament\Resources\CallStaff\Pages\EditCallStaff;
@@ -51,7 +52,7 @@ class CallStaffResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            AgentActivitiesRelationManager::class
         ];
     }
 
@@ -60,7 +61,7 @@ class CallStaffResource extends Resource
         return [
             'index' => ListCallStaff::route('/'),
             'create' => CreateCallStaff::route('/create'),
-            // 'view' => ViewCallStaff::route('/{record}'),
+            'view' => ViewCallStaff::route('/{record}'),
             'edit' => EditCallStaff::route('/{record}/edit'),
         ];
     }

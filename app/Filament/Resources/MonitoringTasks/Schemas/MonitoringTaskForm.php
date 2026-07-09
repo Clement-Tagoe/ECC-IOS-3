@@ -36,7 +36,7 @@ class MonitoringTaskForm
                             ->inline()
                             ->required()
                             ->live()
-                            ->default(ShiftType::Day)
+                            ->default(ShiftType::Morning)
                             ->columnSpan(2),
                         Select::make('topics')
                             ->label('Topics/Areas of Interest')
@@ -55,8 +55,8 @@ class MonitoringTaskForm
                             ->inline()
                             ->required()
                             ->live()
-                            ->default(MonitoringTaskStatus::InReview)
-                            ->disabled(fn () => !Auth::user()->hasRole(['System-Admin', 'Director', 'Unit-Head(Call-Taking)'])),
+                            ->default(MonitoringTaskStatus::InReview),
+                            // ->disabled(fn () => !Auth::user()->hasRole(['System-Admin', 'Director', 'Unit-Head(Call-Taking)'])),
                         Select::make('location_id')
                             ->relationship('location', 'name')
                             ->createOptionForm([

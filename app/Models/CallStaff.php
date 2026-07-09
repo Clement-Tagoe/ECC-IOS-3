@@ -26,10 +26,9 @@ class CallStaff extends Model
         return $this->hasMany(CallStaffAttendance::class);
     }
 
-    public function callStaffActivities(): HasMany
+    public function agentActivities(): HasMany
     {
-        return $this->hasMany(CallStaffActivity::class);
+        return $this->hasMany(AgentActivity::class);
     }
-
 
 }
