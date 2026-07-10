@@ -54,12 +54,6 @@ class AuthPanelProvider extends PanelProvider
             ->databaseNotifications()
             ->broadcasting()
             ->plugins([
-                AuthDesignerPlugin::make()
-                ->login(fn (AuthPageConfig $config) => $config
-                    ->media(asset('images/ecc-view-1.png'))
-                    ->mediaPosition(MediaPosition::Left)
-                    ->blur(0)
-                ),
                 FilamentEditProfilePlugin::make()
                     ->shouldShowDeleteAccountForm(false)
                     ->shouldShowBrowserSessionsForm(false)
@@ -78,7 +72,7 @@ class AuthPanelProvider extends PanelProvider
                     ->icon('heroicon-m-user-circle')
                     ->sort(-1),
             ])
-            ->registration()
+            // ->registration()
             // ->profile()
             ->navigationGroups([
                 'Dashboards',

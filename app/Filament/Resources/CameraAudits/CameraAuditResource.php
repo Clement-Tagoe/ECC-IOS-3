@@ -45,6 +45,11 @@ class CameraAuditResource extends Resource
         return CameraAuditInfolist::configure($schema);
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function getRelations(): array
     {
         return [

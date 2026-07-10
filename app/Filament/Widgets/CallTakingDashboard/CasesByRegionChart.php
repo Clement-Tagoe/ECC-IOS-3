@@ -43,12 +43,15 @@ class CasesByRegionChart extends ChartWidget
             'rgba(239, 68, 68, 0.85)',
             'rgba(139, 92, 246, 0.85)',
             'rgba(20, 184, 166, 0.85)',
-            'rgba(249, 115, 22, 0.85)',
+            'rgba(167, 77, 13, 0.85)',
             'rgba(236, 72, 153, 0.85)',
-            'rgba(6, 182, 212, 0.85)',
+            'rgba(79, 160, 160, 0.85)',
             'rgba(132, 204, 22, 0.85)',
-            'rgba(168, 85, 247, 0.85)',
+            'rgba(34, 8, 58, 0.85)',
             'rgba(251, 191, 36, 0.85)',
+            'rgba(12, 50, 110, 0.85)',
+            'rgba(116, 203, 230, 0.85)',
+            'rgba(216, 103, 141, 0.85)',
         ];
 
         $labels = [];
@@ -93,7 +96,10 @@ class CasesByRegionChart extends ChartWidget
             ],
             'scales' => [
                 'x' => ['beginAtZero' => true, 'grid' => ['display' => true]],
-                'y' => ['grid' => ['display' => false]],
+                'y' => ['grid' => ['display' => false],
+                        'ticks' => ['autoSkip' => false,
+                    ],
+                ],
             ],
         ];
     }

@@ -9,6 +9,7 @@ use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ToggleButtons;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\Page;
 
 class ListConsolesStatus extends Page
@@ -83,9 +84,26 @@ class ListConsolesStatus extends Page
                             ->preload()
                             ->live()
                             ->nullable()
-                            ->placeholder('Unassigned'),
+                            ->placeholder('Unassigned')
+                            ->helperText('A console cannot be assigned to a staff member if it is faulty or under maintenance'),
                 ])
                 ->action(function (array $data, MonitoringConsole $record):void {
+                     $isBlockedStatus = in_array(
+                        $record->status->value,
+                        [ConsoleStatus::Faulty->value, ConsoleStatus::Maintenance->value],
+                        true
+                    );
+
+                    if (! empty($data['monitoring_staff_id']) && $isBlockedStatus) {
+                        Notification::make()
+                            ->title('Cannot assign this console')
+                            ->body('This console is faulty or under maintenance and cannot be assigned to a staff member. Please change the status first.')
+                            ->warning()
+                            ->send();
+
+                        return;
+                    }
+
                     $record->update($data);
                 });
     }

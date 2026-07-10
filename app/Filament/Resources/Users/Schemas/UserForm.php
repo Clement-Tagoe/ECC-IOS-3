@@ -42,7 +42,7 @@ class UserForm
                             ->default(null),
                         Select::make('department_id')
                             ->relationship('department', 'name')
-                            ->default(null),
+                            ->required(),
                 ])
             ]);
     }

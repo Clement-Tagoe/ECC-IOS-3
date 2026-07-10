@@ -1,20 +1,18 @@
 <?php
 
-use App\Livewire\FilesManager;
-use Filament\Notifications\Events\DatabaseNotificationsSent;
-use Filament\Notifications\Notification;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::middleware(['auth'])->group(function () {
-
-    Route::livewire('/my-files/{folder?}', FilesManager::class)
-        ->where('folder', '(.*)')->name('my-files.index');
-
+    return Auth::check()
+        ? redirect('/auth')
+        : redirect('/auth/login');
 });
 
 // Route::get('test', function () {
