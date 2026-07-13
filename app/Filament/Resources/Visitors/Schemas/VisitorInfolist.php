@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Visitors\Schemas;
 
-use Filament\Infolists\Components\SpatieMediaLibraryImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;

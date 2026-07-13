@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\visitors\Pages;
+namespace App\Filament\Resources\Visitors\Pages;
 
-use App\Filament\Resources\visitors\visitorResource;
+use App\Filament\Resources\Visitors\VisitorResource;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
 
 class ViewVisitor extends ViewRecord
 {
-    protected static string $resource = visitorResource::class;
+    protected static string $resource = VisitorResource::class;
 
     protected function getHeaderActions(): array
     {
