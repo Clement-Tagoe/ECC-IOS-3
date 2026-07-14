@@ -53,6 +53,7 @@ class AuthPanelProvider extends PanelProvider
             ->brandName('ECC-IOS')
             ->databaseNotifications()
             ->broadcasting()
+            ->darkMode(false)
             ->plugins([
                 FilamentEditProfilePlugin::make()
                     ->shouldShowDeleteAccountForm(false)

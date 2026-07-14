@@ -11,6 +11,7 @@ use Filament\Forms\Components\ToggleButtons;
 use Filament\Resources\Pages\ViewRecord;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ViewValidCase extends ViewRecord
 {
@@ -37,6 +38,22 @@ class ViewValidCase extends ViewRecord
                 ->action(function (ValidCase $record, array $data): void {
                     $record->update($data);
                     $this->refreshFormData(['status']);
+                }),
+             Action::make('exportPdf')
+                ->label('Download PDF')
+                ->color('success')
+                ->icon('heroicon-o-document-arrow-down')
+                ->action(function () {
+                    $record = $this->getRecord();
+
+                    // Generate the PDF using a Blade view
+                    $pdf = Pdf::loadView('pdf.valid-case', ['record' => $record]);
+
+                    // Download the file
+                    return response()->streamDownload(
+                        fn () => print($pdf->output()),
+                        'valid-case-'.$record->id.'.pdf'
+                    );
                 }),
             EditAction::make(),
         ];

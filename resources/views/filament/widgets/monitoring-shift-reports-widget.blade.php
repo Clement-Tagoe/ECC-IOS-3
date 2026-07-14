@@ -10,37 +10,37 @@
                     'label'  => 'Morning Shift',
                     'icon'   => 'heroicon-o-sun',
                     'color'  => 'text-yellow-500',
-                    'bg'     => 'bg-yellow-50 dark:bg-yellow-900/20',
-                    'border' => 'border-yellow-200 dark:border-yellow-800',
+                    'bg'     => 'bg-yellow-50',
+                    'border' => 'border-yellow-200',
                 ],
                 'afternoon' => [
                     'label'  => 'Afternoon Shift',
                     'icon'   => 'heroicon-o-bolt',
                     'color'  => 'text-rose-500',
-                    'bg'     => 'bg-rose-50 dark:bg-rose-900/20',
-                    'border' => 'border-rose-200 dark:border-rose-800',
+                    'bg'     => 'bg-rose-50',
+                    'border' => 'border-rose-200',
                 ],
                 'night' => [
                     'label'  => 'Night Shift',
                     'icon'   => 'heroicon-o-moon',
                     'color'  => 'text-violet-500',
-                    'bg'     => 'bg-violet-50 dark:bg-violet-900/20',
-                    'border' => 'border-violet-200 dark:border-violet-800',
+                    'bg'     => 'bg-violet-50',
+                    'border' => 'border-violet-200',
                 ],
             ];
 
             $statusConfig = [
                 'in_review' => [
                     'dot'  => 'bg-yellow-500',
-                    'text' => 'text-yellow-600 dark:text-yellow-400',
-                    'bg'   => 'bg-yellow-100 dark:bg-yellow-900/40',
+                    'text' => 'text-yellow-600',
+                    'bg'   => 'bg-yellow-100',
                     'label' => 'In Review',
                     'icon'  => 'heroicon-o-eye',
                 ],
                 'reviewed' => [
                     'dot'  => 'bg-emerald-500',
-                    'text' => 'text-emerald-600 dark:text-emerald-400',
-                    'bg'   => 'bg-emerald-100 dark:bg-emerald-900/40',
+                    'text' => 'text-emerald-600',
+                    'bg'   => 'bg-emerald-100',
                     'label' => 'Reviewed',
                     'icon'  => 'heroicon-o-check-circle',
                 ],
@@ -56,13 +56,13 @@
                     'key'         => 'present',
                     'label'       => 'Present',
                     'icon'        => 'heroicon-o-check-circle',
-                    'value_color' => 'text-emerald-600 dark:text-emerald-400',
+                    'value_color' => 'text-emerald-600',
                 ],
                 [
                     'key'         => 'absent',
                     'label'       => 'Absent',
                     'icon'        => 'heroicon-o-x-circle',
-                    'value_color' => 'text-red-600 dark:text-red-400',
+                    'value_color' => 'text-red-600',
                 ],
             ];
         @endphp
@@ -80,10 +80,10 @@
                     {{-- Shift header --}}
                     <div class="flex flex-col items-center gap-2 flex-shrink-0">
                         <div class="flex items-center gap-2">
-                            <div class="rounded-lg bg-white dark:bg-gray-800 p-2 shadow-sm">
+                            <div class="rounded-lg bg-white p-2 shadow-sm">
                                 <x-dynamic-component :component="$meta['icon']" class="h-5 w-5 {{ $meta['color'] }}" />
                             </div>
-                            <span class="text-sm font-semibold text-gray-800 dark:text-white">
+                            <span class="text-sm font-semibold text-gray-800">
                                 {{ $meta['label'] }}
                             </span>
                         </div>
@@ -105,7 +105,7 @@
 
                     {{-- No report placeholder --}}
                     @if (! $exists)
-                        <div class="flex flex-1 flex-col items-center justify-center text-gray-400 dark:text-gray-600">
+                        <div class="flex flex-1 flex-col items-center justify-center text-gray-400">
                             <x-heroicon-o-document-text class="h-8 w-8 mb-2 opacity-40" />
                             <p class="text-sm font-medium">No report yet</p>
                             <p class="text-xs mt-0.5">Not submitted for today</p>
@@ -115,10 +115,10 @@
                         {{-- Metrics --}}
                         <div class="flex flex-col gap-2 flex-shrink-0">
                             @foreach ($metrics as $metric)
-                                @php $valueColor = $metric['value_color'] ?? 'text-gray-900 dark:text-white'; @endphp
-                                <div class="flex items-center justify-between rounded-lg bg-white dark:bg-gray-800 px-1 py-2 shadow-sm">
+                                @php $valueColor = $metric['value_color'] ?? 'text-gray-900'; @endphp
+                                <div class="flex items-center justify-between rounded-lg bg-white px-1 py-2 shadow-sm">
                                     <div class="flex items-center">
-                                        <span class="text-xs font-medium text-gray-500 dark:text-gray-400">
+                                        <span class="text-xs font-medium text-gray-500">
                                             {{ $metric['label'] }}
                                         </span>
                                     </div>
@@ -142,16 +142,16 @@
                                     default    => 'bg-red-500',
                                 };
                                 $textColor = match(true) {
-                                    $pct >= 80 => 'text-emerald-600 dark:text-emerald-400',
-                                    $pct >= 50 => 'text-yellow-600 dark:text-yellow-400',
-                                    default    => 'text-red-600 dark:text-red-400',
+                                    $pct >= 80 => 'text-emerald-600',
+                                    $pct >= 50 => 'text-yellow-600',
+                                    default    => 'text-red-600',
                                 };
                             @endphp
                             <div class="flex items-center justify-between mb-1">
-                                <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Attendance</span>
+                                <span class="text-xs font-medium text-gray-500">Attendance</span>
                                 <span class="text-xs font-bold {{ $textColor }}">{{ $pct }}%</span>
                             </div>
-                            <div class="h-2 w-full rounded-full bg-white dark:bg-gray-800 overflow-hidden shadow-inner">
+                            <div class="h-2 w-full rounded-full bg-white overflow-hidden shadow-inner">
                                 <div
                                     class="h-full rounded-full transition-all duration-500 {{ $barColor }}"
                                     style="width: {{ $pct }}%"

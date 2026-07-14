@@ -1,5 +1,5 @@
 <x-filament-panels::page>
-    <div class="flex flex-wrap items-center gap-3 mb-4 px-8 py-8 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-900">
+    <div class="flex flex-wrap items-center gap-3 mb-4 px-8 py-8 rounded-xl border border-gray-200 shadow-sm bg-white">
 
         {{-- Month picker --}}
         <div class="flex items-center gap-2">
@@ -8,25 +8,25 @@
             <button type="button"
                     wire:click="previousMonth"
                     title="Previous month"
-                    class="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 transition-colors">
+                    class="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
                 <x-filament::icon icon="heroicon-m-chevron-left" class="w-6 h-6"/>
             </button>
 
             <input type="month"
                 wire:model.live="selectedMonth"
-                class="text-sm rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 px-2"/>
+                class="text-sm rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 px-2"/>
 
             <button type="button"
                     wire:click="nextMonth"
                     title="Next month"
-                    class="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 transition-colors">
+                    class="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors">
                 <x-filament::icon icon="heroicon-m-chevron-right" class="w-6 h-6"/>
             </button>
 
             <button type="button"
                     wire:click="goToCurrentMonth"
                     title="Jump to current month"
-                    class="text-xs font-medium text-primary-600 dark:text-primary-400 hover:underline ml-0.5">
+                    class="text-xs font-medium text-primary-600 hover:underline ml-0.5">
                 Today
             </button>
         </div>
@@ -35,7 +35,7 @@
         <div class="flex items-center gap-2 px-4">
             <x-filament::icon icon="heroicon-m-user-group" class="w-4 h-4 text-gray-400"/>
             <select wire:model.live="selectedGroup"
-                    class="text-sm rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 pl-2 pr-8">
+                    class="text-sm rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 pl-2 pr-8">
                 <option value="">All Groups</option>
                 @foreach ($this->groups as $group)
                     <option value="{{ $group->id }}">{{ $group->name }}</option>
@@ -49,11 +49,11 @@
             <input wire:model.live.debounce.300ms="search"
                    type="text"
                    placeholder="Search staff…"
-                   class="text-sm rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 pl-3 pr-4 w-66"/>
+                   class="text-sm rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 py-1.5 pl-3 pr-4 w-66"/>
         </div>
 
         {{-- Legend --}}
-        <div class="hidden lg:flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 border-l border-gray-200 dark:border-gray-700 pl-3 ml-1">
+        <div class="hidden lg:flex items-center gap-3 text-xs text-gray-500 border-l border-gray-200 pl-3 ml-1">
             <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span> Present</span>
             <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-red-500 inline-block"></span> Absent</span>
             <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span> Permission</span>
@@ -67,17 +67,17 @@
         $today = \Carbon\Carbon::today()->toDateString();
     @endphp
 
-    <div class="rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm bg-white dark:bg-gray-900 overflow-hidden">
+    <div class="rounded-xl border border-gray-200 shadow-sm bg-white overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-sm border-collapse">
 
                 {{-- Header row: Name col + one col per day --}}
                 <thead>
-                    <tr class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+                    <tr class="bg-gray-50 border-b border-gray-200">
 
                         {{-- Sticky name column --}}
-                        <th class="sticky left-0 z-20 bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 px-3 py-2 text-left min-w-[200px]">
-                            <span class="flex items-center gap-1 text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider hover:text-primary-600 transition-colors">
+                        <th class="sticky left-0 z-20 bg-gray-50 border-r border-gray-200 px-3 py-2 text-left min-w-[200px]">
+                            <span class="flex items-center gap-1 text-xs font-semibold text-gray-600 uppercase tracking-wider hover:text-primary-600 transition-colors">
                                 Staff Name
                             </span>
                         </th>
@@ -91,13 +91,13 @@
                                 $isWeekend = $day->isWeekend();
                             @endphp
                             <th class="px-0.5 py-2 text-center min-w-[36px] max-w-[42px]
-                                       {{ $isToday ? 'bg-primary-50 dark:bg-primary-950' : '' }}
-                                       {{ $isWeekend && !$isToday ? 'bg-gray-100 dark:bg-gray-750' : '' }}">
+                                       {{ $isToday ? 'bg-primary-50' : '' }}
+                                       {{ $isWeekend && !$isToday ? 'bg-gray-100' : '' }}">
                                 <div class="flex flex-col items-center leading-tight">
-                                    <span class="text-[10px] font-medium {{ $isToday ? 'text-primary-600 dark:text-primary-400' : 'text-gray-400 dark:text-gray-500' }}">
+                                    <span class="text-[10px] font-medium {{ $isToday ? 'text-primary-600' : 'text-gray-400' }}">
                                         {{ $day->format('D')[0] }}
                                     </span>
-                                    <span class="text-xs font-bold {{ $isToday ? 'text-primary-700 dark:text-primary-300' : ($isWeekend ? 'text-gray-400' : 'text-gray-600 dark:text-gray-300') }}">
+                                    <span class="text-xs font-bold {{ $isToday ? 'text-primary-700' : ($isWeekend ? 'text-gray-400' : 'text-gray-600') }}">
                                         {{ $day->format('j') }}
                                     </span>
                                 </div>
@@ -105,28 +105,28 @@
                         @endforeach
 
                         {{-- Summary col --}}
-                        <th class="sticky right-0 z-20 bg-gray-50 dark:bg-gray-800 border-l border-gray-200 dark:border-gray-700 px-2 py-2 text-center min-w-[90px]">
-                            <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Summary</span>
+                        <th class="sticky right-0 z-20 bg-gray-50 border-l border-gray-200 px-2 py-2 text-center min-w-[90px]">
+                            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Summary</span>
                         </th>
                     </tr>
                 </thead>
 
-                <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                <tbody class="divide-y divide-gray-100">
                     @forelse ($this->groupedStaff as $groupId => $staffMembers)
                         
                         @php $group = $staffMembers->first()->group; @endphp
 
                         {{-- Group header row --}}
-                        <tr class="bg-gray-50 dark:bg-gray-800/60">
+                        <tr class="bg-gray-50">
                             <td colspan="{{ count($days) + 2 }}"
                                 class="sticky left-0 px-3 py-1.5">
                                 <div class="flex items-center gap-2">
                                     <span class="w-2.5 h-2.5 rounded-full flex-shrink-0"
                                           style="background-color: {{ $group->color ?? '#6366f1' }}"></span>
-                                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-wider">
+                                    <span class="text-xs font-bold text-gray-600 uppercase tracking-wider">
                                         {{ $group->name }}
                                     </span>
-                                    <span class="text-xs text-gray-400 dark:text-gray-500">
+                                    <span class="text-xs text-gray-400">
                                         ({{ $staffMembers->count() }} staff)
                                     </span>
                                 </div>
@@ -153,20 +153,20 @@
                                     : null;
 
                                 $rateColor = match(true) {
-                                    $attendanceRate === null => 'text-gray-300 dark:text-gray-600',
-                                    $attendanceRate >= 90    => 'text-green-600 dark:text-green-400',
-                                    $attendanceRate >= 75    => 'text-amber-600 dark:text-amber-400',
-                                    default                  => 'text-red-600 dark:text-red-400',
+                                    $attendanceRate === null => 'text-gray-300',
+                                    $attendanceRate >= 90    => 'text-green-600',
+                                    $attendanceRate >= 75    => 'text-amber-600',
+                                    default                  => 'text-red-600',
                                 };
                             @endphp
 
-                            <tr class="hover:bg-gray-50/80 dark:hover:bg-gray-800/40 group/row transition-colors">
+                            <tr class="hover:bg-gray-50/80 group/row transition-colors">
 
                                 {{-- Sticky name cell --}}
-                                <td class="sticky left-0 z-10 bg-white dark:bg-gray-900 group-hover/row:bg-gray-50/80 dark:group-hover/row:bg-gray-800/40
-                                           border-r border-gray-200 dark:border-gray-700 px-3 py-2 transition-colors">
+                                <td class="sticky left-0 z-10 bg-white group-hover/row:bg-gray-50/80
+                                           border-r border-gray-200 px-3 py-2 transition-colors">
                                     <div class="flex flex-col">
-                                        <span class="font-medium text-gray-800 dark:text-gray-200 text-sm truncate max-w-[170px]">
+                                        <span class="font-medium text-gray-800 text-sm truncate max-w-[170px]">
                                             {{ $staff->name }}
                                         </span>
                                     </div>
@@ -182,11 +182,11 @@
                                         $status     = $attendance?->status;
 
                                         $cellBg = match($status) {
-                                            'present'                => 'bg-green-100 dark:bg-green-900/40 hover:bg-green-200 dark:hover:bg-green-800/60',
-                                            'absent'                 => 'bg-red-100 dark:bg-red-900/40 hover:bg-red-200 dark:hover:bg-red-800/60',
-                                            'absent_with_permission' => 'bg-amber-100 dark:bg-amber-900/40 hover:bg-amber-200 dark:hover:bg-amber-800/60',
-                                            'sick'                   => 'bg-blue-100 dark:bg-blue-900/40 hover:bg-blue-200 dark:hover:bg-blue-800/60',
-                                            default                  => ($isWeekend ? 'bg-gray-50 dark:bg-gray-800/30' : 'hover:bg-gray-100 dark:hover:bg-gray-800/60') . ' cursor-pointer',
+                                            'present'                => 'bg-green-100 hover:bg-green-200',
+                                            'absent'                 => 'bg-red-100 hover:bg-red-200',
+                                            'absent_with_permission' => 'bg-amber-100 hover:bg-amber-200',
+                                            'sick'                   => 'bg-blue-100 hover:bg-blue-200',
+                                            default                  => ($isWeekend ? 'bg-gray-50' : 'hover:bg-gray-100') . ' cursor-pointer',
                                         };
 
                                         $dotColor = match($status) {
@@ -206,15 +206,15 @@
                                         };
 
                                         $labelColor = match($status) {
-                                            'present'                => 'text-green-700 dark:text-green-300',
-                                            'absent'                 => 'text-red-700 dark:text-red-300',
-                                            'absent_with_permission' => 'text-amber-700 dark:text-amber-300',
-                                            'sick'                   => 'text-blue-700 dark:text-blue-300',
-                                            default                  => 'text-gray-300 dark:text-gray-600',
+                                            'present'                => 'text-green-700',
+                                            'absent'                 => 'text-red-700',
+                                            'absent_with_permission' => 'text-amber-700',
+                                            'sick'                   => 'text-blue-700',
+                                            default                  => 'text-gray-300',
                                         };
                                     @endphp
 
-                                    <td class="px-0.5 py-1 text-center {{ $isToday ? 'ring-1 ring-inset ring-primary-300 dark:ring-primary-700' : '' }}">
+                                    <td class="px-0.5 py-1 text-center {{ $isToday ? 'ring-1 ring-inset ring-primary-300' : '' }}">
                                         <button wire:click="openStaffAttendanceModal({{ $staff->id }}, '{{ $dateStr }}')"
                                                 title="{{ $day->format('D, M j') }}{{ $status ? ' – ' . \App\Models\CallStaffAttendance::statusOptions()[$status] : ' – Not marked' }}{{ $attendance?->notes ? "\n" . $attendance->notes : '' }}"
                                                 @if($isWeekend) class="w-8 h-8 rounded-md flex items-center justify-center mx-auto {{ $cellBg }} transition-colors opacity-50"
@@ -223,26 +223,26 @@
                                             @if ($status)
                                                 <span class="text-[10px] font-bold {{ $labelColor }}">{{ $shortLabel }}</span>
                                             @else
-                                                <span class="text-[10px] text-gray-200 dark:text-gray-700">–</span>
+                                                <span class="text-[10px] text-gray-200">–</span>
                                             @endif
                                         </button>
                                     </td>
                                 @endforeach
 
                                 {{-- Summary cell --}}
-                                <td class="sticky right-0 z-10 bg-white dark:bg-gray-900 group-hover/row:bg-gray-50/80 dark:group-hover/row:bg-gray-800/40
-                                        border-l border-gray-200 dark:border-gray-700 px-2 py-2 transition-colors min-w-[90px]">
+                                <td class="sticky right-0 z-10 bg-white group-hover/row:bg-gray-50/80 
+                                        border-l border-gray-200 px-2 py-2 transition-colors min-w-[90px]">
                                     <div class="flex items-center justify-center gap-1 text-[10px] font-medium whitespace-nowrap">
-                                        @if ($presentCount) <span class="text-green-600 dark:text-green-400">{{ $presentCount }}P</span> @endif
-                                        @if ($absentCount)  <span class="text-red-600 dark:text-red-400">{{ $absentCount }}A</span> @endif
-                                        @if ($permCount)    <span class="text-amber-600 dark:text-amber-400">{{ $permCount }}AP</span> @endif
-                                        @if ($sickCount)    <span class="text-blue-600 dark:text-blue-400">{{ $sickCount }}S</span> @endif
+                                        @if ($presentCount) <span class="text-green-600">{{ $presentCount }}P</span> @endif
+                                        @if ($absentCount)  <span class="text-red-600">{{ $absentCount }}A</span> @endif
+                                        @if ($permCount)    <span class="text-amber-600">{{ $permCount }}AP</span> @endif
+                                        @if ($sickCount)    <span class="text-blue-600">{{ $sickCount }}S</span> @endif
                                         @if (!$presentCount && !$absentCount && !$permCount && !$sickCount)
-                                            <span class="text-gray-300 dark:text-gray-600">–</span>
+                                            <span class="text-gray-300">–</span>
                                         @endif
 
                                         @if ($attendanceRate !== null)
-                                            <span class="ml-1 pl-1 border-l border-gray-200 dark:border-gray-700 font-bold {{ $rateColor }}">
+                                            <span class="ml-1 pl-1 border-l border-gray-200 font-bold {{ $rateColor }}">
                                                 {{ $attendanceRate }}%
                                             </span>
                                         @endif
@@ -253,7 +253,7 @@
 
                     @empty
                         <tr>
-                            <td colspan="{{ count($days) + 2 }}" class="px-6 py-12 text-center text-gray-400 dark:text-gray-600">
+                            <td colspan="{{ count($days) + 2 }}" class="px-6 py-12 text-center text-gray-400">
                                 <x-filament::icon icon="heroicon-o-user-group" class="w-10 h-10 mx-auto mb-2 opacity-40"/>
                                 <p>No staff found for the selected filters.</p>
                             </td>
@@ -278,10 +278,10 @@
         <div class="space-y-2">
             @php
                 $statusOptions = [
-                    ['value' => 'present',                'label' => 'Present',               'icon' => 'heroicon-m-check-circle',   'ring' => 'ring-green-500',  'bg' => 'bg-green-50 dark:bg-green-950',  'text' => 'text-green-700 dark:text-green-300'],
-                    ['value' => 'absent',                 'label' => 'Absent',                'icon' => 'heroicon-m-x-circle',       'ring' => 'ring-red-500',    'bg' => 'bg-red-50 dark:bg-red-950',      'text' => 'text-red-700 dark:text-red-300'],
-                    ['value' => 'absent_with_permission', 'label' => 'Absent w/ Permission',  'icon' => 'heroicon-m-clock',          'ring' => 'ring-amber-400',  'bg' => 'bg-amber-50 dark:bg-amber-950',  'text' => 'text-amber-700 dark:text-amber-300'],
-                    ['value' => 'sick',                   'label' => 'Sick',                  'icon' => 'heroicon-m-heart',          'ring' => 'ring-blue-400',   'bg' => 'bg-blue-50 dark:bg-blue-950',    'text' => 'text-blue-700 dark:text-blue-300'],
+                    ['value' => 'present',                'label' => 'Present',               'icon' => 'heroicon-m-check-circle',   'ring' => 'ring-green-500',  'bg' => 'bg-green-50',  'text' => 'text-green-700'],
+                    ['value' => 'absent',                 'label' => 'Absent',                'icon' => 'heroicon-m-x-circle',       'ring' => 'ring-red-500',    'bg' => 'bg-red-50',      'text' => 'text-red-700'],
+                    ['value' => 'absent_with_permission', 'label' => 'Absent w/ Permission',  'icon' => 'heroicon-m-clock',          'ring' => 'ring-amber-400',  'bg' => 'bg-amber-50',  'text' => 'text-amber-700'],
+                    ['value' => 'sick',                   'label' => 'Sick',                  'icon' => 'heroicon-m-heart',          'ring' => 'ring-blue-400',   'bg' => 'bg-blue-50',    'text' => 'text-blue-700'],
                 ];
             @endphp
 
@@ -291,10 +291,10 @@
                         class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all
                             {{ $editingStatus === $option['value']
                                 ? $option['ring'] . ' ' . $option['bg']
-                                : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600' }}">
+                                : 'border-gray-200 hover:border-gray-300' }}">
                     <x-filament::icon icon="{{ $option['icon'] }}"
                                     class="w-5 h-5 {{ $editingStatus === $option['value'] ? $option['text'] : 'text-gray-400' }}"/>
-                    <span class="text-sm font-medium {{ $editingStatus === $option['value'] ? $option['text'] : 'text-gray-700 dark:text-gray-300' }}">
+                    <span class="text-sm font-medium {{ $editingStatus === $option['value'] ? $option['text'] : 'text-gray-700' }}">
                         {{ $option['label'] }}
                     </span>
                     @if ($editingStatus === $option['value'])
@@ -304,11 +304,11 @@
             @endforeach
 
             <div class="pt-1">
-                <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Notes (optional)</label>
+                <label class="block text-xs font-medium text-gray-500 mb-1">Notes (optional)</label>
                 <textarea wire:model="editingNotes"
                         rows="2"
                         placeholder="Add a note…"
-                        class="w-full min-h-32 text-sm rounded-lg  border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white shadow-sm focus:ring-primary-500 focus:border-primary-500 resize-none placeholder:p-2"></textarea>
+                        class="w-full min-h-32 text-sm rounded-lg  border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 resize-none placeholder:p-2"></textarea>
             </div>
         </div>
 

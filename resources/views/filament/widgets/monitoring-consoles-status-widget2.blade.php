@@ -12,42 +12,42 @@
                     [
                         'label'   => 'Total',
                         'count'   => $total,
-                        'bg'      => 'bg-gray-100 dark:bg-gray-700',
+                        'bg'      => 'bg-gray-100',
                         'dot'     => null,
-                        'text'    => 'text-gray-500 dark:text-gray-400',
-                        'bold'    => 'text-gray-900 dark:text-white',
+                        'text'    => 'text-gray-500',
+                        'bold'    => 'text-gray-900',
                     ],
                     [
                         'label'   => 'Assigned',
                         'count'   => $assigned,
-                        'bg'      => 'bg-emerald-100 dark:bg-emerald-900/30',
+                        'bg'      => 'bg-emerald-100',
                         'dot'     => 'bg-emerald-500',
-                        'text'    => 'text-emerald-700 dark:text-emerald-300',
-                        'bold'    => 'text-emerald-800 dark:text-emerald-200',
+                        'text'    => 'text-emerald-700',
+                        'bold'    => 'text-emerald-800',
                     ],
                     [
                         'label'   => 'Unassigned',
                         'count'   => $unassigned,
-                        'bg'      => 'bg-zinc-100 dark:bg-zinc-800',
+                        'bg'      => 'bg-zinc-100',
                         'dot'     => 'bg-zinc-400',
-                        'text'    => 'text-zinc-500 dark:text-zinc-400',
-                        'bold'    => 'text-zinc-700 dark:text-zinc-200',
+                        'text'    => 'text-zinc-500',
+                        'bold'    => 'text-zinc-700',
                     ],
                     [
                         'label'   => 'Maintenance',
                         'count'   => $maintenance,
-                        'bg'      => 'bg-yellow-50 dark:bg-yellow-900/30',
+                        'bg'      => 'bg-yellow-50',
                         'dot'     => 'bg-yellow-400',
-                        'text'    => 'text-yellow-700 dark:text-yellow-300',
-                        'bold'    => 'text-yellow-800 dark:text-yellow-200',
+                        'text'    => 'text-yellow-700',
+                        'bold'    => 'text-yellow-800',
                     ],
                     [
                         'label'   => 'Faulty',
                         'count'   => $faulty,
-                        'bg'      => 'bg-red-50 dark:bg-red-900/30',
+                        'bg'      => 'bg-red-50',
                         'dot'     => 'bg-red-500',
-                        'text'    => 'text-red-700 dark:text-red-300',
-                        'bold'    => 'text-red-800 dark:text-red-200',
+                        'text'    => 'text-red-700',
+                        'bold'    => 'text-red-800',
                     ],
                 ];
             @endphp
@@ -80,29 +80,29 @@
 
                         [$bg, $dot, $text, $ring] = match ($statusValue) {
                             'faulty'      => [
-                                'bg-red-100 dark:bg-red-900/40',
+                                'bg-red-100',
                                 'bg-red-500',
-                                'text-red-800 dark:text-red-200',
-                                'ring-red-300 dark:ring-red-700',
+                                'text-red-800',
+                                'ring-red-300',
                             ],
                             'maintenance' => [
-                                'bg-yellow-100 dark:bg-yellow-900/40',
+                                'bg-yellow-100',
                                 'bg-yellow-400',
-                                'text-yellow-800 dark:text-yellow-200',
-                                'ring-yellow-300 dark:ring-yellow-700',
+                                'text-yellow-800',
+                                'ring-yellow-300',
                             ],
                             default       => $console->monitoring_staff_id !== null
                                 ? [
-                                    'bg-emerald-200 dark:bg-emerald-900/40',
+                                    'bg-emerald-200',
                                     'bg-emerald-500',
-                                    'text-emerald-800 dark:text-emerald-200',
-                                    'ring-emerald-300 dark:ring-emerald-700',
+                                    'text-emerald-800',
+                                    'ring-emerald-300',
                                 ]
                                 : [
-                                    'bg-zinc-100 dark:bg-zinc-800',
+                                    'bg-zinc-100',
                                     'bg-zinc-400',
-                                    'text-zinc-600 dark:text-zinc-300',
-                                    'ring-zinc-300 dark:ring-zinc-600',
+                                    'text-zinc-600',
+                                    'ring-zinc-300',
                                 ],
                         };
                     @endphp
@@ -115,14 +115,14 @@
 
                         {{-- Tooltip --}}
                         <div class="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 z-50
-                                    whitespace-nowrap rounded-lg bg-gray-900 dark:bg-gray-700 px-2.5 py-1.5
+                                    whitespace-nowrap rounded-lg bg-gray-900 px-2.5 py-1.5
                                     text-xs text-white shadow-lg
                                     opacity-0 scale-95 transition-all duration-150
                                     group-hover/pill:opacity-100 group-hover/pill:scale-100">
                             <x-heroicon-m-user-circle class="inline h-3 w-3 mb-0.5 mr-0.5 opacity-70" />
                             {{ $console->assignee->name ?? 'Unassigned' }}
                             {{-- little arrow --}}
-                            <span class="absolute left-1/2 -bottom-1 -translate-x-1/2 border-4 border-transparent border-t-gray-900 dark:border-t-gray-700"></span>
+                            <span class="absolute left-1/2 -bottom-1 -translate-x-1/2 border-4 border-transparent border-t-gray-900"></span>
                         </div>
                     </div>
                     
