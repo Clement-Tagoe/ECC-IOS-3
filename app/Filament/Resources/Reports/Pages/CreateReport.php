@@ -22,7 +22,7 @@ class CreateReport extends CreateRecord
 
     protected function afterCreate(): void
     {
-        $report= $this->record;
+        $report = $this->record;
 
        if ($report->receivers->isNotEmpty()) {
             foreach ($report->receivers as $user) {

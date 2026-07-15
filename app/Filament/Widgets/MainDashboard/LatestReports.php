@@ -3,33 +3,13 @@
 namespace App\Filament\Widgets\MainDashboard;
 
 
-use App\Enums\ReportPriority;
-use App\Enums\ReportStatus;
 use App\Filament\Resources\Reports\ReportResource;
-use App\Models\Report;
-use Carbon\Carbon;
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ForceDeleteAction;
-use Filament\Actions\ForceDeleteBulkAction;
-use Filament\Actions\RestoreAction;
-use Filament\Actions\RestoreBulkAction;
-use Filament\Actions\ViewAction;
-use Filament\Forms\Components\DatePicker;
 use Filament\Support\Enums\FontWeight;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Enums\FiltersLayout;
-use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\Indicator;
-use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
-use Kirschbaum\Commentions\Filament\Actions\CommentsAction;
 
 class LatestReports extends TableWidget
 {
@@ -75,30 +55,6 @@ class LatestReports extends TableWidget
                     ->color(fn ($state) => $state > 0 ? 'info' : 'success')
                     ->sortable(false)   // counting is not easily sortable without extra work
                     ->alignCenter(),
-            ])
-            ->filters([
-            ])
-            ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-                CommentsAction::make()
-                    ->mentionables(function (Report $record) {
-                        return $record->receivers
-                            ->push($record->user)
-                            ->filter()
-                            ->unique('id');
-                    })
-                    ->perPage(10),
-                DeleteAction::make(),
-                ForceDeleteAction::make(),
-                RestoreAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
-                ]),
             ]);
     }
 }
