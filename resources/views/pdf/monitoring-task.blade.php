@@ -136,9 +136,9 @@
         .content-box {
             font-size: 11px;
             color: #1f2937;
-            background-color: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 4px;
+            /* background-color: #f9fafb; */
+            /* border: 1px solid #e5e7eb;
+            border-radius: 4px; */
             padding: 10px 12px;
         }
         .content-box p { margin: 0 0 8px 0; }
@@ -262,7 +262,7 @@
         <table class="details-table" style="margin-top: 4px;">
             <tr>
                 <td colspan="3">
-                    <span class="field-label">Observation</span>
+                    <span class="section-title">Observation</span>
                     <div class="content-box">
                         {!! $monitoringTask->observation !!}
                     </div>

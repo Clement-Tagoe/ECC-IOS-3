@@ -221,7 +221,7 @@
         <td>
             <h1 class="doc-title">Call Log Report</h1>
             <div class="doc-subtitle">
-                Date: {{ optional($callLog->date)->format('d M Y') ?? '—' }}
+                Date: {{ \Illuminate\Support\Carbon::parse($callLog->date)->format('d M Y') ?? '—' }}
                 &nbsp;&bull;&nbsp;
                 Shift: {{ ($callLog->shift instanceof \App\Enums\ShiftType ? $callLog->shift : \App\Enums\ShiftType::from($callLog->shift))->getLabel() }}
             </div>
@@ -304,7 +304,7 @@
                                     </span>
                                 </span>
                             </td>
-                            <td style="width: 33.33%;">@include('pdf.partials.entry', ['label' => 'Date', 'value' => optional($callLog->date)->format('d M Y')])</td>
+                            <td style="width: 33.33%;">@include('pdf.partials.entry', ['label' => 'Date', 'value' =>\Illuminate\Support\Carbon::parse($callLog->date)->format('d M Y')])</td>
                             <td style="width: 33.33%;">@include('pdf.partials.entry', ['label' => 'Start Time', 'value' => \Illuminate\Support\Carbon::parse($callLog->start_time)->format('h:i A')])</td>
                         </tr>
                         <tr>

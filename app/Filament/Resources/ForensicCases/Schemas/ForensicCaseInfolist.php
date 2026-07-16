@@ -34,6 +34,8 @@ class ForensicCaseInfolist
                                 ->badge(),
                             TextEntry::make('review_status')
                                 ->badge(),
+                            TextEntry::make('user.name')
+                                ->label('Sent By'),
                             TextEntry::make('collaborators.name')
                                 ->label('Collaborators')
                                 ->listWithLineBreaks()

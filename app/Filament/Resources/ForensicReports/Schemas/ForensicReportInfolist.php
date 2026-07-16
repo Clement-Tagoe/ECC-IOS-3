@@ -45,6 +45,8 @@ class ForensicReportInfolist
                         TextEntry::make('review_status')
                             ->label('Review Status')
                             ->badge(),
+                        TextEntry::make('user.name')
+                            ->label('Sent By'),
                         TextEntry::make('collaborators.name')
                             ->label('Collaborators')
                             ->listWithLineBreaks()
@@ -409,11 +411,6 @@ class ForensicReportInfolist
                 Section::make()
                     ->columnSpanFull()
                     ->schema([
-                        Group::make([
-                            TextEntry::make('creator.name')->label('Created by'),
-                            TextEntry::make('editor.name')->label('Edited by'),
-                            TextEntry::make('destroyer.name')->label('Deleted by'),
-                        ])->columns(3)->columnSpan(2),
                         Group::make([
                             TextEntry::make('created_at')->label('Created At')->dateTime(),
                             TextEntry::make('updated_at')->label('Updated At')->dateTime(),

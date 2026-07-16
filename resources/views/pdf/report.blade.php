@@ -295,6 +295,10 @@
             </tr>
             <tr>
                 <td>
+                    <span class="field-label">Sent By</span>
+                    <span class="field-value">{{ $report->user->name }}</span>
+                </td>
+                <td>
                     <span class="field-label">Collaborators</span>
                     @forelse($report->collaborators as $collaborator)
                         <span class="field-value">{{ $collaborator->name }}</span><br>

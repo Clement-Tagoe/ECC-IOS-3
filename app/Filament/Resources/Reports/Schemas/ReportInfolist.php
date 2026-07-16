@@ -46,6 +46,9 @@ class ReportInfolist
                             ->label('Department')
                             ->placeholder('No department assigned'),
 
+                        TextEntry::make('user.name')
+                            ->label('Sent By'),
+
                         TextEntry::make('collaborators.name')
                             ->label('Collaborators')
                             ->listWithLineBreaks()
