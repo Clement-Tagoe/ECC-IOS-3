@@ -3,13 +3,15 @@
 namespace App\Providers;
 
 use App\Http\Responses\CustomLoginResponse;
-use Filament\Auth\Http\Responses\Contracts\LoginResponse as LoginResponseContract;
+use App\Listeners\LogoutOtherDeviceSessions;
 use App\Models\ForensicCase;
 use App\Models\ForensicReport;
 use App\Models\Report;
 use App\Models\Task;
 use App\Observers\MessageObserver;
 use App\Traits\SendsCommentNotifications;
+use Filament\Auth\Http\Responses\Contracts\LoginResponse as LoginResponseContract;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Kirschbaum\Commentions\Events\CommentWasCreatedEvent;
@@ -33,6 +35,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Event::listen(Login::class, LogoutOtherDeviceSessions::class);
+        
         Message::observe(MessageObserver::class);
 
         Event::listen(function (UserWasMentionedEvent $event) {

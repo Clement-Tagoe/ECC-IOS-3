@@ -25,7 +25,7 @@ class MonitoringTaskResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ListBullet;
 
-    protected static ?string $recordTitleAttribute = '';
+    protected static ?string $recordTitleAttribute = 'topics.name';
 
     protected static string | UnitEnum | null $navigationGroup = 'Monitoring';
 

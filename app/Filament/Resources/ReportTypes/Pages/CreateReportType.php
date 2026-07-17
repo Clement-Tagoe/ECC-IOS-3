@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Filament\Resources\ReportTypes\Pages;
+
+use App\Filament\Resources\ReportTypes\ReportTypeResource;
+use Filament\Resources\Pages\CreateRecord;
+
+class CreateReportType extends CreateRecord
+{
+    protected static string $resource = ReportTypeResource::class;
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+}

@@ -25,7 +25,7 @@ class ValidCaseResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = 'case_nature';
+    protected static ?string $recordTitleAttribute = 'validCaseNature.name';
 
     protected static string | UnitEnum | null $navigationGroup = 'Call-Taking';
 
