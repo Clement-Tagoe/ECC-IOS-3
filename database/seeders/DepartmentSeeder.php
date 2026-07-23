@@ -12,9 +12,15 @@ class DepartmentSeeder extends Seeder
      */
     public function run(): void
     {
+        Department::create(['name' => 'Administration']);
         Department::create(['name' => 'IT']);
         Department::create(['name' => 'Call-Center']);
         Department::create(['name' => 'Monitoring']);
         Department::create(['name' => 'Analysis & Intelligence']);
+        Department::create(['name' => 'Forensics']);
+        Department::create(['name' => 'Estate & Logistics']);
+        Department::create(['name' => 'Transport']);
+        Department::create(['name' => 'General']);
+        Department::create(['name' => 'FrontDesk']);
     }
 }
