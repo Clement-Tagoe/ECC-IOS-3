@@ -1,5 +1,17 @@
 <?php
 
+use App\Models\User;
+use Wirechat\Wirechat\Models\Action;
+use Wirechat\Wirechat\Models\Attachment;
+use Wirechat\Wirechat\Models\Conversation;
+use Wirechat\Wirechat\Models\Group;
+use Wirechat\Wirechat\Models\Invite;
+use Wirechat\Wirechat\Models\JoinRequest;
+use Wirechat\Wirechat\Models\Message;
+use Wirechat\Wirechat\Models\MessageRequest;
+use Wirechat\Wirechat\Models\Participant;
+use Wirechat\Wirechat\Models\Setting;
+
 return [
 
     /*
@@ -31,12 +43,17 @@ return [
     'table_prefix' => 'wirechat_',
 
     'models' => [
-        'action' => \Wirechat\Wirechat\Models\Action::class,
-        'attachment' => \Wirechat\Wirechat\Models\Attachment::class,
-        'conversation' => \Wirechat\Wirechat\Models\Conversation::class,
-        'group' => \Wirechat\Wirechat\Models\Group::class,
-        'message' => \Wirechat\Wirechat\Models\Message::class,
-        'participant' => \Wirechat\Wirechat\Models\Participant::class,
+        'user' => User::class,
+        'action' => Action::class,
+        'attachment' => Attachment::class,
+        'conversation' => Conversation::class,
+        'group' => Group::class,
+        'invite' => Invite::class,
+        'join_request' => JoinRequest::class,
+        'message' => Message::class,
+        'message_request' => MessageRequest::class,
+        'participant' => Participant::class,
+        'setting' => Setting::class,
     ],
 
     /*
@@ -58,11 +75,32 @@ return [
 
     /*
      |--------------------------------------------------------------------------
+     | Encryption
+     |--------------------------------------------------------------------------
+     |
+     | Encrypt message bodies at rest. This uses Laravel's encryption service
+     | and stores a versioned Wirechat envelope in the message body column.
+     |
+    */
+    'encryption' => [
+        'enabled' => env('WIRECHAT_ENCRYPTION_ENABLED', false),
+        'compression' => [
+            'enabled' => true,
+            'min_bytes' => 512,
+            'level' => 6,
+            'require_smaller_output' => true,
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
      | Message URL Parsing
      |--------------------------------------------------------------------------
      |
      | Configure how Wirechat detects and links URLs in message bodies.
-     | If allowed_tlds is set, only those TLDs will be recognized.
+     | If allowed_tlds is null, all TLDs are allowed.
+     | If allowed_tlds is an empty array, no TLDs are allowed.
+     | If allowed_tlds is a list, only those TLDs will be recognized.
      | Defaults shown below.
      |
      */

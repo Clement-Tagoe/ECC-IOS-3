@@ -1,12 +1,11 @@
 <?php
-
 namespace App\Providers\Wirechat;
 
 use Wirechat\Wirechat\Panel;
 use Wirechat\Wirechat\PanelProvider;
 use Wirechat\Wirechat\Support\Enums\EmojiPickerPosition;
 use Wirechat\Wirechat\Support\Enums\UnreadIndicatorType;
-
+use Wirechat\Wirechat\Support\Color;
 
 class ChatsPanelProvider extends PanelProvider
 {
@@ -15,22 +14,27 @@ class ChatsPanelProvider extends PanelProvider
         return $panel
              ->id('chats')
              ->path('chats')
-             ->middleware(['web','auth'])
-             ->default()
              ->chatsSearch()
+             ->redirectToHomeAction()
              ->createChatAction()
+             ->middleware(['web','auth'])
+             ->unreadIndicator(type: UnreadIndicatorType::Count)
+             ->settings()
+             ->emojiPicker(position: EmojiPickerPosition::Docked)
+             ->attachments()
+             ->colors([
+                'primary' => Color::Orange,
+             ])
+             ->heading('Chat')
              ->createGroupAction()
              ->clearChatAction()
              ->deleteChatAction()
              ->deleteMessageActions()
-             ->unreadIndicator(type: UnreadIndicatorType::Count)
-             ->emojiPicker(position: EmojiPickerPosition::Docked)
-             ->attachments()
-             ->default()
-             ->broadcasting()
+             ->messageReplyAction()
+             ->redirectToHomeAction(url: '/auth')
              ->webPushNotifications()
              ->messagesQueue('messages')
              ->eventsQueue('default')
-             ->fileMimes(['zip', 'rar', 'txt', 'pdf', 'docx', 'doc', 'xlsx', 'xls', 'pptx', 'ppt']);
+             ->default();
     }
 }

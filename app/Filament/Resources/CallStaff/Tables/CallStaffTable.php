@@ -61,7 +61,6 @@ class CallStaffTable
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
-                ForceDeleteAction::make(),
                 RestoreAction::make(),
             ])
             ->toolbarActions([
@@ -69,7 +68,6 @@ class CallStaffTable
                     ExportBulkAction::make()
                         ->exporter(CallStaffExporter::class),
                     DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),
             ]);

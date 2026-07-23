@@ -109,6 +109,14 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
+            'name' => 'Justice Owusu',
+            'email' => 'justice@ecc.com',
+            'password' =>bcrypt('1234'),
+            'contact' => '0244123098',
+            'department_id' => 4,
+        ]);
+
+        User::create([
             'name' => 'Monica Dufie Amankwah',
             'email' => 'monica@ecc.com',
             'password' =>bcrypt('1234'),
@@ -162,6 +170,14 @@ class UserSeeder extends Seeder
             'password' =>bcrypt('1234'),
             'contact' => '0244123098',
             'department_id' => 5,
+        ]);
+
+        User::create([
+            'name' => 'Olando Hisham',
+            'email' => 'olando@ecc.com',
+            'password' =>bcrypt('1234'),
+            'contact' => '0244123098',
+            'department_id' => 8,
         ]);
     }
 }

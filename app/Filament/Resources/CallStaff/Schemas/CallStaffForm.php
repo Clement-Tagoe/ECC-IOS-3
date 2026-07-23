@@ -21,6 +21,14 @@ class CallStaffForm
                             ->required(),
                         Select::make('call_staff_group_id')
                             ->relationship('group', 'name')
+                            ->createOptionForm([
+                                        TextInput::make('name')
+                                            ->unique()
+                                            ->required(),
+                                    ])
+                            ->live()
+                            ->searchable()
+                            ->preload(),
                 ])
                 
             ]);

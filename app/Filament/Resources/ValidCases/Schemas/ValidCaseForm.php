@@ -76,8 +76,10 @@ class ValidCaseForm
                         Section::make()
                             ->schema([
                                 TextInput::make('contact_name')
+                                    ->label('Caller Name')
                                     ->required(),
                                 TextInput::make('contact_number')
+                                    ->label('Caller Contact Number')
                                     ->required(),
                                 Select::make('valid_case_nature_id')
                                     ->createOptionForm([

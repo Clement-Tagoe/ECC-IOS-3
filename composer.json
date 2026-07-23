@@ -18,9 +18,9 @@
         "laravel/framework": "^12.0",
         "laravel/reverb": "^1.10",
         "laravel/tinker": "^2.10.1",
-        "namu/wirechat": "^0.5.4",
         "waguilar33/filament-guardian": "^1.10",
-        "wildside/userstamps": "^4.0"
+        "wildside/userstamps": "^4.0",
+        "wirechat/wirechat": "^0.6.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.7",

@@ -49,7 +49,7 @@ class CallLogForm
                 Section::make('Duty Details & Duration')
                     ->description('Details of User, time & date of shift')
                     ->schema([
-                        ToggleButtons::make('Shift')
+                        ToggleButtons::make('shift')
                             ->options(ShiftType::class)
                             ->inline()
                             ->required()
@@ -89,12 +89,18 @@ class CallLogForm
                                 Select::make('call_staff_id')
                                     ->relationship('callStaff', 'name')
                                     ->required(),
-                                TextInput::make('call_taker_id'),
-                                TextInput::make('attendance'),
-                                TextInput::make('console_id'),
-                                TextInput::make('incoming'),
-                                TextInput::make('received'),
-                                TextInput::make('unanswered'),
+                                TextInput::make('call_taker_id')
+                                    ->required(),
+                                TextInput::make('attendance')
+                                    ->required(),
+                                TextInput::make('console_id')
+                                    ->required(),
+                                TextInput::make('incoming')
+                                    ->required(),
+                                TextInput::make('received')
+                                    ->required(),
+                                TextInput::make('unanswered')
+                                    ->required(),
                             ])
                             ->columnSpanFull(),
                 ]),

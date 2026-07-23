@@ -1,6 +1,6 @@
 @import 'tailwindcss';
-/* resources/css/app.css */
-@import '../../vendor/namu/wirechat/resources/css/app.css';
+@import '../../vendor/wirechat/wirechat/resources/css/app.css';
+
 
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
