@@ -20,7 +20,7 @@ class VehicleForm
     {
         return $schema
             ->components([
-                Section::make('Suspect Details')
+                Section::make('Vehicle Details')
                     ->columns(3)
                     ->columnSpanFull()
                     ->schema([

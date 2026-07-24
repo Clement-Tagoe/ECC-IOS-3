@@ -12,6 +12,11 @@ class EditEmergencyContact extends EditRecord
 {
     protected static string $resource = EmergencyContactResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
     protected function getHeaderActions(): array
     {
         return [

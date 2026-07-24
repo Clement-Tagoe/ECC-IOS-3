@@ -39,7 +39,8 @@ class MonitoringConsoleForm
                             ->preload()
                             ->live()
                             ->nullable()
-                            ->placeholder('Unassigned'),
+                            ->placeholder('Unassigned')
+                            ->helperText('A console cannot be assigned to a staff member if it is faulty or under maintenance'),
                      ])
             ]);
     }

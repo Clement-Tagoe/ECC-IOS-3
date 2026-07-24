@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('case_id');
             $table->time('reporting_time');
             $table->date('reporting_date');
-            $table->foreignId('region_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('agency_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignId('valid_case_nature_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('location_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('region_id')->constrained();
+            $table->foreignId('agency_id')->nullable()->constrained();
+            $table->foreignId('valid_case_nature_id')->constrained();
+            $table->foreignId('location_id')->constrained();
             $table->time('dispatched_time')->nullable();
             $table->time('agency_arrival_time')->nullable();
             $table->time('agency_response_time')->nullable();

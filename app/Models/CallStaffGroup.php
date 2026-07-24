@@ -17,4 +17,5 @@ class CallStaffGroup extends Model
     {
         return $this->hasMany(CallStaff::class);
     }
+
 }

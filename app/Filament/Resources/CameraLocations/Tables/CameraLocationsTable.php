@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\CameraLocations\Tables;
 
+use App\Models\CameraLocation;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -10,7 +11,9 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
 class CameraLocationsTable
@@ -47,11 +50,25 @@ class CameraLocationsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                TrashedFilter::make()
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                DeleteAction::make()
+                    ->action(function (CameraLocation $record, DeleteAction $action) {
+                        if ($record->cameraAudits()->exists()) {
+                            Notification::make()
+                                ->title('Cannot delete location')
+                                ->body('This location has camera audits attached. Remove them first.')
+                                ->danger()
+                                ->send();
+
+                            $action->cancel();
+                            return;
+                        }
+
+                        $record->delete();
+                }),
                 ForceDeleteAction::make(),
                 RestoreAction::make(),
             ])

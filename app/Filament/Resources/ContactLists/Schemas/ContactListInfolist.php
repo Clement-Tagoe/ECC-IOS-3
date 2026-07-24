@@ -20,10 +20,12 @@ class ContactListInfolist
                     ->schema([
                             TextEntry::make('name'),
                             TextEntry::make('contact'),
-                            TextEntry::make('agency'),
-                            TextEntry::make('location'),
-                            TextEntry::make('district'), 
-                            TextEntry::make('region'),
+                            TextEntry::make('agency.name')
+                                ->label('Agency'),
+                            TextEntry::make('location.name')
+                                ->label('Location'),
+                            TextEntry::make('region.name')
+                                ->label('Region'),
                             ]),
                 Section::make()
                     ->columnSpanFull()

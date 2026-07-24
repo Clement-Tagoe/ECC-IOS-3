@@ -31,4 +31,6 @@ class CallStaff extends Model
         return $this->hasMany(AgentActivity::class);
     }
 
+    
+
 }

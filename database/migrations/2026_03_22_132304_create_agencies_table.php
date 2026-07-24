@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('website');
             $table->timestamps();
             $table->softDeletes();
+            $table->userstamps();
+            $table->userstampSoftDeletes();
             
         });
     }

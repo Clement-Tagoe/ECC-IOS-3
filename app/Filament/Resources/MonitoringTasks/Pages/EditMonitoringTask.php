@@ -4,6 +4,7 @@ namespace App\Filament\Resources\MonitoringTasks\Pages;
 
 use App\Filament\Resources\MonitoringTasks\MonitoringTaskResource;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
 class EditMonitoringTask extends EditRecord
@@ -18,6 +19,7 @@ class EditMonitoringTask extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            ViewAction::make(),
             DeleteAction::make(),
         ];
     }

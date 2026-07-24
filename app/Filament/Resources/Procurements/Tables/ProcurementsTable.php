@@ -10,7 +10,9 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ExportBulkAction;
+use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Forms\Components\DatePicker;
@@ -103,6 +105,8 @@ class ProcurementsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                RestoreAction::make(),
+                ForceDeleteAction::make(),
                 DeleteAction::make(),
             ])
             ->toolbarActions([

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('monitoring_staffs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('monitoring_staff_group_id')->nullable();
+            $table->foreignId('monitoring_staff_group_id')->constrained();
             $table->timestamps();
             $table->softDeletes();
             $table->userstamps();

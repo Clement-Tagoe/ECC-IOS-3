@@ -12,6 +12,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ExportBulkAction;
+use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
@@ -106,6 +107,7 @@ class ForensicCasesTable
                             ->unique('id');
                     })
                     ->perPage(10),
+                ForceDeleteAction::make(),
                 DeleteAction::make(),
             ])
             ->toolbarActions([

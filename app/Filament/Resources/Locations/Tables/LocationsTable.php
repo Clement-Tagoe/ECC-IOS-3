@@ -55,13 +55,11 @@ class LocationsTable
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
-                ForceDeleteAction::make(),
                 RestoreAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                 ]),
             ]);

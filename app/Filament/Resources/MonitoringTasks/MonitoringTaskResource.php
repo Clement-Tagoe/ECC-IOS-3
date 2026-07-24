@@ -18,6 +18,8 @@ use Filament\Tables\Table;
 use UnitEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Support\Htmlable;
 
 class MonitoringTaskResource extends Resource
 {
@@ -25,11 +27,19 @@ class MonitoringTaskResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ListBullet;
 
-    protected static ?string $recordTitleAttribute = 'topics.name';
-
     protected static string | UnitEnum | null $navigationGroup = 'Monitoring';
 
     protected static ?int $navigationSort = 2;
+
+    // public static function getRecordTitle(?Model $record): string|Htmlable|null
+    // {
+    //     return $record?->topics->pluck('name')->join(', ') ?: 'Monitoring Task';
+    // }
+
+    // public static function getGlobalSearchResultTitle(Model $record): string|Htmlable
+    // {
+    //     return $record->topics->pluck('name')->join(', ') ?: 'Monitoring Task';
+    // }
 
     public static function form(Schema $schema): Schema
     {
@@ -45,6 +55,8 @@ class MonitoringTaskResource extends Resource
     {
         return MonitoringTasksTable::configure($table);
     }
+
+
 
     public static function getRelations(): array
     {

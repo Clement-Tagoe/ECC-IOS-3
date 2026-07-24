@@ -23,16 +23,17 @@ class CallStaffInfolist
                                 Group::make([
                                     TextEntry::make('name')
                                         ->numeric(),
-                                    TextEntry::make('group.name')
-                                        ->label('Group'),
                                     TextEntry::make('creator.name')
                                         ->label('Created by'), 
-                                ]),
-                                Group::make([
-                                    TextEntry::make('editor.name')
-                                        ->label('Edited by'), 
                                     TextEntry::make('created_at')
                                         ->dateTime(),
+                                ]),
+                                Group::make([
+                                    TextEntry::make('group.name')
+                                        ->label('Group'),
+    
+                                    TextEntry::make('editor.name')
+                                        ->label('Edited by'), 
                                     TextEntry::make('updated_at')
                                         ->dateTime(), 
 

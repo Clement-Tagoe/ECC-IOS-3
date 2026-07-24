@@ -22,14 +22,14 @@ class MonitoringStaffInfolist
                             ->schema([
                                 Group::make([
                                     TextEntry::make('name'),
-                                    TextEntry::make('group.name')
-                                        ->label('Group'),
+                                    TextEntry::make('editor.name')
+                                        ->label('Edited by'), 
                                     TextEntry::make('creator.name')
                                         ->label('Created by'), 
                                 ]),
                                 Group::make([
-                                    TextEntry::make('editor.name')
-                                        ->label('Edited by'), 
+                                    TextEntry::make('group.name')
+                                        ->label('Group'),
                                     TextEntry::make('created_at')
                                         ->dateTime(),
                                     TextEntry::make('updated_at')

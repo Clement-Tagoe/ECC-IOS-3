@@ -61,7 +61,6 @@ class MonitoringStaffTable
                 ViewAction::make(),
                 EditAction::make(),
                 DeleteAction::make(),
-                ForceDeleteAction::make(),
                 RestoreAction::make(),
             ])
             ->toolbarActions([

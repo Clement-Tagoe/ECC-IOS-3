@@ -16,7 +16,6 @@ class EditLocation extends EditRecord
     {
         return [
             DeleteAction::make(),
-            ForceDeleteAction::make(),
             RestoreAction::make(),
         ];
     }
