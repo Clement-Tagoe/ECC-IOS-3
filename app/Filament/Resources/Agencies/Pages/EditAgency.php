@@ -17,21 +17,7 @@ class EditAgency extends EditRecord
     {
         return [
             ViewAction::make(),
-            DeleteAction::make()
-                    ->action(function (Agency $record, DeleteAction $action) {
-                        if ($record->validCases()->exists()) {
-                            Notification::make()
-                                ->title('Cannot delete agency')
-                                ->body('This agency has valid cases attached. Remove or reassign them first.')
-                                ->danger()
-                                ->send();
-
-                            $action->cancel();
-                            return;
-                        }
-
-                        $record->delete();
-                }),
+            DeleteAction::make(),
         ];
     }
 }

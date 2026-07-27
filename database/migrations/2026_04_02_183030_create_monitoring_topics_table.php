@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('monitoring_topics', function (Blueprint $table) {
             $table->id();
-            $table->string('monitoring_task_id');
-            $table->string('topic_id')->constrained();
+            $table->foreignId('monitoring_task_id');
+            $table->foreignId('topic_id')->constrained()->onDelete('restrict');
             $table->timestamps();
         });
     }

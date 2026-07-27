@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('contact');
             $table->string('nationality');
             $table->string('officer_sought');
-            $table->foreignId('department_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('department_id')->nullable()->constrained()->onDelete('restrict');
             $table->string('purpose');
             $table->string('sex');
             $table->string('status');

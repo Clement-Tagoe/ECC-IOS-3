@@ -50,21 +50,7 @@ class AgenciesTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
-                DeleteAction::make()
-                    ->action(function (Agency $record, DeleteAction $action) {
-                        if ($record->validCases()->exists()) {
-                            Notification::make()
-                                ->title('Cannot delete agency')
-                                ->body('This agency has valid cases attached. Remove or reassign them first.')
-                                ->danger()
-                                ->send();
-
-                            $action->cancel();
-                            return;
-                        }
-
-                        $record->delete();
-                }),
+                DeleteAction::make(),
                 ForceDeleteAction::make(),
                 RestoreAction::make(),
             ])

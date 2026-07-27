@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('console_name');
             $table->string('status');
             $table->text('notes')->nullable();
-            $table->foreignId('monitoring_staff_id')->nullable()->constrained();
+            $table->foreignId('monitoring_staff_id')->nullable()->constrained()->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
             $table->userstamps();

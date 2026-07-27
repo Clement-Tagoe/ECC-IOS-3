@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('shift');
             $table->string('status');
             $table->text('observation');
-            $table->foreignId('region_id');
-            $table->foreignId('location_id');
+            $table->foreignId('region_id')->constrained()->onDelete('restrict');
+            $table->foreignId('location_id')->constrained()->onDelete('restrict');
             $table->text('recommendation');
             $table->timestamps();
             $table->softDeletes();

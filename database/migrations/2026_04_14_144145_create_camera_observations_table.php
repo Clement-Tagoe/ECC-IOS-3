@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('camera_observations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('camera_audit_id');
-            $table->foreignId('observation_id');
+            $table->foreignId('observation_id')->constrained()->onDelete('restrict');
             $table->timestamps();
         });
     }

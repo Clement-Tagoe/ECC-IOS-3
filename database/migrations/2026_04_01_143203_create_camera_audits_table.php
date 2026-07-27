@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('camera_audits', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('region_id');
+            $table->foreignId('region_id')->constrained()->onDelete('restrict');
             $table->string('camera_name');
-            $table->foreignId('camera_location_id')->nullable()->constrained();
+            $table->foreignId('camera_location_id')->nullable()->constrained()->onDelete('restrict');
             $table->string('status');
             $table->text('notes')->nullable();
             $table->timestamps();

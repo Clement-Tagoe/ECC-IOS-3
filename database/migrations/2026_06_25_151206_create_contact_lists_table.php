@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('contact');
-            $table->foreignId('region_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('agency_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignId('location_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('region_id')->constrained()->onDelete('restrict');
+            $table->foreignId('agency_id')->nullable()->constrained()->onDelete('restrict');
+            $table->foreignId('location_id')->constrained()->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
             $table->userstamps();

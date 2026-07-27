@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('department_id')->nullable()->constrained();
-            $table->foreignId('task_id')->nullable()->constrained();
-            $table->foreignId('report_type_id')->nullable()->constrained();
+            $table->foreignId('department_id')->nullable()->constrained()->onDelete('restrict');
+            $table->foreignId('task_id')->nullable()->constrained()->onDelete('restrict');
+            $table->foreignId('report_type_id')->nullable()->constrained()->onDelete('restrict');
             $table->date('date');
             $table->string('shift');
             $table->string('title');
