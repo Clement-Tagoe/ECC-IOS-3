@@ -13,6 +13,11 @@ class CreateReport extends CreateRecord
 {
     protected static string $resource = ReportResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('view', ['record' => $this->getRecord()]);
+    }
+    
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['user_id'] = Auth::id();

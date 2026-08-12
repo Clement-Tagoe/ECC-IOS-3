@@ -42,6 +42,7 @@ class MonitoringTaskInfolist
 
                         TextEntry::make('observation')
                             ->html()
+                            ->prose()
                             ->columnSpanFull(),
                     ]),
 
@@ -51,6 +52,7 @@ class MonitoringTaskInfolist
                     ->schema([
                         TextEntry::make('recommendation')
                             ->html()
+                            ->prose()
                             ->columnSpanFull(),
                     ]),
 

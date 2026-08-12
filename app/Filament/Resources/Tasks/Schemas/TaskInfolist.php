@@ -30,7 +30,8 @@ class TaskInfolist
                             ->label('Task Title')
                             ->weight(FontWeight::Bold),
                         
-                        TextEntry::make('due_date'),
+                        TextEntry::make('due_date')
+                            ->label('Due Date'),
 
                         TextEntry::make('status')
                             ->badge(),
@@ -52,6 +53,7 @@ class TaskInfolist
 
                         TextEntry::make('description')
                             ->html()
+                            ->prose()
                             ->columnSpanFull(),
                     ]),
                 

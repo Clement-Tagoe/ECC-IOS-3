@@ -175,56 +175,46 @@
                                 {{-- Attendance cells --}}
                                 @foreach ($days as $day)
                                     @php
-                                        $dateStr   = $day->toDateString();
-                                        $isToday   = $dateStr === $today;
-                                        $isWeekend = $day->isWeekend();
+                                        $dateStr    = $day->toDateString();
+                                        $isToday    = $dateStr === $today;
+                                        $isWeekend  = $day->isWeekend();
                                         $attendance = $attendanceMap[$dateStr] ?? null;
                                         $status     = $attendance?->status;
+                                        $notes      = $attendance?->notes;
 
-                                        $cellBg = match($status) {
-                                            'present'                => 'bg-green-100 hover:bg-green-200',
-                                            'absent'                 => 'bg-red-100 hover:bg-red-200',
-                                            'absent_with_permission' => 'bg-amber-100 hover:bg-amber-200',
-                                            'sick'                   => 'bg-blue-100 hover:bg-blue-200',
-                                            default                  => ($isWeekend ? 'bg-gray-50' : 'hover:bg-gray-100') . ' cursor-pointer',
-                                        };
+                                        $statusMeta = [
+                                            'present'                => ['bg' => 'bg-green-100 hover:bg-green-200', 'label' => 'P',  'text' => 'text-green-700', 'full' => 'Present'],
+                                            'absent'                 => ['bg' => 'bg-red-100 hover:bg-red-200',     'label' => 'A',  'text' => 'text-red-700',   'full' => 'Absent'],
+                                            'absent_with_permission' => ['bg' => 'bg-amber-100 hover:bg-amber-200', 'label' => 'AP', 'text' => 'text-amber-700', 'full' => 'Absent with Permission'],
+                                            'sick'                   => ['bg' => 'bg-blue-100 hover:bg-blue-200',   'label' => 'S',  'text' => 'text-blue-700',  'full' => 'Sick'],
+                                        ];
 
-                                        $dotColor = match($status) {
-                                            'present'                => 'bg-green-500',
-                                            'absent'                 => 'bg-red-500',
-                                            'absent_with_permission' => 'bg-amber-400',
-                                            'sick'                   => 'bg-blue-400',
-                                            default                  => '',
-                                        };
-
-                                        $shortLabel = match($status) {
-                                            'present'                => 'P',
-                                            'absent'                 => 'A',
-                                            'absent_with_permission' => 'AP',
-                                            'sick'                   => 'S',
-                                            default                  => '',
-                                        };
-
-                                        $labelColor = match($status) {
-                                            'present'                => 'text-green-700',
-                                            'absent'                 => 'text-red-700',
-                                            'absent_with_permission' => 'text-amber-700',
-                                            'sick'                   => 'text-blue-700',
-                                            default                  => 'text-gray-300',
-                                        };
+                                        $emptyBg = ($isWeekend ? 'bg-gray-50' : 'hover:bg-gray-100') . ' cursor-pointer';
                                     @endphp
 
-                                    <td class="px-0.5 py-1 text-center {{ $isToday ? 'ring-1 ring-inset ring-primary-300' : '' }}">
-                                        <button wire:click="openStaffAttendanceModal({{ $staff->id }}, '{{ $dateStr }}')"
-                                                title="{{ $day->format('D, M j') }}{{ $status ? ' – ' . \App\Models\CallStaffAttendance::statusOptions()[$status] : ' – Not marked' }}{{ $attendance?->notes ? "\n" . $attendance->notes : '' }}"
-                                                @if($isWeekend) class="w-8 h-8 rounded-md flex items-center justify-center mx-auto {{ $cellBg }} transition-colors opacity-50"
-                                                @else class="w-8 h-8 rounded-md flex items-center justify-center mx-auto {{ $cellBg }} transition-colors"
-                                                @endif>
-                                            @if ($status)
-                                                <span class="text-[10px] font-bold {{ $labelColor }}">{{ $shortLabel }}</span>
-                                            @else
-                                                <span class="text-[10px] text-gray-200">–</span>
-                                            @endif
+                                    <td class="px-0.5 py-1 text-center {{ $isToday ? 'ring-1 ring-inset ring-primary-300' : '' }}"
+                                        x-data="{
+                                            status: @js($status),
+                                            notes: @js($notes),
+                                            statusMeta: @js($statusMeta),
+                                            emptyBg: @js($emptyBg),
+                                            dayLabel: @js($day->format('D, M j')),
+                                            init() {
+                                                window.addEventListener('call-staff-attendance-cell-updated', (e) => {
+                                                    if (e.detail.staffId === {{ $staff->id }} && e.detail.date === '{{ $dateStr }}') {
+                                                        this.status = e.detail.status;
+                                                        this.notes = e.detail.notes;
+                                                    }
+                                                });
+                                            }
+                                        }">
+                                        <button type="button"
+                                                x-on:click="$dispatch('open-call-staff-attendance-modal', { staffId: {{ $staff->id }}, date: '{{ $dateStr }}' })"
+                                                :class="status ? statusMeta[status].bg : emptyBg"
+                                                :title="dayLabel + (status ? ' – ' + statusMeta[status].full : ' – Not marked') + (notes ? '\n' + notes : '')"
+                                                class="w-8 h-8 rounded-md flex items-center justify-center mx-auto transition-colors {{ $isWeekend ? 'opacity-50' : '' }}">
+                                            <span x-show="status" :class="status ? statusMeta[status].text : ''" class="text-[10px] font-bold" x-text="status ? statusMeta[status].label : ''"></span>
+                                            <span x-show="!status" class="text-[10px] text-gray-200">–</span>
                                         </button>
                                     </td>
                                 @endforeach
@@ -265,67 +255,5 @@
         </div>
     </div>
 
-    <x-filament::modal id="edit-call-staff-attendance" width="lg">
-        <x-slot name="heading">
-            Mark Attendance
-        </x-slot>
-
-        <x-slot name="description">
-            {{ $this->modalStaff?->name }} &middot; {{ $this->parsedDate?->format('l, M j Y') }}
-        </x-slot>
-
-        {{-- Status options --}}
-        <div class="space-y-2">
-            @php
-                $statusOptions = [
-                    ['value' => 'present',                'label' => 'Present',               'icon' => 'heroicon-m-check-circle',   'ring' => 'ring-green-500',  'bg' => 'bg-green-50',  'text' => 'text-green-700'],
-                    ['value' => 'absent',                 'label' => 'Absent',                'icon' => 'heroicon-m-x-circle',       'ring' => 'ring-red-500',    'bg' => 'bg-red-50',      'text' => 'text-red-700'],
-                    ['value' => 'absent_with_permission', 'label' => 'Absent w/ Permission',  'icon' => 'heroicon-m-clock',          'ring' => 'ring-amber-400',  'bg' => 'bg-amber-50',  'text' => 'text-amber-700'],
-                    ['value' => 'sick',                   'label' => 'Sick',                  'icon' => 'heroicon-m-heart',          'ring' => 'ring-blue-400',   'bg' => 'bg-blue-50',    'text' => 'text-blue-700'],
-                ];
-            @endphp
-
-            @foreach ($statusOptions as $option)
-                <button wire:click="$set('editingStatus', '{{ $option['value'] }}')"
-                        type="button"
-                        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all
-                            {{ $editingStatus === $option['value']
-                                ? $option['ring'] . ' ' . $option['bg']
-                                : 'border-gray-200 hover:border-gray-300' }}">
-                    <x-filament::icon icon="{{ $option['icon'] }}"
-                                    class="w-5 h-5 {{ $editingStatus === $option['value'] ? $option['text'] : 'text-gray-400' }}"/>
-                    <span class="text-sm font-medium {{ $editingStatus === $option['value'] ? $option['text'] : 'text-gray-700' }}">
-                        {{ $option['label'] }}
-                    </span>
-                    @if ($editingStatus === $option['value'])
-                        <x-filament::icon icon="heroicon-m-check" class="w-4 h-4 ml-auto {{ $option['text'] }}"/>
-                    @endif
-                </button>
-            @endforeach
-
-            <div class="pt-1">
-                <label class="block text-xs font-medium text-gray-500 mb-1">Notes (optional)</label>
-                <textarea wire:model="editingNotes"
-                        rows="2"
-                        placeholder="Add a note…"
-                        class="w-full min-h-32 text-sm rounded-lg  border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 resize-none placeholder:p-2"></textarea>
-            </div>
-        </div>
-
-        <x-slot name="footerActions">
-            <x-filament::button wire:click="saveAttendance" :disabled="!$editingStatus" color="primary">
-                Save
-            </x-filament::button>
-
-            @if ($editingStatus)
-                <x-filament::button wire:click="clearAttendance" color="danger" outlined>
-                    Clear
-                </x-filament::button>
-            @endif
-
-            <x-filament::button x-on:click="close" color="gray" outlined>
-                Cancel
-            </x-filament::button>
-        </x-slot>
-    </x-filament::modal>
+    @livewire('call-staff-attendance-modal')
 </x-filament-panels::page>

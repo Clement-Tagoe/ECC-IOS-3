@@ -19,7 +19,8 @@ class CameraAuditInfolist
                     ->columnSpanFull()
                     ->schema([
                             TextEntry::make('camera_name'),
-                            TextEntry::make('region.name'),
+                            TextEntry::make('region.name')
+                                ->label('Region'),
                             TextEntry::make('cameraLocation.name')
                                 ->label('Location'),
                             TextEntry::make('status')
@@ -27,7 +28,8 @@ class CameraAuditInfolist
                             TextEntry::make('observations.name')
                                 ->label('Observation(s)'), 
                             TextEntry::make('notes')
-                                ->html(),
+                                ->html()
+                                ->columnSpanFull(),
                             ]),
                 Section::make('')
                     ->columnSpanFull()

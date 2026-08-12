@@ -104,6 +104,9 @@ class MonitoringTasksTable
 
                     SelectFilter::make('region')
                         ->relationship('region', 'name'),
+                        
+                    SelectFilter::make('topics')
+                        ->relationship('topics', 'name'),
                     TrashedFilter::make(),
             ], layout: FiltersLayout::AboveContent)
             ->recordActions([

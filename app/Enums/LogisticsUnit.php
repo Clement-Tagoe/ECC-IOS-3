@@ -13,6 +13,8 @@ enum LogisticsUnit: string implements HasLabel
     case Units     = 'units';
     case Sets      = 'sets';
     case Pairs     = 'pairs';
+    case Bottles   = 'bottles';
+    case Gallons   = 'gallons';
 
     // Weight
     case Kilograms = 'kg';
@@ -34,6 +36,7 @@ enum LogisticsUnit: string implements HasLabel
     case Rolls     = 'rolls';
     case Bags      = 'bags';
     case Pallets   = 'pallets';
+    case Reams     = 'reams';
 
     public function getLabel(): string
     {
@@ -42,6 +45,9 @@ enum LogisticsUnit: string implements HasLabel
             self::Units       => 'Units',
             self::Sets        => 'Sets',
             self::Pairs       => 'Pairs',
+            self::Bottles     => 'Bottles',
+            self::Gallons     => 'Gallons',
+            self::Reams       => 'Reams',
             self::Kilograms   => 'Kilograms (kg)',
             self::Grams       => 'Grams (g)',
             self::Tonnes      => 'Tonnes',

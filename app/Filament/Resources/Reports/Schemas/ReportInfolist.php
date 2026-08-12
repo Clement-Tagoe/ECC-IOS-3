@@ -60,6 +60,7 @@ class ReportInfolist
 
                         TextEntry::make('description')
                             ->html()
+                            ->prose()
                             ->columnSpanFull(),
 
                     ]),

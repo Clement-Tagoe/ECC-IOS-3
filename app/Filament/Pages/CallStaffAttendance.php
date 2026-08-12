@@ -38,12 +38,6 @@ class CallStaffAttendance extends Page
  
     public string $search = '';
  
-    // Modal state
-    public ?int $editingStaffId = null;
-    public ?string $editingDate = null;
-    public ?string $editingStatus = null;
-    public ?string $editingNotes = null;
- 
     public function mount(): void
     {
         $this->selectedMonth = Carbon::now()->format('Y-m');
@@ -111,9 +105,12 @@ class CallStaffAttendance extends Page
         $monthEnd   = Carbon::createFromFormat('Y-m', $this->selectedMonth)->endOfMonth()->toDateString();
  
         $query = CallStaff::query()
+            ->select('id', 'name', 'call_staff_group_id', 'deleted_at')
             ->with([
-                'group',
-                'callStaffAttendances' => fn ($q) => $q->whereBetween('date', [$monthStart, $monthEnd]),
+                'group:id,name', 
+                'callStaffAttendances' => fn ($q) => $q
+                    ->select('id', 'call_staff_id', 'date', 'status', 'notes')
+                    ->whereBetween('date', [$monthStart, $monthEnd]),
             ])
             ->orderBy('call_staff_group_id');
         
@@ -132,75 +129,6 @@ class CallStaffAttendance extends Page
     public function groups(): Collection
     {
         return CallStaffGroup::orderBy('name')->get();
-    }
-
-    // ─── Attendance Cell Click ────────────────────────────────────────────────
-
-    public function openStaffAttendanceModal(int $staffId, string $date): void
-    {
-        $this->editingStaffId = $staffId;
-        $this->editingDate    = $date;
-
-        $existing = AttendanceModel::query()
-            ->where('call_staff_id', $staffId)
-            ->where('date', $date)
-            ->first();
-
-        $this->editingStatus = $existing?->status;
-        $this->editingNotes = $existing?->notes;
-
-        $this->dispatch('open-modal', id: 'edit-call-staff-attendance');
-    }
-
-    #[Computed]
-    public function modalStaff()
-    {
-        return $this->editingStaffId ? CallStaff::find($this->editingStaffId) : null;
-    }
-
-    #[Computed]
-    public function parsedDate(): ?\Carbon\Carbon
-    {
-        return $this->editingDate ? \Carbon\Carbon::parse($this->editingDate) : null;
-    }
- 
-    public function saveAttendance(): void
-    {
-        AttendanceModel::updateOrCreate(
-            [
-                'call_staff_id' => $this->editingStaffId,
-                'date'          => $this->editingDate,
-            ],
-            [
-                'status' => $this->editingStatus,
-                'notes'  => $this->editingNotes,
-            ]
-        );
-
-        $this->dispatch('close-modal', id: 'edit-call-staff-attendance');
-        $this->reset(['editingStaffId', 'editingDate', 'editingStatus', 'editingNotes']);
- 
-        Notification::make()
-            ->title('Attendance saved')
-            ->success()
-            ->send();
-
-        
-    }
- 
-    public function clearAttendance(): void
-    {
-        AttendanceModel::where('call_staff_id', $this->editingStaffId)
-            ->where('date', $this->editingDate)
-            ->delete();
- 
-        $this->dispatch('close-modal', id: 'edit-call-staff-attendance');
-        $this->reset(['editingStaffId', 'editingDate', 'editingStatus', 'editingNotes']);
- 
-        Notification::make()
-            ->title('Attendance cleared')
-            ->warning()
-            ->send();
     }
 
 }

@@ -3,17 +3,16 @@
 namespace App\Filament\Pages;
 
 use App\Models\MonitoringStaff;
-use App\Models\MonitoringStaffAttendance as AttendanceModel;
 use App\Models\MonitoringStaffGroup;
 use BackedEnum;
 use Carbon\Carbon;
-use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Support\Enums\Width;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use UnitEnum;
 
@@ -38,11 +37,7 @@ class MonitoringStaffAttendance extends Page
  
     public string $search = '';
  
-    // Modal state
-    public ?int $editingStaffId = null;
-    public ?string $editingDate = null;
-    public ?string $editingStatus = null;
-    public ?string $editingNotes = null;
+    
  
     public function mount(): void
     {
@@ -111,11 +106,14 @@ class MonitoringStaffAttendance extends Page
         $monthEnd   = Carbon::createFromFormat('Y-m', $this->selectedMonth)->endOfMonth()->toDateString();
  
         $query = MonitoringStaff::query()
-            ->with([
-                'group',
-                'monitoringStaffAttendances' => fn ($q) => $q->whereBetween('date', [$monthStart, $monthEnd]),
-            ])
-            ->orderBy('monitoring_staff_group_id');
+                    ->select('id', 'name', 'monitoring_staff_group_id', 'deleted_at') // only columns the view actually uses
+                    ->with([
+                        'group:id,name',
+                        'monitoringStaffAttendances' => fn ($q) => $q
+                            ->select('id', 'monitoring_staff_id', 'date', 'status', 'notes')
+                            ->whereBetween('date', [$monthStart, $monthEnd]),
+                    ])
+                    ->orderBy('monitoring_staff_group_id');
         
         if ($this->selectedGroup) {
             $query->where('monitoring_staff_group_id', $this->selectedGroup);
@@ -134,72 +132,4 @@ class MonitoringStaffAttendance extends Page
         return MonitoringStaffGroup::orderBy('name')->get();
     }
 
-    // ─── Attendance Cell Click ────────────────────────────────────────────────
-
-    public function openStaffAttendanceModal(int $staffId, string $date): void
-    {
-        $this->editingStaffId = $staffId;
-        $this->editingDate    = $date;
-
-        $existing = AttendanceModel::query()
-            ->where('monitoring_staff_id', $staffId)
-            ->where('date', $date)
-            ->first();
-
-        $this->editingStatus = $existing?->status;
-        $this->editingNotes = $existing?->notes;
-
-        $this->dispatch('open-modal', id: 'edit-monitoring-staff-attendance');
-    }
-
-    #[Computed]
-    public function modalStaff()
-    {
-        return $this->editingStaffId ? MonitoringStaff::find($this->editingStaffId) : null;
-    }
-
-    #[Computed]
-    public function parsedDate(): ?\Carbon\Carbon
-    {
-        return $this->editingDate ? \Carbon\Carbon::parse($this->editingDate) : null;
-    }
- 
-    public function saveAttendance(): void
-    {
-        AttendanceModel::updateOrCreate(
-            [
-                'monitoring_staff_id' => $this->editingStaffId,
-                'date'          => $this->editingDate,
-            ],
-            [
-                'status' => $this->editingStatus,
-                'notes'  => $this->editingNotes,
-            ]
-        );
-
-        $this->dispatch('close-modal', id: 'edit-monitoring-staff-attendance');
-        $this->reset(['editingStaffId', 'editingDate', 'editingStatus', 'editingNotes']);
- 
-        Notification::make()
-            ->title('Attendance saved')
-            ->success()
-            ->send();
-
-        
-    }
- 
-    public function clearAttendance(): void
-    {
-        AttendanceModel::where('monitoring_staff_id', $this->editingStaffId)
-            ->where('date', $this->editingDate)
-            ->delete();
- 
-        $this->dispatch('close-modal', id: 'edit-monitoring-staff-attendance');
-        $this->reset(['editingStaffId', 'editingDate', 'editingStatus', 'editingNotes']);
- 
-        Notification::make()
-            ->title('Attendance cleared')
-            ->warning()
-            ->send();
-    }
 }

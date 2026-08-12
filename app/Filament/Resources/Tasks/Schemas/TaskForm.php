@@ -57,7 +57,8 @@ class TaskForm
                             ->required()
                             ->default(TaskPriority::Medium),
 
-                        DatePicker::make('due_date'),
+                        DatePicker::make('due_date')
+                            ->required(),
 
                         RichEditor::make('description')
                             ->columnSpanFull(),
